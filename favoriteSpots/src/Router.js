@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { Icon } from 'native-base';
 import { connect } from 'react-redux';
@@ -20,19 +20,75 @@ import Entrance from './screens/Auth/Entrance';
 import SignIn from './screens/Auth/SignIn';
 import SignUp from './screens/Auth/SignUp';
 
-import HomeScreen from './screens/Home/Home';
+import Menu from './screens/Menu/Menu';
+
+import Home from './screens/Home/Home';
 import HomeDetails from './screens/Home/HomeDetails';
 
 import { navigationRef } from './RootNavigation';
+import { colors } from './style';
 const AuthStack = createStackNavigator();
 const RootStack = createStackNavigator();
+
+
+const DrawerStack = createDrawerNavigator();
+const DrawerStackScreen = () => {
+  return (
+    <DrawerStack.Navigator
+      drawerContent={Menu}
+      drawerType='back'
+      drawerStyle={{
+        width: '85%',
+      }}
+    >
+      <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
+    </DrawerStack.Navigator>
+  )
+}
+
+const menu = (navigation) => {
+  return (
+    <TouchableOpacity
+      onPress={() => {
+        navigation.openDrawer()
+      }}
+      style={{
+        marginLeft: 10
+      }}
+    >
+
+      <Text>Menu</Text>
+    </TouchableOpacity>
+  )
+}
+
+
+const HomeStack = createStackNavigator();
+
+const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={({ navigation, route }) => ({
+          headerLeft: () => menu(navigation),
+        })}
+      />
+
+      <HomeStack.Screen name="HomeDetail" component={HomeDetail} />
+    </HomeStack.Navigator>
+  )
+}
+
+
 const AuthStackScreen = () => {
   return (
     <AuthStack.Navigator initialRouteName="Entrance">
       <AuthStack.Screen
         name="Entrance"
         component={Entrance}
-        options={({navigation, route}) => ({
+        options={({ navigation, route }) => ({
           title: 'SignIn',
           headerShown: false,
         })}
@@ -41,7 +97,7 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="SignIn"
         component={SignIn}
-        options={({navigation, route}) => ({
+        options={({ navigation, route }) => ({
           title: 'SignIn',
           headerShown: false,
         })}
@@ -59,6 +115,28 @@ const AuthStackScreen = () => {
   );
 };
 
+const TabStack = createBottomTabNavigator();
+
+const TabStackScreen = () => {
+  return (
+    <TabStack.Navigator
+      tabBarOptions={{
+        inactiveTintColor: colors.main,
+        showLabel: false,
+      }}
+    >
+
+      <TabStack.Screen name="Home" component={HomeStackScreen} />
+      {/* <TabStack.Screen name="Search" component={SearchStackScreen} />
+            <TabStack.Screen name="Notifications" component={NotificationsStackScreen} />
+            <TabStack.Screen name="Messages" component={MessagesStackScreen} /> */}
+
+
+    </TabStack.Navigator>
+  )
+}
+
+
 function Router(props) {
   return (
     <NavigationContainer ref={navigationRef}>
@@ -70,14 +148,28 @@ function Router(props) {
             animationEnabled: false,
           }}
         />
+        <RootStack.Screen
+          name='Home'
+          component={Home}
+          options={{
+            animationEnabled: false,
+          }}
+        />
+        <RootStack.Screen
+          name="Main"
+          component={DrawerStackScreen}
+          options={{
+            animationEnabled: false
+          }}
+        />
       </RootStack.Navigator>
     </NavigationContainer>
   );
 }
 
 const mapStateToProps = ({ authResponse }) => {
-    const { loading } = authResponse;
-    return { loading };
+  const { loading } = authResponse;
+  return { loading };
 };
 
 export default connect(mapStateToProps, {})(Router);

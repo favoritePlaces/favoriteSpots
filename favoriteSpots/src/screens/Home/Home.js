@@ -4,10 +4,16 @@ import { connect } from 'react-redux';
 
 const Home = (props) => {
 
+    return(
+        <View>
+            <Text>Home</Text>
+        </View>
+    )
+
 }
 
-const mapStateToProps = ({ listResponse }) => {
-    const { list } = listResponse;
+const mapStateToProps = ({ placeResponse }) => {
+    const { list } = placeResponse;
     return { list };
 };
 

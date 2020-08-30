@@ -6,8 +6,8 @@ const HomeDetails = (props) => {
 
 }
 
-const mapStateToProps = ({ listResponse }) => {
-    const { list } = listResponse;
+const mapStateToProps = ({ placeResponse }) => {
+    const { list } = placeResponse;
     return { list };
 };
 
