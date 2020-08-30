@@ -16,6 +16,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 
+import { signOut } from './actions';
+
 import Entrance from './screens/Auth/Entrance';
 import SignIn from './screens/Auth/SignIn';
 import SignUp from './screens/Auth/SignUp';
@@ -41,7 +43,7 @@ const DrawerStackScreen = () => {
         width: '85%',
       }}
     >
-      <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
+      <DrawerStack.Screen name="Drawer" component={'Home'} />
     </DrawerStack.Navigator>
   )
 }
@@ -70,13 +72,25 @@ const HomeStackScreen = () => {
     <HomeStack.Navigator>
       <HomeStack.Screen
         name="Home"
-        component={HomeScreen}
+        component={Home}
         options={({ navigation, route }) => ({
           headerLeft: () => menu(navigation),
+          headerRight: ()=> (
+            <TouchableOpacity
+            onPress={() => {
+            
+             props.signOut();
+            }}
+            style={{
+              marginRight: 20,
+            }}>
+           <Text style ={{fontSize: 30, marginLeft: 10}}> Sign out </Text>
+          </TouchableOpacity>
+          )
         })}
       />
 
-      <HomeStack.Screen name="HomeDetail" component={HomeDetail} />
+      <HomeStack.Screen name="HomeDetails" component={HomeDetails} />
     </HomeStack.Navigator>
   )
 }
@@ -153,6 +167,7 @@ function Router(props) {
           component={Home}
           options={{
             animationEnabled: false,
+   
           }}
         />
         <RootStack.Screen
@@ -162,6 +177,7 @@ function Router(props) {
             animationEnabled: false
           }}
         />
+          <RootStack.Screen name="Tab" component={TabStackScreen} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
@@ -172,4 +188,4 @@ const mapStateToProps = ({ authResponse }) => {
   return { loading };
 };
 
-export default connect(mapStateToProps, {})(Router);
+export default connect(mapStateToProps, {signOut})(Router);
