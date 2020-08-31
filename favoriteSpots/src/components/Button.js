@@ -7,9 +7,10 @@ const Button = (props) => (
     activeOpacity={0.8}
     onPress={props.onPress}
     style={[{
-      backgroundColor: colors.main,
-      width: '100%',
-      height: '8%',
+      borderWidth:2,
+      borderColor:'white',
+      width: '97%',
+      height: '11%',
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 40
@@ -17,7 +18,7 @@ const Button = (props) => (
     {props.loading ?
       <ActivityIndicator size='small' color='white' /> :
       <Text style={[{
-        color: 'white',
+        color:'#ffc21c',
         fontWeight: 'bold',
         fontSize: fonts.small
       }, props.textStyle]}>{props.text}</Text>
