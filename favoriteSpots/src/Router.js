@@ -8,16 +8,15 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import { Icon } from 'native-base';
-import { connect } from 'react-redux';
+import {Icon} from 'native-base';
+import {connect} from 'react-redux';
 
-import { signOut } from './actions';
-
+import {AuthContext} from './context';
 import Entrance from './screens/Auth/Entrance';
 import SignIn from './screens/Auth/SignIn';
 import SignUp from './screens/Auth/SignUp';
@@ -27,74 +26,28 @@ import Menu from './screens/Menu/Menu';
 import Home from './screens/Home/Home';
 import HomeDetails from './screens/Home/HomeDetails';
 
-import { navigationRef } from './RootNavigation';
-import { colors } from './style';
-const AuthStack = createStackNavigator();
-const RootStack = createStackNavigator();
+import Profile from './screens/Profile/Profile';
 
-
-const DrawerStack = createDrawerNavigator();
-const DrawerStackScreen = () => {
-  return (
-    <DrawerStack.Navigator
-      drawerContent={Menu}
-      drawerType='back'
-      drawerStyle={{
-        width: '85%',
-      }}
-    >
-      <DrawerStack.Screen name="Drawer" component={'Home'} />
-    </DrawerStack.Navigator>
-  )
-}
+import {navigationRef} from './RootNavigation';
+import {colors, fonts} from './style';
 
 const menu = (navigation) => {
+  console.log('menu');
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.openDrawer()
+        console.log(navigation);
+        navigation.openDrawer();
       }}
       style={{
-        marginLeft: 10
-      }}
-    >
-
-      <Text>Menu</Text>
+        marginLeft: 20,
+      }}>
+      <Text style={{color: 'black'}}>Menu</Text>
     </TouchableOpacity>
-  )
-}
+  );
+};
 
-
-const HomeStack = createStackNavigator();
-
-const HomeStackScreen = () => {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
-        name="Home"
-        component={Home}
-        options={({ navigation, route }) => ({
-          headerLeft: () => menu(navigation),
-          headerRight: ()=> (
-            <TouchableOpacity
-            onPress={() => {
-            
-             props.signOut();
-            }}
-            style={{
-              marginRight: 20,
-            }}>
-           <Text style ={{fontSize: 30, marginLeft: 10}}> Sign out </Text>
-          </TouchableOpacity>
-          )
-        })}
-      />
-
-      <HomeStack.Screen name="HomeDetails" component={HomeDetails} />
-    </HomeStack.Navigator>
-  )
-}
-
+const AuthStack = createStackNavigator();
 
 const AuthStackScreen = () => {
   return (
@@ -102,8 +55,8 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="Entrance"
         component={Entrance}
-        options={({ navigation, route }) => ({
-          title: 'SignIn',
+        options={({navigation, route}) => ({
+          title: 'Entrance',
           headerShown: false,
         })}
       />
@@ -111,7 +64,7 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="SignIn"
         component={SignIn}
-        options={({ navigation, route }) => ({
+        options={({navigation, route}) => ({
           title: 'SignIn',
           headerShown: false,
         })}
@@ -129,6 +82,39 @@ const AuthStackScreen = () => {
   );
 };
 
+const HomeStack = createStackNavigator();
+
+const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Home"
+        component={Home}
+        options={({navigation, route}) => ({
+          headerLeft: () => menu(navigation),
+        })}
+      />
+
+      <HomeStack.Screen name="HomeDetails" component={HomeDetails} />
+    </HomeStack.Navigator>
+  );
+};
+const ProfileStack = createStackNavigator();
+
+const ProfileStackScreen = () => {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name="Profile"
+        component={Profile}
+        options={({navigation, route}) => ({
+          headerLeft: () => menu(navigation),
+        })}
+      />
+    </ProfileStack.Navigator>
+  );
+};
+
 const TabStack = createBottomTabNavigator();
 
 const TabStackScreen = () => {
@@ -136,56 +122,108 @@ const TabStackScreen = () => {
     <TabStack.Navigator
       tabBarOptions={{
         inactiveTintColor: colors.main,
-        showLabel: false,
-      }}
-    >
+        // showLabel: false, //when the icons come
+        backgroundColor: 'blue',
+      }}>
+      <TabStack.Screen
+        // unmountOnBlur={true}
+        name="Home"
+        component={HomeStackScreen}
+      />
+      <TabStack.Screen name="Profile" component={ProfileStackScreen} />
 
-      <TabStack.Screen name="Home" component={HomeStackScreen} />
       {/* <TabStack.Screen name="Search" component={SearchStackScreen} />
             <TabStack.Screen name="Notifications" component={NotificationsStackScreen} />
             <TabStack.Screen name="Messages" component={MessagesStackScreen} /> */}
-
-
     </TabStack.Navigator>
-  )
-}
+  );
+};
 
+const DrawerStack = createDrawerNavigator();
+// const DrawerStackScreen = () => {
+//   return (
+//     <DrawerStack.Navigator
+//       drawerContent={Menu}
+//       drawerType="back"
+//       drawerStyle={{
+//         width: '85%',
+//       }}>
+//       <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
+//     </DrawerStack.Navigator>
+//   );
+// };
 
+const RootStack = createStackNavigator();
 function Router(props) {
+  const [auth, setAuth] = React.useState(false);
+  const authContext = React.useMemo(
+    () => ({
+      signIn: async data => {
+       setAuth(true);
+
+        //dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+      },
+      signOutNow: () => setAuth(false) //dispatch({ type: 'SIGN_OUT' }),
+
+    }),
+    []
+  );
   return (
+    <AuthContext.Provider value={authContext}>
     <NavigationContainer ref={navigationRef}>
-      <RootStack.Navigator headerMode="none" >
-        <RootStack.Screen
-          name="Auth"
-          component={AuthStackScreen}
-          options={{
-            animationEnabled: false,
-          }}
-        />
-        <RootStack.Screen
-          name='Home'
-          component={Home}
-          options={{
-            animationEnabled: false,
-   
-          }}
-        />
-        <RootStack.Screen
-          name="Main"
-          component={DrawerStackScreen}
-          options={{
-            animationEnabled: false
-          }}
-        />
-          <RootStack.Screen name="Tab" component={TabStackScreen} />
-      </RootStack.Navigator>
+      {/* <RootStack.Navigator> */}
+      {
+        !auth ? (
+          <AuthStack.Navigator initialRouteName="Entrance">
+            <AuthStack.Screen
+              name="Entrance"
+              component={Entrance}
+              options={({navigation, route}) => ({
+                title: 'Entrance',
+                headerShown: false,
+              })}
+            />
+
+            <AuthStack.Screen
+              name="SignIn"
+              component={SignIn}
+              options={({navigation, route}) => ({
+                title: 'SignIn',
+                headerShown: false,
+              })}
+            />
+
+            <AuthStack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{
+                title: 'SignUp',
+                headerShown: false,
+              }}
+            />
+          </AuthStack.Navigator>
+        ) : (
+          <DrawerStack.Navigator
+            drawerContent={Menu}
+            drawerType="back"
+            drawerStyle={{
+              width: '85%',
+            }}>
+            <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
+          </DrawerStack.Navigator>
+        )
+
+        /* </RootStack.Navigator> */
+      }
     </NavigationContainer>
+        </AuthContext.Provider>
+
   );
 }
 
-const mapStateToProps = ({ authResponse }) => {
-  const { loading } = authResponse;
-  return { loading };
+const mapStateToProps = ({authResponse}) => {
+  const {loading, user} = authResponse;
+  return {loading, user};
 };
 
-export default connect(mapStateToProps, {signOut})(Router);
+export default connect(mapStateToProps, {})(Router);
