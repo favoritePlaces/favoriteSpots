@@ -4,6 +4,13 @@ import { connect } from 'react-redux';
 
 const HomeDetails = (props) => {
 
+    return(
+        <SafeAreaView>
+          <View>
+            <Text>Home Details</Text>
+          </View>
+        </SafeAreaView>
+      );
 }
 
 const mapStateToProps = ({ placeResponse }) => {

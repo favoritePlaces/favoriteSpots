@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import {
     Text, View, ScrollView,
     SafeAreaView, Animated, Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
-
+import {AuthContext} from '../../context';
 import { Icon } from 'native-base'
 import { Input, Button } from '../../components';
 import { login } from '../../actions';
 import { colors, fonts } from '../../style';
 
 const SignIn = (props) => {
+
+    const {signIn} = useContext(AuthContext);
 
     const [email, setEmail] = useState('test@gmail.com');
     const [password, setPassword] = useState('1234');
@@ -102,6 +104,7 @@ return(
             text={'Sign In'}
             loading={props.loading}
             onPress={() => {
+                signIn()//comes from context provider
                 const params = { email, password }
                 props.login(params)
 
