@@ -1,122 +1,148 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
-    Text, View, ScrollView,
-    SafeAreaView, Animated, Keyboard
+  Text,
+  View,
+  ScrollView,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  StyleSheet,
 } from 'react-native';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import { Icon } from 'native-base'
-import { Input, Button } from '../../components';
-import { login } from '../../actions';
-import { colors, fonts } from '../../style';
+import {Input, Button, CheckBox} from '../../components';
+import {login} from '../../actions';
+import {colors, fonts} from '../../style';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const SignIn = (props) => {
+  const [email, setEmail] = useState('test@gmail.com');
+  const [password, setPassword] = useState('1234');
+  const [checkButton, setCheckButton] = useState(true);
 
-    const [email, setEmail] = useState('test@gmail.com');
-    const [password, setPassword] = useState('1234');
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <KeyboardAvoidingView style={{flex: 1}}>
+        <ScrollView contentContainerStyle={{flex: 1}}>
+ 
+                        {/* Logo  */}
+                        
+          <View style={styles.headerView}>
+            <Text style={styles.headerText}>LOGIN</Text>
+          </View>
 
-    const animation = useRef(new Animated.Value(0)).current;
+                         {/* Form Kısmı (Buttona kadar)  */}
 
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        Keyboard.addListener("keyboardWillShow", _keyboardWillShow);
-        Keyboard.addListener("keyboardWillHide", _keyboardWillHide);
-
-        return () => {
-            Keyboard.removeListener("keyboardWillShow", _keyboardWillShow);
-            Keyboard.removeListener("keyboardWillHide", _keyboardWillHide);
-        };
-
-
-    }, []);
-
-
-    const _keyboardWillShow = (e) => {
-        const height = e.endCoordinates.height
-        Animated.timing(animation, {
-            toValue: -height + 34,
-            duration: 300
-        }).start();
-    };
-
-    const _keyboardWillHide = (e) => {
-        Animated.timing(animation, {
-            toValue: 0,
-            duration: 300
-        }).start();
-    };
-
-return(
-    <SafeAreaView style={{ flex: 1 }}>
-    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', padding: 10, justifyContent: 'space-between' }}>
-        <Text onPress={() => props.navigation.pop()} style={{ color: colors.main, fontSize: fonts.small }}>Back</Text>
-    </View>
-
-    <View style={{ flex: 9 }}>
-        <ScrollView style={{ padding: 20 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: fonts.small, width: '70%', marginBottom: 20, textAlign: 'left', }}>Log Into PlacesButGoldies</Text>
-
+          <View style={styles.formView}>
             <Input
-                placeholder={'Email'}
-                value={email}
-                onChangeText={(email) => setEmail(email)}
+              placeholder={'Email'}
+              value={email}
+              onChangeText={(email) => setEmail(email)}
             />
 
             <Input
-                placeholder={'Password'}
-                secureTextEntry
-                value={password}
-                onChangeText={(password) => setPassword(password)}
+              placeholder={'Password'}
+              secureTextEntry={checkButton}
+              value={password}
+              onChangeText={(password) => setPassword(password)}
             />
+            <View style={styles.optionForPassView}>
+              <CheckBox
+                text="Hide Password"
+                status={checkButton}
+                onPress={() => setCheckButton(!checkButton)}
+              />
+              <TouchableOpacity>
+                <Text>Forgot Password</Text>
+              </TouchableOpacity>
+            </View>
+            <Button text={'Login'} 
+            style={styles.button} 
+            textStyle={styles.textStyle}
+            onPress={()=>{
+                console.log('Tıklandı')
+            }} />
+          </View>
 
+
+                          {/* Footer  */}
+
+          <View style={styles.footerView}>
+            <View style={styles.lineView}>
+              <View style={styles.line} />
+              <Text style={styles.lineTex}>OR</Text>
+              <View style={styles.line} />
+            </View>
+            <TouchableOpacity>
+              <Text style={styles.createAccount}>Creat an Acount</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
-    </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+};
 
+const styles = StyleSheet.create({
+  headerView: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: fonts.big,
+    fontFamily: 'BalsamiqSans-Bold',
+    letterSpacing: 3,
+    color: '#2F94FE',
+  },
+  formView: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  optionForPassView: {
+    width: '80%',
+    marginBottom: '5%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  button: {
+    width: '85%',
+    backgroundColor: '#2F94FE',
+  },
+  textStyle:{
+     //Button Text
+     fontFamily: 'BalsamiqSans-Bold',
+     letterSpacing:2
 
+  },
+  footerView: {
+    flex: 0.5,
+    alignItems: 'center',
+  },
+  lineView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+  },
+  lineTex: {
+    color: '#2F94FE',
+  },
+  line: {
+    width: '35%',
+    height: 1,
+    backgroundColor: '#bb7cd6',
+    margin: 10,
+  },
+  createAccount: {
+    marginTop: 15,
+    color: '#2F94FE',
+  },
 
-    <Animated.View
-        style={
-            [{
-                flex: 0.6,
-                backgroundColor: '#edeeef',
-                borderTopColor: '#b7b7b7',
-                borderTopWidth: 0.3,
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 10,
-                justifyContent: 'space-between'
-            },
-            {
-                transform: [
-                    {
-                        translateY: animation,
-                    }
-                ]
-            }
-            ]
-        }>
-        <Text style={{ color: colors.main, fontSize: 14 }}>Did you forget your password?</Text>
+});
 
-        <Button
-            text={'Sign In'}
-            loading={props.loading}
-            onPress={() => {
-                const params = { email, password }
-                props.login(params)
-
-            }}
-            style={{ width: '25%', height: 30 }}
-        />
-    </Animated.View>
-
-</SafeAreaView>
-)
-}
-
-const mapStateToProps = ({ authResponse }) => {
-    const { loading, user } = authResponse;
-    return { loading, user };
+const mapStateToProps = ({authResponse}) => {
+  const {loading, user} = authResponse;
+  return {loading, user};
 };
 
 export default connect(mapStateToProps, {login})(SignIn);
