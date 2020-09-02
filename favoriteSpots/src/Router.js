@@ -22,7 +22,7 @@ import SignIn from './screens/Auth/SignIn';
 import SignUp from './screens/Auth/SignUp';
 
 import Menu from './screens/Menu/Menu';
-
+import AddLocation from './screens/Maps/AddLocation';
 import Home from './screens/Home/Home';
 import HomeDetails from './screens/Home/HomeDetails';
 
@@ -99,8 +99,8 @@ const HomeStackScreen = () => {
     </HomeStack.Navigator>
   );
 };
-const ProfileStack = createStackNavigator();
 
+const ProfileStack = createStackNavigator();
 const ProfileStackScreen = () => {
   return (
     <ProfileStack.Navigator>
@@ -114,6 +114,21 @@ const ProfileStackScreen = () => {
     </ProfileStack.Navigator>
   );
 };
+const AddLocationStack = createStackNavigator();
+const AddLocationStackScreen = () => {
+  return (
+    <AddLocationStack.Navigator>
+      <AddLocationStack.Screen
+        name="AddLocation"
+        component={AddLocation}
+        options={({navigation, route}) => ({
+          headerLeft: () => menu(navigation),
+        })}
+      />
+    </AddLocationStack.Navigator>
+  );
+};
+
 
 const TabStack = createBottomTabNavigator();
 
@@ -130,6 +145,7 @@ const TabStackScreen = () => {
         name="Home"
         component={HomeStackScreen}
       />
+      <TabStack.Screen name="Add Location" component={AddLocationStackScreen} />
       <TabStack.Screen name="Profile" component={ProfileStackScreen} />
 
       {/* <TabStack.Screen name="Search" component={SearchStackScreen} />
