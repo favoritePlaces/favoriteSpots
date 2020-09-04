@@ -32,7 +32,6 @@ import {navigationRef} from './RootNavigation';
 import {colors, fonts} from './style';
 
 const menu = (navigation) => {
-  console.log('menu');
   return (
     <TouchableOpacity
       onPress={() => {
@@ -171,25 +170,25 @@ const DrawerStack = createDrawerNavigator();
 
 const RootStack = createStackNavigator();
 function Router(props) {
-  const [auth, setAuth] = React.useState(false);
-  const authContext = React.useMemo(
-    () => ({
-      signIn: async data => {
-       setAuth(true);
+  // const [auth, setAuth] = React.useState(false);
+  // const authContext = React.useMemo(
+  //   () => ({
+  //     signIn: async data => {
+  //      setAuth(true);
 
-        //dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
-      },
-      signOutNow: () => setAuth(false) //dispatch({ type: 'SIGN_OUT' }),
+  //       //dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+  //     },
+  //     signOutNow: () => setAuth(false) //dispatch({ type: 'SIGN_OUT' }),
 
-    }),
-    []
-  );
+  //   }),
+  //   []
+  // );
   return (
-    <AuthContext.Provider value={authContext}>
+   
     <NavigationContainer ref={navigationRef}>
       {/* <RootStack.Navigator> */}
       {
-        !auth ? (
+        !props.user ? (
           <AuthStack.Navigator initialRouteName="Entrance">
             <AuthStack.Screen
               name="Entrance"
@@ -232,8 +231,7 @@ function Router(props) {
         /* </RootStack.Navigator> */
       }
     </NavigationContainer>
-        </AuthContext.Provider>
-
+    //    </AuthContext.Provider>
   );
 }
 

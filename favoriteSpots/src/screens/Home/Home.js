@@ -8,10 +8,10 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {signOut} from '../../actions';
-import {AuthContext} from '../../context';
+//import {AuthContext} from '../../context';
 import {fonts} from '../../style';
 const Home = (props) => {
-  const {signOutNow} = useContext(AuthContext);
+ // const {signOutNow} = useContext(AuthContext);
   return (
     <SafeAreaView>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -20,7 +20,8 @@ const Home = (props) => {
         </Text>
         <TouchableOpacity //wanted to show on top bar but we cant use authContext method in Router as it will be undefined for now
           onPress={() => {
-            signOutNow();
+            props.user = '';
+          //  signOutNow();
             props.signOut();
           }}
           style={{

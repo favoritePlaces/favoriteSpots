@@ -12,10 +12,10 @@ import { colors, fonts } from '../../style';
 
 const SignIn = (props) => {
 
-    const {signIn} = useContext(AuthContext);
+  //  const {signIn} = useContext(AuthContext);
 
-    const [email, setEmail] = useState('test@gmail.com');
-    const [password, setPassword] = useState('1234');
+    const [email, setEmail] = useState('erdogmus.merve@gmail.com');
+    const [password, setPassword] = useState('123456');
 
     const animation = useRef(new Animated.Value(0)).current;
 
@@ -104,7 +104,7 @@ return(
             text={'Sign In'}
             loading={props.loading}
             onPress={() => {
-                signIn()//comes from context provider
+             //  signIn()//comes from context provider
                 const params = { email, password }
                 props.login(params)
 
