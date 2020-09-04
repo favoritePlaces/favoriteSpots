@@ -26,7 +26,7 @@ const AddLocation = (props) => {
           <Marker
             coordinate={{latitude: 37.78825, longitude: -122.4324}}
             title={'title'}
-            image = {require('../../assets/mapMarker.png')}
+           // image = {require('../../assets/mapMarker.png')}
             description={'desc'}>
             <Callout tooltip>
               <View>
@@ -40,7 +40,13 @@ const AddLocation = (props) => {
                 </View>
               </View>
             </Callout>
+            <Image
+              style={{width: 35, height: 35}}
+              resizeMode="contain"
+              resizeMethod="resize"
+              source={require('../../assets/mapMarker.png')}></Image>
           </Marker>
+
         </MapView>
       </View>
     </SafeAreaView>
@@ -61,6 +67,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 0.4,
     padding: 15,
-    backgroundColor: 'black'
   },
 });
