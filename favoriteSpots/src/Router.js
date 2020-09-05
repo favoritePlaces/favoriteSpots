@@ -1,11 +1,8 @@
 import * as React from 'react';
 import {
-  View,
   Text,
   TouchableOpacity,
-  Image,
-  Animated,
-  ActivityIndicator,
+
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
@@ -16,7 +13,6 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {Icon} from 'native-base';
 import {connect} from 'react-redux';
 
-import {AuthContext} from './context';
 import Entrance from './screens/Auth/Entrance';
 import SignIn from './screens/Auth/SignIn';
 import SignUp from './screens/Auth/SignUp';
@@ -128,34 +124,38 @@ const AddLocationStackScreen = () => {
   );
 };
 
-
 const TabStack = createBottomTabNavigator();
 
 const TabStackScreen = () => {
   return (
     <TabStack.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
           let iconName;
           if (route.name === 'Home') {
-              iconName = 'home'
+            iconName = 'home';
           } else if (route.name === 'Search') {
-              iconName = 'search-location';
+            iconName = 'search-location';
           } else if (route.name === 'Add Location') {
-              iconName = 'globe';
+            iconName = 'globe';
           } else if (route.name === 'Profile') {
-              iconName = 'user-circle';
+            iconName = 'user-circle';
           }
 
-          return <Icon type='FontAwesome' name={iconName} style={{ color: focused ? colors.addition : color, fontSize: size }} />;
-      },
-  })}
-  tabBarOptions={{
-    inactiveTintColor: colors.line,
-    activeTintColor : colors.addition
-  //  showLabel: false,
-}}
-      >
+          return (
+            <Icon
+              type="FontAwesome"
+              name={iconName}
+              style={{color: focused ? colors.addition : color, fontSize: size}}
+            />
+          );
+        },
+      })}
+      tabBarOptions={{
+        inactiveTintColor: colors.line,
+        activeTintColor: colors.addition,
+        //  showLabel: false,
+      }}>
       <TabStack.Screen
         // unmountOnBlur={true}
         name="Home"
@@ -172,83 +172,43 @@ const TabStackScreen = () => {
 };
 
 const DrawerStack = createDrawerNavigator();
-// const DrawerStackScreen = () => {
-//   return (
-//     <DrawerStack.Navigator
-//       drawerContent={Menu}
-//       drawerType="back"
-//       drawerStyle={{
-//         width: '85%',
-//       }}>
-//       <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
-//     </DrawerStack.Navigator>
-//   );
-// };
+const DrawerStackScreen = () => {
+  return (
+    <DrawerStack.Navigator
+      drawerContent={Menu}
+      drawerType="back"
+      drawerStyle={{
+        width: '85%',
+      }}>
+      <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
+    </DrawerStack.Navigator>
+  );
+};
 
 const RootStack = createStackNavigator();
 function Router(props) {
-  // const [auth, setAuth] = React.useState(false);
-  // const authContext = React.useMemo(
-  //   () => ({
-  //     signIn: async data => {
-  //      setAuth(true);
-
-  //       //dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
-  //     },
-  //     signOutNow: () => setAuth(false) //dispatch({ type: 'SIGN_OUT' }),
-
-  //   }),
-  //   []
-  // );
   return (
-   
     <NavigationContainer ref={navigationRef}>
-      {/* <RootStack.Navigator> */}
-      {
-        !props.user ? (
-          <AuthStack.Navigator initialRouteName="Entrance">
-            <AuthStack.Screen
-              name="Entrance"
-              component={Entrance}
-              options={({navigation, route}) => ({
-                title: 'Entrance',
-                headerShown: false,
-              })}
-            />
-
-            <AuthStack.Screen
-              name="SignIn"
-              component={SignIn}
-              options={({navigation, route}) => ({
-                title: 'SignIn',
-                headerShown: false,
-              })}
-            />
-
-            <AuthStack.Screen
-              name="SignUp"
-              component={SignUp}
-              options={{
-                title: 'SignUp',
-                headerShown: false,
-              }}
-            />
-          </AuthStack.Navigator>
+      <RootStack.Navigator headerMode="none" mode="modal">
+        {!props.user ? (
+          <RootStack.Screen
+            name="Auth"
+            component={AuthStackScreen}
+            options={{
+              animationEnabled: false,
+            }}
+          />
         ) : (
-          <DrawerStack.Navigator
-            drawerContent={Menu}
-            drawerType="back"
-            drawerStyle={{
-              width: '85%',
-            }}>
-            <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
-          </DrawerStack.Navigator>
-        )
-
-        /* </RootStack.Navigator> */
-      }
+          <RootStack.Screen
+            name="Main"
+            component={DrawerStackScreen}
+            options={{
+              animationEnabled: false,
+            }}
+          />
+        )}
+      </RootStack.Navigator>
     </NavigationContainer>
-    //    </AuthContext.Provider>
   );
 }
 
