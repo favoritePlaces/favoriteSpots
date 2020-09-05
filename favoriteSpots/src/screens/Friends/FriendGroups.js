@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
-const FriendList = (props) => {
+const FriendGroups = (props) => {
 
     return(
         <SafeAreaView>
           <View>
-            <Text>Individual friend list dont think so it is necessary actually</Text>
+            <Text>All friend groups list</Text>
           </View>
         </SafeAreaView>
       );
@@ -18,4 +18,4 @@ const mapStateToProps = ({ placeResponse }) => {
     return { list };
 };
 
-export default connect(mapStateToProps, {})(FriendList);
+export default connect(mapStateToProps, {})(FriendGroups);

@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-
-} from 'react-native';
+import {Text, TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -19,10 +15,24 @@ import SignUp from './screens/Auth/SignUp';
 
 import Menu from './screens/Menu/Menu';
 import AddLocation from './screens/Maps/AddLocation';
+
 import Home from './screens/Home/Home';
 import HomeDetails from './screens/Home/HomeDetails';
 
 import Profile from './screens/Profile/Profile';
+
+import FriendGroupDetails from './screens/Friends/FriendGroupDetails';
+import FriendGroups from './screens/Friends/FriendGroups';
+import CreateFriendGroup from './screens/Friends/CreateFriendGroup';
+
+import MyFavoriteList from './screens/Places/MyFavoriteList';
+import PlaceDetails from './screens/Places/PlaceDetails';
+import PlaceList from './screens/Places/PlaceList';
+
+import Search from './screens/Search/Search';
+import SearchResults from './screens/Search/SearchResults';
+
+import Settings from './screens/Settings/Settings';
 
 import {navigationRef} from './RootNavigation';
 import {colors, fonts} from './style';
@@ -77,6 +87,42 @@ const AuthStackScreen = () => {
   );
 };
 
+const CreateFriendGroupStack = createStackNavigator();
+const CreateFriendGroupStackScreen = () => {
+  return (
+    <CreateFriendGroupStack.Navigator>
+      <CreateFriendGroupStack.Screen
+        name="CreateFriendGroup"
+        component={CreateFriendGroup}
+      />
+    </CreateFriendGroupStack.Navigator>
+  );
+};
+
+const FriendGroupDetailsStack = createStackNavigator();
+const FriendGroupDetailsStackScreen = () => {
+  return (
+    <FriendGroupDetailsStack.Navigator>
+      <FriendGroupDetailsStack.Screen
+        name="FriendGroupDetailsStack"
+        component={FriendGroupDetailsStack}
+      />
+    </FriendGroupDetailsStack.Navigator>
+  );
+};
+
+const FriendGroupsStack = createStackNavigator();
+const FriendGroupsStackScreen = () => {
+  return (
+    <FriendGroupsStack.Navigator>
+      <FriendGroupsStack.Screen
+        name="FriendGroups"
+        component={FriendGroups}
+      />
+    </FriendGroupsStack.Navigator>
+  );
+};
+
 const HomeStack = createStackNavigator();
 
 const HomeStackScreen = () => {
@@ -103,10 +149,79 @@ const ProfileStackScreen = () => {
         name="Profile"
         component={Profile}
         options={({navigation, route}) => ({
-          headerLeft: () => menu(navigation),
+          headerLeft: () => {
+            return(
+              <Text onPress = {()=> {  navigation.pop()}}>Back</Text>
+            )
+          },
         })}
       />
     </ProfileStack.Navigator>
+  );
+};
+
+const MyFavoriteListStack = createStackNavigator();
+const MyFavoriteListStackScreen = () => {
+  return (
+    <MyFavoriteListStack.Navigator>
+      <MyFavoriteListStack.Screen
+        name="MyFavoriteList"
+        component={MyFavoriteList}
+      />
+    </MyFavoriteListStack.Navigator>
+  );
+};
+const PlaceDetailsStack = createStackNavigator();
+const PlaceDetailsStackScreen = () => {
+  return (
+    <PlaceDetailsStack.Navigator>
+      <PlaceDetailsStack.Screen
+        name="PlaceDetails"
+        component={PlaceDetails}
+      />
+    </PlaceDetailsStack.Navigator>
+  );
+};
+const PlaceListStack = createStackNavigator();
+const PlaceListStackScreen = () => {
+  return (
+    <PlaceListStack.Navigator>
+      <PlaceListStack.Screen
+        name="PlaceList"
+        component={PlaceList}
+        options={({navigation, route}) => ({
+          headerLeft: () => menu(navigation),
+        })}
+      />
+    </PlaceListStack.Navigator>
+  );
+};
+
+const SettingsStack = createStackNavigator();
+const SettingsStackScreen = () => {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen
+        name="Settings"
+        component={Settings}
+      />
+    </SettingsStack.Navigator>
+  );
+};
+
+const SearchStack = createStackNavigator();
+const SearchStackScreen = () => {
+  return (
+    <SearchStack.Navigator>
+      <SearchStack.Screen
+        name="Search"
+        component={Search}
+        options={({navigation, route}) => ({
+          headerLeft: () => menu(navigation),
+        })}
+      />
+      <SearchStack.Screen name="SearchResults" component={SearchResults} />
+    </SearchStack.Navigator>
   );
 };
 const AddLocationStack = createStackNavigator();
@@ -135,10 +250,10 @@ const TabStackScreen = () => {
           if (route.name === 'Home') {
             iconName = 'home';
           } else if (route.name === 'Search') {
-            iconName = 'search-location';
+            iconName = 'search-plus';
           } else if (route.name === 'Add Location') {
             iconName = 'globe';
-          } else if (route.name === 'Profile') {
+          } else if (route.name === 'PlaceList') {
             iconName = 'user-circle';
           }
 
@@ -162,9 +277,9 @@ const TabStackScreen = () => {
         component={HomeStackScreen}
       />
       <TabStack.Screen name="Add Location" component={AddLocationStackScreen} />
-      <TabStack.Screen name="Profile" component={ProfileStackScreen} />
-
-      {/* <TabStack.Screen name="Search" component={SearchStackScreen} />
+      <TabStack.Screen name="PlaceList" component={PlaceListStackScreen} />
+      <TabStack.Screen name="Search" component={SearchStackScreen} />
+      {/* 
             <TabStack.Screen name="Notifications" component={NotificationsStackScreen} />
             <TabStack.Screen name="Messages" component={MessagesStackScreen} /> */}
     </TabStack.Navigator>
@@ -199,13 +314,64 @@ function Router(props) {
             }}
           />
         ) : (
-          <RootStack.Screen
-            name="Main"
-            component={DrawerStackScreen}
-            options={{
-              animationEnabled: false,
-            }}
-          />
+          <>
+            <RootStack.Screen
+              name="Main"
+              component={DrawerStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="Profile"
+              component={ProfileStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="CreateFriendGroup"
+              component={CreateFriendGroupStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="FriendGroups"
+              component={FriendGroupsStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="FriendGroupDetails"
+              component={FriendGroupDetailsStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="MyFavoriteList"
+              component={MyFavoriteListStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="PlaceDetails"
+              component={PlaceDetailsStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="Settings"
+              component={SettingsStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+          </>
         )}
       </RootStack.Navigator>
     </NavigationContainer>
