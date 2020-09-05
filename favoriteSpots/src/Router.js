@@ -134,11 +134,28 @@ const TabStack = createBottomTabNavigator();
 const TabStackScreen = () => {
   return (
     <TabStack.Navigator
-      tabBarOptions={{
-        inactiveTintColor: colors.main,
-        // showLabel: false, //when the icons come
-        backgroundColor: 'blue',
-      }}>
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === 'Home') {
+              iconName = 'home'
+          } else if (route.name === 'Search') {
+              iconName = 'search-location';
+          } else if (route.name === 'Add Location') {
+              iconName = 'globe';
+          } else if (route.name === 'Profile') {
+              iconName = 'user-circle';
+          }
+
+          return <Icon type='FontAwesome' name={iconName} style={{ color: focused ? colors.addition : color, fontSize: size }} />;
+      },
+  })}
+  tabBarOptions={{
+    inactiveTintColor: colors.line,
+    activeTintColor : colors.addition
+  //  showLabel: false,
+}}
+      >
       <TabStack.Screen
         // unmountOnBlur={true}
         name="Home"
