@@ -14,7 +14,7 @@ const SignIn = (props) => {
 
   //  const {signIn} = useContext(AuthContext);
 
-    const [email, setEmail] = useState('erdogmus.merve@gmail.com');
+    const [email, setEmail] = useState('test@test.com');
     const [password, setPassword] = useState('123456');
 
     const animation = useRef(new Animated.Value(0)).current;

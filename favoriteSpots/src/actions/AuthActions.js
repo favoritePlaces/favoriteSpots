@@ -26,24 +26,24 @@ export const login = (params) => {
             const uid = data.user._user.uid;
           
            dispatch({ type: LOGIN_SUCCESS, payload: params })
-            // // read user from db
-            // firestore()
-            //     .collection('Users')
-            //     .doc(uid)
-            //     .get().then((user) => {
-            //         console.log('Gelen Data: ', user._data);
+            // read user from db
+            firestore()
+                .collection('Users')
+                .doc(uid)
+                .get().then((user) => {
+                    console.log('Gelen Data: ', user._data);
 
-            //         const userParams = {
-            //             ...user._data,
-            //             uid
-            //         }
-            //         dispatch({ type: LOGIN_SUCCESS, payload: userParams })
+                    const userParams = {
+                        ...user._data,
+                        uid
+                    }
+                    dispatch({ type: LOGIN_SUCCESS, payload: userParams })
 
 
-            //     }).catch((err) => {
-            //         console.log('Read Data error: ', err);
-            //         dispatch({ type: LOGIN_FAILD })
-            //     })
+                }).catch((err) => {
+                    console.log('Read Data error: ', err);
+                    dispatch({ type: LOGIN_FAILED })
+                })
         })
         .catch(error => {
             if (error.code === 'auth/invalid-email') {
@@ -66,13 +66,15 @@ export const login = (params) => {
   };
 };
 
-export const register = (params) => {
+export const signUp = (params) => {
   return (dispatch) => {
       if (params.email != '' && params.password != '' && params.firstname != '' && params.lastname != '') {
           if (validateEmail(params.email)) {
               auth()
                   .createUserWithEmailAndPassword(params.email, params.password)
                   .then((data) => {
+          
+
                       const uid = data.user._user.uid;
                       // write user from db
                       const setData = {
@@ -80,16 +82,21 @@ export const register = (params) => {
                           username: params.username,
                           email: params.email
                       }
-                      // firestore()
-                      //     .collection('Users')
-                      //     .doc(uid)
-                      //     .set(setData)
-                      //     .then(() => {
-                      //         console.log('User added!');
-                      //         RootNavigation.pop()
-                      //     }).catch(() => {
-                      //         console.log('User not Add!');
-                      //     })
+                      firestore()
+                          .collection('Users')
+                          .doc(uid) //unique Id given here
+                          .set(setData)
+                          .then(() => {
+                              console.log('User is created!');
+                              Alert.alert('Got it','Your account has been created!',  [
+                                { text: "OK", onPress: () =>  RootNavigation.pop() }
+                              ],
+                              { cancelable: false }
+                            );
+                            
+                          }).catch(() => {
+                              console.log('User is not created!');
+                          })
 
                   })
                   .catch(error => {
