@@ -1,13 +1,24 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, SafeAreaView, Platform,StyleSheet, StatusBar} from 'react-native';
+import {View, Text, SafeAreaView, Platform,StyleSheet, StatusBar, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 import {Icon} from 'native-base';
 import {Button} from '../../components';
 
 import {colors, fonts} from '../../style';
+import { isUser } from '../../actions'
 
 const Entrance = (props) => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    props.isUser();
+  }, []);
+
+  if(props.loading) {
+    return(
+        <View style={{ flex:1 , alignItems: 'center', justifyContent: 'center'}}>
+            <ActivityIndicator size='large' />
+        </View>
+    )
+}
   return (
     <SafeAreaView
       style={{
@@ -102,8 +113,8 @@ comeIn:{
 
 
 const mapStateToProps = ({ authResponse }) => {
-    const { loading } = authResponse;
-    return { loading };
+    const { loading, user } = authResponse;
+    return { loading, user };
 };
 
-export default connect(mapStateToProps, {})(Entrance);
+export default connect(mapStateToProps, {isUser})(Entrance);
