@@ -17,6 +17,10 @@ export const REMOVE_USER_START = 'remove_user_start';
 export const REMOVE_USER_SUCCESS = 'remove_user_success';
 export const REMOVE_USER_FAILED = 'remove_user_failed';
 
+export const GROUP_GET_SUCCESS = 'group_get_success';
+export const GROUP_GET_FAILED = 'group_get_failed';
+export const GROUP_ADD_SUCCESS = 'group_add_success';
+export const GROUP_ADD_FAILED = 'group_add_failed';
 
 export const USER = {
     token: null

@@ -24,7 +24,6 @@ const searchUser = (text) => {
     props.getUsers();
   }else{
     let arr = props.users.filter(i => i.name.toLowerCase().includes(text.toLowerCase()));
-    console.log(arr);
     setResults(arr.slice(0, 5));
   }
 }
@@ -33,7 +32,6 @@ const searchUser = (text) => {
     <View style={styles.item}>
       <TouchableOpacity style ={{flexDirection: 'row', alignItems: 'center', borderBottomWidth: 0.5, borderColor: colors.line}}
         onPress={() => {
-          console.log(item);
        RootNavigation.navigate('UserDetails',  item);
         }}>
 
