@@ -52,7 +52,7 @@ const Menu = (props) => {
         <Text style={{fontWeight: 'bold', fontSize: fonts.main, marginTop: 10}}>
           Merve
         </Text>
-          <Text style={{fontSize: fonts.small, marginTop: 10}}>15 Friend Groups</Text>
+          <Text style={{fontSize: fonts.small, marginTop: 10}}>52 favorite places</Text>
 
       </View>
       <View style={{justifyContent: 'space-between'}}>
