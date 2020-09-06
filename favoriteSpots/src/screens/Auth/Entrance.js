@@ -9,7 +9,6 @@ import { isUser } from '../../actions'
 
 const Entrance = (props) => {
   useEffect(() => {
-    console.log('entrance');
     props.isUser();
   }, []);
 

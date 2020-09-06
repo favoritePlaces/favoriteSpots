@@ -17,11 +17,10 @@ export const login = (params) => {
         dispatch({
           type: LOGIN_START,
         });
-        console.log('login', params.email, params.password);
+
         auth()
           .signInWithEmailAndPassword(params.email, params.password)
           .then((data) => {
-            console.log('signed in!', data);
             const uid = data.user._user.uid;
 
             // read user from db
@@ -30,7 +29,6 @@ export const login = (params) => {
               .doc(uid)
               .get()
               .then((user) => {
-                console.log('Gelen Data login: ', user._data);
 
                 const userParams = {
                   ...user._data,
@@ -129,7 +127,6 @@ export const signUp = (params) => {
 };
 
 export const isUser = () => {
-  console.log();
   return (dispatch) => {
     auth().onAuthStateChanged((user) => {
       console.log('Is user:', user);
@@ -151,7 +148,6 @@ const getUser = (uid, dispatch) => {
     .doc(uid)
     .get()
     .then((user) => {
-      console.log('Gelen Data get User: ', user._data);
       const userParams = {
         ...user._data,
         uid,

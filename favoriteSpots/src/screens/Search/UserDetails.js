@@ -3,20 +3,29 @@ import {View, Text, SafeAreaView, Image, TouchableOpacity, StyleSheet} from 'rea
 import {connect} from 'react-redux';
 import {fonts, colors} from '../../style'
 
-const Profile = (props) => {
+const UserDetails = (props) => {
+  
+useEffect(()=> {
+  console.log(props.route)
+})
+
   return (
-    <View style={styles.container}>
+    <View>
     <View style={styles.header}></View>
+    <View style={styles.info}>
     <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar3.png'}}/>
+
+  <Text style = {styles.name}>{props.route.params.name}</Text>
+  <Text>{props.route.params.username}</Text>
+  </View>
     <View style={styles.body}>
 
         <TouchableOpacity style={styles.buttonContainer}>
-          <Text>Your </Text>  
+          <Text>Add in your one of the friend hubs! </Text>  
         </TouchableOpacity>              
         <TouchableOpacity style={styles.buttonContainer}>
-          <Text>Opcion 2</Text> 
+          <Text>Let's create a new friend hub!</Text> 
         </TouchableOpacity>
-        <Text onPress = {()=> {props.navigation.navigate('Search')}}>Find your friends to create your hub!</Text>
 
   </View>
 </View>
@@ -29,13 +38,16 @@ const mapStateToProps = ({placeResponse}) => {
   return {list};
 };
 
-export default connect(mapStateToProps, {})(Profile);
+export default connect(mapStateToProps, {})(UserDetails);
 
 
 const styles = StyleSheet.create({
   header:{
     backgroundColor: colors.line,
     height:200,
+  },
+  info :{
+alignItems: 'center',
   },
   avatar: {
     width: 130,
@@ -45,15 +57,13 @@ const styles = StyleSheet.create({
     borderColor: "white",
     marginBottom:10,
     alignSelf:'center',
-    position: 'absolute',
-    marginTop:130
+    marginTop:-60
   },
   name:{
-    fontSize:fonts.main,
+    fontSize:fonts.small,
     fontWeight:'600',
   },
   body:{
-    marginTop:40,
     padding: 30,
     alignItems: 'center'
   },

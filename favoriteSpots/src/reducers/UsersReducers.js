@@ -22,7 +22,7 @@ export default (state = INITIAL_STATE, action) => {
         
             return {
                 ...state,
-                users = action.payload.users //send the object accordingly
+                users : [... action.payload] //send the object accordingly
             };
 
 

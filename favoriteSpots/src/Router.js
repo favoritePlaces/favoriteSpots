@@ -24,6 +24,7 @@ import Profile from './screens/Profile/Profile';
 import FriendGroupDetails from './screens/Friends/FriendGroupDetails';
 import FriendGroups from './screens/Friends/FriendGroups';
 import CreateFriendGroup from './screens/Friends/CreateFriendGroup';
+import UserDetails from './screens/Search/UserDetails';
 
 import MyFavoriteList from './screens/Places/MyFavoriteList';
 import PlaceDetails from './screens/Places/PlaceDetails';
@@ -41,7 +42,6 @@ const menu = (navigation) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        console.log(navigation);
         navigation.openDrawer();
       }}
       style={{
@@ -104,8 +104,8 @@ const FriendGroupDetailsStackScreen = () => {
   return (
     <FriendGroupDetailsStack.Navigator>
       <FriendGroupDetailsStack.Screen
-        name="FriendGroupDetailsStack"
-        component={FriendGroupDetailsStack}
+        name="FriendGroupDetails"
+        component={FriendGroupDetails}
       />
     </FriendGroupDetailsStack.Navigator>
   );
@@ -115,11 +115,17 @@ const FriendGroupsStack = createStackNavigator();
 const FriendGroupsStackScreen = () => {
   return (
     <FriendGroupsStack.Navigator>
-      <FriendGroupsStack.Screen
-        name="FriendGroups"
-        component={FriendGroups}
-      />
+      <FriendGroupsStack.Screen name="FriendGroups" component={FriendGroups} />
     </FriendGroupsStack.Navigator>
+  );
+};
+
+const UserDetailsStack = createStackNavigator();
+const UserDetailsStackScreen = () => {
+  return (
+    <UserDetailsStack.Navigator>
+      <UserDetailsStack.Screen name="UserDetails" component={UserDetails} />
+    </UserDetailsStack.Navigator>
   );
 };
 
@@ -150,9 +156,14 @@ const ProfileStackScreen = () => {
         component={Profile}
         options={({navigation, route}) => ({
           headerLeft: () => {
-            return(
-              <Text onPress = {()=> {  navigation.pop()}}>Back</Text>
-            )
+            return (
+              <Text
+                onPress={() => {
+                  navigation.pop();
+                }}>
+                Back
+              </Text>
+            );
           },
         })}
       />
@@ -175,10 +186,7 @@ const PlaceDetailsStack = createStackNavigator();
 const PlaceDetailsStackScreen = () => {
   return (
     <PlaceDetailsStack.Navigator>
-      <PlaceDetailsStack.Screen
-        name="PlaceDetails"
-        component={PlaceDetails}
-      />
+      <PlaceDetailsStack.Screen name="PlaceDetails" component={PlaceDetails} />
     </PlaceDetailsStack.Navigator>
   );
 };
@@ -201,10 +209,7 @@ const SettingsStack = createStackNavigator();
 const SettingsStackScreen = () => {
   return (
     <SettingsStack.Navigator>
-      <SettingsStack.Screen
-        name="Settings"
-        component={Settings}
-      />
+      <SettingsStack.Screen name="Settings" component={Settings} />
     </SettingsStack.Navigator>
   );
 };
@@ -220,7 +225,7 @@ const SearchStackScreen = () => {
           headerLeft: () => menu(navigation),
         })}
       />
-      <SearchStack.Screen name="SearchResults" component={SearchResults} />
+      <SearchStack.Screen name="UserDetails" component={UserDetails} />
     </SearchStack.Navigator>
   );
 };
@@ -346,6 +351,13 @@ function Router(props) {
             <RootStack.Screen
               name="FriendGroupDetails"
               component={FriendGroupDetailsStackScreen}
+              options={{
+                animationEnabled: false,
+              }}
+            />
+            <RootStack.Screen
+              name="UserDetails"
+              component={UserDetailsStackScreen}
               options={{
                 animationEnabled: false,
               }}

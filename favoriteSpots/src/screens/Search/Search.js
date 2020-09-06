@@ -1,21 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
-import { connect } from 'react-redux';
-
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Image,
+  SafeAreaView,
+  ActivityIndicator,
+  StyleSheet,
+  FlatList,
+  StatusBar,
+  TouchableOpacity
+} from 'react-native';
+import {connect} from 'react-redux';
+import {Icon, Input, Item, Thumbnail, Left, Text, Body} from 'native-base';
+import {getUsers} from '../../actions';
+import {fonts, colors} from '../../style'
+import * as RootNavigation from '../../RootNavigation';
 const Search = (props) => {
+  //places or user search
+const [results, setResults] = useState([]);
 
-    return(
-        <SafeAreaView>
-          <View>
-            <Text>Will be tag name search</Text>
-          </View>
-        </SafeAreaView>
-      );
+const searchUser = (text) => {
+
+  if(props.users.length === 0){
+    props.getUsers();
+  }else{
+    let arr = props.users.filter(i => i.name.toLowerCase().includes(text.toLowerCase()));
+    console.log(arr);
+    setResults(arr.slice(0, 5));
+  }
 }
 
-const mapStateToProps = ({ placeResponse }) => {
-    const { list } = placeResponse;
-    return { list };
+  const renderItem = ({item}) => (
+    <View style={styles.item}>
+      <TouchableOpacity style ={{flexDirection: 'row', alignItems: 'center', borderBottomWidth: 0.5, borderColor: colors.line}}
+        onPress={() => {
+          console.log(item);
+       RootNavigation.navigate('UserDetails',  item);
+        }}>
+
+        <Thumbnail  source = {require('../../assets/dummy.png')}></Thumbnail>
+        <Text style={styles.text}>{item.name}</Text>
+
+      </TouchableOpacity>
+    </View>
+  );
+  return (
+    <SafeAreaView>
+      <View style={{marginHorizontal: 20}}>
+        <Item>
+          <Icon name="search" type="FontAwesome"></Icon>
+          <Input placeholder="search here" onChangeText = {text => {searchUser(text)}}/>
+        </Item>
+        <FlatList
+          data={results}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => `${index}`}></FlatList>
+      </View>
+    </SafeAreaView>
+  );
 };
 
-export default connect(mapStateToProps, {})(Search);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    padding: 10,
+    marginHorizontal: 16,
+  },
+  text: {
+    padding: 20,
+    fontSize: fonts.small,
+  },
+  note: {},
+});
+
+const mapStateToProps = ({placeResponse, usersResponse}) => {
+  const {list} = placeResponse;
+  const {users} = usersResponse;
+  return {list, users};
+};
+
+export default connect(mapStateToProps, {getUsers})(Search);
