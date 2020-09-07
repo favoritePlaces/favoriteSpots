@@ -7,6 +7,7 @@ const { width, height } = Dimensions.get('window')
 const Input = (props) => (
     <TextInput
         placeholder={props.placeholder}
+        placeholderTextColor={'grey'}
         secureTextEntry={props.secureTextEntry}
         keyboardType={props.keyboardType}
         multiline={props.multiline}
@@ -14,11 +15,18 @@ const Input = (props) => (
         autoFocus={props.autoFocus}
         onChangeText={(value) => props.onChangeText(value)}
         style={[{
-            padding: 5,
-            height: '60%',
+            width:'80%',
+
+            height:'13%',
+            padding:8,
+            marginBottom:'5%',
+           borderWidth:0.2,
+           borderColor:colors.purple ,
+
             color: '#424242',
-            borderBottomColor: colors.line,
-            borderBottomWidth: 1
+            borderLeftWidth:5,
+            borderRadius:12,
+           
         }, props.style]}
     />
 );

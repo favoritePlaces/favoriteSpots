@@ -1,12 +1,21 @@
+
 import React, { useState, useEffect, useRef, useContext } from 'react';
+
 import {
-    Text, View, ScrollView,
-    SafeAreaView, Animated, Keyboard
+  Text,
+
+  View,
+  ScrollView,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  StyleSheet,
+
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import {AuthContext} from '../../context';
 import { Icon } from 'native-base'
-import { Input, Button } from '../../components';
+import { Input, Button,CheckBox } from '../../components';
 import { login } from '../../actions';
 import { colors, fonts } from '../../style';
 
@@ -16,110 +25,117 @@ const SignIn = (props) => {
 
     const [email, setEmail] = useState('test@test.com');
     const [password, setPassword] = useState('123456');
-
-    const animation = useRef(new Animated.Value(0)).current;
-
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-        Keyboard.addListener("keyboardWillShow", _keyboardWillShow);
-        Keyboard.addListener("keyboardWillHide", _keyboardWillHide);
-
-        return () => {
-            Keyboard.removeListener("keyboardWillShow", _keyboardWillShow);
-            Keyboard.removeListener("keyboardWillHide", _keyboardWillHide);
-        };
+    const [checkButton, setCheckButton] = useState(true);
 
 
-    }, []);
 
-
-    const _keyboardWillShow = (e) => {
-        const height = e.endCoordinates.height
-        Animated.timing(animation, {
-            toValue: -height + 34,
-            duration: 300
-        }).start();
-    };
-
-    const _keyboardWillHide = (e) => {
-        Animated.timing(animation, {
-            toValue: 0,
-            duration: 300
-        }).start();
-    };
+   
 
 return(
-    <SafeAreaView style={{ flex: 1 }}>
-    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', padding: 10, justifyContent: 'space-between' }}>
-        <Text onPress={() => props.navigation.pop()} style={{ color: colors.main, fontSize: fonts.small }}>Back</Text>
-    </View>
+    <SafeAreaView style={{flex: 1,backgroundColor:'#E7E5E3'}}>
+    <KeyboardAvoidingView style={{flex: 1,padding:20}}>
+      <ScrollView contentContainerStyle={{flex: 1,backgroundColor:'white',borderRadius:20}}>
 
-    <View style={{ flex: 9 }}>
-        <ScrollView style={{ padding: 20 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: fonts.small, width: '70%', marginBottom: 20, textAlign: 'left', }}>Log Into PlacesButGoldies</Text>
+                      {/* Logo  */}
 
-            <Input
-                placeholder={'Email'}
-                value={email}
-                onChangeText={(email) => setEmail(email)}
+          
+        <View style={styles.headerView}>
+          <Text style={styles.headerText}>LOGIN</Text>
+        </View>
+
+                       {/* Form Kısmı (Buttona kadar)  */}
+
+        <View style={styles.formView}>
+          <Input
+            placeholder={'Email'}
+            value={email}
+            onChangeText={(email) => setEmail(email)}
+          />
+
+          <Input
+            placeholder={'Password'}
+            secureTextEntry={checkButton}
+            value={password}
+            onChangeText={(password) => setPassword(password)}
+          />
+          <View style={styles.optionForPassView}>
+            <CheckBox
+              text="Hide Password"
+              status={checkButton}
+              onPress={() => setCheckButton(!checkButton)}
             />
+            <TouchableOpacity>
+              <Text>Forgot Password</Text>
+            </TouchableOpacity>
+          </View>
+          <Button text={'Login'} 
+          style={styles.button} 
+          textStyle={styles.textStyle}
+          onPress={() => {
+            //  signIn()//comes from context provider
+               const params = { email, password }
+               props.login(params)
 
-            <Input
-                placeholder={'Password'}
-                secureTextEntry
-                value={password}
-                onChangeText={(password) => setPassword(password)}
-            />
-
-        </ScrollView>
-    </View>
+           }} />
+        </View>
 
 
+                        {/* Footer  */}
 
-    <Animated.View
-        style={
-            [{
-                flex: 0.6,
-                backgroundColor: '#edeeef',
-                borderTopColor: '#b7b7b7',
-                borderTopWidth: 0.3,
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 10,
-                justifyContent: 'space-between'
-            },
-            {
-                transform: [
-                    {
-                        translateY: animation,
-                    }
-                ]
-            }
-            ]
-        }>
-        <Text style={{ color: colors.main, fontSize: 14 }}>Did you forget your password?</Text>
+        <View style={styles.footerView}>
+          
+       
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  </SafeAreaView>
+);
+};
 
-        <Button
-            text={'Sign In'}
-            loading={props.loading}
-            onPress={() => {
-             //  signIn()//comes from context provider
-                const params = { email, password }
-                props.login(params)
+const styles = StyleSheet.create({
+headerView: {
+  flex: 1,
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+},
+headerText: {
+  fontSize: fonts.big,
+  fontFamily: 'BalsamiqSans-Bold',
+  letterSpacing: 3,
+  color:colors.blue,
+},
+formView: {
+  flex: 2,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+optionForPassView: {
+  width: '80%',
+  marginBottom: '5%',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+},
+button: {
+  width: '85%',
+  backgroundColor: '#2F94FE',
+},
+textStyle:{
+   //Button Text
+   fontFamily: 'BalsamiqSans-Bold',
+   letterSpacing:2
 
-            }}
-            style={{ width: '25%', height: 30 }}
-        />
-    </Animated.View>
+},
+footerView: {
+  flex: 0.5,
+  alignItems: 'center',
+},
 
-</SafeAreaView>
-)
-}
+});
 
-const mapStateToProps = ({ authResponse }) => {
-    const { loading, user } = authResponse;
-    return { loading, user };
+
+const mapStateToProps = ({authResponse}) => {
+  const {loading, user} = authResponse;
+  return {loading, user};
 };
 
 export default connect(mapStateToProps, {login})(SignIn);
