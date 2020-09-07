@@ -7,6 +7,9 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import IonIcons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {connect} from 'react-redux';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
 import {fonts} from '../../style';
@@ -33,18 +36,14 @@ const AddLocation = (props) => {
                 <View style={styles.details}>
                   <Text>One Favorite Place</Text>
                     <Image
-              style={{width: 35, height: 35}}
+              style={{width: 100, height: 60}}
               resizeMode="contain"
               resizeMethod="resize"
               source={require('../../assets/mapMarker.png')}></Image>
                 </View>
               </View>
             </Callout>
-            <Image
-              style={{width: 35, height: 35}}
-              resizeMode="contain"
-              resizeMethod="resize"
-              source={require('../../assets/mapMarker.png')}></Image>
+            <Icon size = {35} color = '#0857bf' name = 'map-marker-alt'/> 
           </Marker>
 
         </MapView>
@@ -63,9 +62,10 @@ export default connect(mapStateToProps, {})(AddLocation);
 const styles = StyleSheet.create({
   details: {
     flexDirection: 'column',
-    alignSelf: 'flex-start',
     borderRadius: 5,
+    width: '100%',
     borderWidth: 0.4,
     padding: 15,
+    backgroundColor: 'white'
   },
 });

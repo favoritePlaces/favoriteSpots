@@ -20,8 +20,6 @@ const Home = (props) => {
         </Text>
         <TouchableOpacity //wanted to show on top bar but we cant use authContext method in Router as it will be undefined for now
           onPress={() => {
-            console.log('sign out')
-          //  signOutNow();
             props.signOut();
           }}
           style={{

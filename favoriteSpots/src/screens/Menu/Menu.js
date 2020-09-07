@@ -52,19 +52,20 @@ const Menu = (props) => {
         <Text style={{fontWeight: 'bold', fontSize: fonts.main, marginTop: 10}}>
           Merve
         </Text>
-          <Text style={{fontSize: fonts.small, marginTop: 10}}>15 Friend Groups</Text>
+          <Text style={{fontSize: fonts.small, marginTop: 10}}>52 favorite places</Text>
 
       </View>
       <View style={{justifyContent: 'space-between'}}>
         <ScrollView style={{ backgroundColor: ''}}>
           <View style={{backgroundColor: '', padding: 20}}>
-            {sections('user', 'Profil', () => {})}
-            {sections('map-pin', 'My favorite places')}
-            {sections('smile-o', 'Friend Hubs')}
-            {sections('user-plus', 'Friend Requests')}
+            {sections('user', 'Profil', () => {props.navigation.navigate('Profile')})}
+            {sections('map-pin', 'My Favorite Places', () => {props.navigation.navigate('MyFavoriteList')})}
+            {sections('smile-o', 'Friend Hubs', () => {props.navigation.navigate('FriendGroups')})}
+            {sections('user-plus', 'Friend Requests', () => {props.navigation.navigate('Profile')})} 
+            {sections('address-book', 'Create a New Friend Group', () => {props.navigation.navigate('CreateFriendGroup')})} 
           </View>
 
-          <View>
+          <View style={{ padding: 20}}>
             <View
               style={{
                 backgroundColor: 'black',
@@ -73,7 +74,7 @@ const Menu = (props) => {
                 marginBottom: 20,
               }}
             />
-            {sections(null, 'Settings')}
+            {sections('pencil', 'Settings', () => {props.navigation.navigate('Settings')})}
           </View>
         </ScrollView>
       </View>

@@ -12,7 +12,6 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const Entrance = (props) => {
   useEffect(() => {
-    console.log('entrance');
     props.isUser();
   }, []);
 
