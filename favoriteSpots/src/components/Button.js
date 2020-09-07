@@ -9,9 +9,9 @@ const Button = (props) => (
     style={[{
      
       borderWidth:2,
-      borderColor:'#2F94FE',
+      borderColor:colors.blue,
       width: '97%',
-     height: 50,
+     height: '13%',
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 40
@@ -28,3 +28,4 @@ const Button = (props) => (
 );
 
 export { Button };
+

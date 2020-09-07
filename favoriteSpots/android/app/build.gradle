@@ -129,6 +129,7 @@ android {
     }
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.favoritespots"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -182,7 +183,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'com.android.support:multidex:1.0.3'
     //noinspection GradleDynamicVersion
+    implementation project(':react-native-vector-icons')
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"

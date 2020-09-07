@@ -16,11 +16,11 @@ const Input = (props) => (
         onChangeText={(value) => props.onChangeText(value)}
         style={[{
             width:'80%',
-            height:50,
+            height:'13%',
             padding:8,
             marginBottom:'5%',
            borderWidth:0.2,
-           borderColor:'#bb7cd6',
+           borderColor:colors.purple ,
             color: '#424242',
             borderLeftWidth:5,
             borderRadius:12,

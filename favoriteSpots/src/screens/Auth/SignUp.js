@@ -4,8 +4,8 @@ import {
   View,
   ScrollView,
   SafeAreaView,
-  Animated,
-  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet
 } from 'react-native';
 import {Icon} from 'native-base';
 import {Input, Button} from '../../components';
@@ -15,7 +15,7 @@ import {signUp} from '../../actions';
 import {StackActions} from '@react-navigation/native';
 
 import * as RootNavigation from '../../RootNavigation';
-import {colors} from '../../style';
+import {colors, fonts} from '../../style';
 
 const SignUp = (props) => {
   const [name, setName] = useState('test');
@@ -23,145 +23,147 @@ const SignUp = (props) => {
   const [email, setEmail] = useState('test@test.com');
   const [password, setPassword] = useState('123456');
 
-  const animation = useRef(new Animated.Value(0)).current;
-
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Keyboard.addListener('keyboardWillShow', _keyboardWillShow);
-    Keyboard.addListener('keyboardWillHide', _keyboardWillHide);
-
-    return () => {
-      Keyboard.removeListener('keyboardWillShow', _keyboardWillShow);
-      Keyboard.removeListener('keyboardWillHide', _keyboardWillHide);
-    };
-  }, []);
-
-  const _keyboardWillShow = (e) => {
-    const height = e.endCoordinates.height;
-    Animated.timing(animation, {
-      toValue: -height + 34,
-      duration: 300,
-    }).start();
-  };
-
-  const _keyboardWillHide = (e) => {
-    Animated.timing(animation, {
-      toValue: 0,
-      duration: 300,
-    }).start();
-  };
-
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          padding: 10,
-          justifyContent: 'space-between',
-        }}>
-        <Text
-          onPress={() => props.navigation.pop()}
-          style={{color: colors.main, fontSize: 14}}>
-          Back
-        </Text>
-        <Icon
-          style={{color: colors.main}}
-          type="FontAwesome"
-          name={'ellipsis-h'}
-          fontSize={25}
-        />
-      </View>
-
-      <View style={{flex: 9}}>
-        <ScrollView style={{padding: 20}}>
+    <SafeAreaView style={{flex: 1,backgroundColor:'#E7E5E3'}}>
+           <ScrollView contentContainerStyle={{flex:1,padding:20,}}>
+      <KeyboardAvoidingView style={{flex: 1,backgroundColor:'white',borderRadius:20}}>
+           {/* Header  */}
+        <View
+          style={styles.headerView}>
           <Text
-            style={{
-              fontWeight: 'bold',
-              fontSize: 20,
-              width: '70%',
-              marginBottom: 20,
-              textAlign: 'left',
-            }}>
-       Welcome 
+            style={styles.headerText}>
+            Welcome
           </Text>
+        </View>
 
-          <Input
-            placeholder={'Name'}
-            value={name}
-            onChangeText={(name) => setName(name)}
-            style={styles.input}
+        {/* Form  */}
+
+        <View style={styles.formView}>
+         
+            <Input
+              placeholder={'Name'}
+              value={name}
+              onChangeText={(name) => setName(name)}
+            />
+
+            <Input
+              placeholder={'User Name'}
+              value={username}
+              onChangeText={(username) => setUsername(username)}
+            />
+
+            <Input
+              placeholder={'Email'}
+              value={email}
+              onChangeText={(email) => setEmail(email)}
+            />
+
+            <Input
+              placeholder={'Password'}
+              secureTextEntry
+              value={password}
+              onChangeText={(password) => setPassword(password)}
+            />
+
+<Button
+            text={'Sign Up'}
+            onPress={() => {
+              const params = {email, password, name, username};
+              props.signUp(params);
+            }}
+            style={styles.button}
           />
+     
 
-          <Input
-            placeholder={'User Name'}
-            value={username}
-            onChangeText={(username) => setUsername(username)}
-            style={styles.input}
-          />
+               
+     
+    
+        </View>
 
-          <Input
-            placeholder={'Email'}
-            value={email}
-            onChangeText={(email) => setEmail(email)}
-            style={styles.input}
-          />
+                {/* Footer  */}
+           
+        <View style={styles.footerView}>
+        <View style={styles.footerContent}>
+            <View style={styles.lineView}>
+              <View style={styles.line} />
+              <Text style={styles.lineTex}>OR</Text>
+              <View style={styles.line} />
+            </View>
 
-          <Input
-            placeholder={'Password'}
-            secureTextEntry
-            value={password}
-            onChangeText={(password) => setPassword(password)}
-            style={styles.input}
-          />
-        </ScrollView>
-      </View>
+          </View>
+          <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+           <View style={{backgroundColor:'red',width:75,height:75,borderRadius:50}}>
+             
 
-      <Animated.View
-        style={[
-          {
-            flex: 0.6,
-            backgroundColor: '#edeeef',
-            borderTopColor: '#b7b7b7',
-            borderTopWidth: 0.3,
-            flexDirection: 'row',
-            alignItems: 'center',
-            padding: 10,
-            justifyContent: 'space-between',
-          },
-          {
-            transform: [
-              {
-                translateY: animation,
-              },
-            ],
-          },
-        ]}>
+           </View>
+           <View style={{backgroundColor:'red',width:'25%',height:'50%',borderRadius:50}}>
+             
 
-        <Button
-          text={'Sign Up'}
-          onPress={() => {
-            const params = {email, password, name, username};
-            props.signUp(params);
-          }}
-          style={{width: '25%', height: 30}}
-        />
-      </Animated.View>
+             </View>
+             <View style={{backgroundColor:'red',width:75,height:75,borderRadius:50}}>
+             
+
+             </View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+const styles=StyleSheet.create({
+  headerView:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
 
-const styles = {
-  input: {height: '40%'},
-};
+  
+  },
+  headerText:{
+    fontFamily:'BalsamiqSans-Bold',
+    fontSize:fonts.main,
+    letterSpacing: 3,
+ },
+formView:{
+  flex: 3,
+  alignItems:'center',
+  justifyContent:'center',
+  paddingTop:'5%'
+  },
 
+  button:{
+    width: '85%',
+  backgroundColor: '#2F94FE',
+},
+footerView:{
+  flex: 1.5, 
+
+},
+footerContent: {
+
+  alignItems: 'center',
+  justifyContent:'flex-start',
+
+ 
+},
+lineView: {
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  alignItems: 'flex-start',
+},
+lineTex: {
+  color: '#2F94FE',
+},
+line: {
+  width: '35%',
+  height: 1,
+  backgroundColor: '#bb7cd6',
+  margin: 10,
+},
+})
 const mapStateToProps = ({authResponse}) => {
   const {loading, user} = authResponse;
   return {loading, user};
 };
 
 export default connect(mapStateToProps, {signUp})(SignUp);
-
-
