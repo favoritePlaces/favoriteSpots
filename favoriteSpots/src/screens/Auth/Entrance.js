@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
+
 import {View, Text, SafeAreaView, Platform,StyleSheet, StatusBar, ActivityIndicator,Image} from 'react-native';
+
 import {connect} from 'react-redux';
 import {Icon} from 'native-base';
 import {Button} from '../../components';
@@ -28,10 +30,12 @@ const Entrance = (props) => {
 
         backgroundColor:colors.purple,
       }}>
+
    <StatusBar backgroundColor={colors.blue} barStyle="light-content" /> 
    <View style={styles.logoView}>
         <Image source={require('../../images/logo.png')} style={styles.logo} />
       </View>
+
       <View style={styles.bodyView}>
         <Text style={styles.mainText}>Find your favorite spots</Text>
 
@@ -57,18 +61,21 @@ const Entrance = (props) => {
   );
 };
 
-
 const styles = StyleSheet.create({
+
   logoView: {
+
     flex:3,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderTopWidth: 0,
+
     borderColor: colors.purple,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
     backgroundColor:colors.blue,
+
   },
   logo: {
     width: '52%',
@@ -100,12 +107,15 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   comeIn: {
+
     color: colors.blue,
+
     marginLeft: 8,
     fontSize: fonts.small,
     fontWeight: 'bold',
   },
 });
+
 
 
 

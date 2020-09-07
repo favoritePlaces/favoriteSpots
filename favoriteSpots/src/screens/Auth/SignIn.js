@@ -1,11 +1,15 @@
+
 import React, { useState, useEffect, useRef, useContext } from 'react';
+
 import {
-    Text,
+  Text,
+
   View,
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
   StyleSheet,
+
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -128,9 +132,10 @@ footerView: {
 
 });
 
-const mapStateToProps = ({ authResponse }) => {
-    const { loading, user } = authResponse;
-    return { loading, user };
+
+const mapStateToProps = ({authResponse}) => {
+  const {loading, user} = authResponse;
+  return {loading, user};
 };
 
 export default connect(mapStateToProps, {login})(SignIn);

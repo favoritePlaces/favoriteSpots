@@ -1,6 +1,8 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
+
 import { colors } from "../style";
+
 
 const CheckBox = (props) => (
   <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -24,6 +26,8 @@ const CheckBox = (props) => (
             width:'100%',
             height: 20,
             backgroundColor: colors.purple,
+
+
             borderRadius: 2,
           }}
         />
