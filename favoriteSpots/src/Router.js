@@ -6,6 +6,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
+
+
 import {Icon} from 'native-base';
 import {connect} from 'react-redux';
 
@@ -69,10 +71,23 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="SignIn"
         component={SignIn}
-        options={({navigation, route}) => ({
+        options={{
           title: 'SignIn',
-          headerShown: false,
-        })}
+          headerStyle: {
+            backgroundColor:colors.blue ,
+            
+          
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontFamily:'BalsamiqSans-Bold',
+            letterSpacing:1
+            
+
+           
+          },
+        }}
+        
       />
 
       <AuthStack.Screen
@@ -80,7 +95,17 @@ const AuthStackScreen = () => {
         component={SignUp}
         options={{
           title: 'SignUp',
-          headerShown: false,
+          headerStyle: {
+            backgroundColor:colors.blue ,
+        
+          
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontFamily:'BalsamiqSans-Bold',
+            letterSpacing:1
+           
+          },
         }}
       />
     </AuthStack.Navigator>
