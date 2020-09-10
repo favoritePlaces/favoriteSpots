@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   StyleSheet,
-
+  Platform,
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -33,7 +33,9 @@ const SignIn = (props) => {
 
 return(
     <SafeAreaView style={{flex: 1,backgroundColor:'#E7E5E3'}}>
-    <KeyboardAvoidingView style={{flex: 1,padding:20}}>
+    <KeyboardAvoidingView 
+     behavior={Platform.OS == "ios" ? "padding" : "height"}
+    style={{flex: 1,padding:20}}>
       <ScrollView contentContainerStyle={{flex: 1,backgroundColor:'white',borderRadius:20}}>
 
                       {/* Logo  */}
