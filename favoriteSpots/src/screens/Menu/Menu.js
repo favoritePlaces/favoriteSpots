@@ -1,8 +1,11 @@
 import React from 'react';
-import {Text, View, Linking, SafeAreaView, ScrollView} from 'react-native';
+import {Text, View, Linking, SafeAreaView, ScrollView, StatusBar, StyleSheet} from 'react-native';
 import {colors, fonts} from '../../style';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { color } from 'react-native-reanimated';
+
+
 
 const Menu = (props) => {
   //why can't we manage the global state
@@ -10,16 +13,13 @@ const Menu = (props) => {
   const sections = (icon, name, onPress) => {
     return (
       <View
-        style={{
-          flexDirection: 'row',
-          backgroundColor: '',
-          alignItems: 'center',
-          marginBottom: 20,
-        }}>
+        style={styles.sectionsFunction}>
         {icon != null ? (
-          <Icon name={icon} size={20} style={{width: 30}} />
+          
+          <Icon name={icon} size={20} color='white' style={{width: '10%'}} />
+        
         ) : null}
-        <Text onPress={onPress} style={{fontSize:  fonts.main, marginLeft: 30}}>
+        <Text onPress={onPress} style={{fontSize:fonts.small, marginLeft:'5%',color:'white'}}>
           {name}
         </Text>
       </View>
@@ -29,35 +29,31 @@ const Menu = (props) => {
   const selectPhoto = () => {};
 
   return (
-    <SafeAreaView style={{marginLeft: 20}}>
-      <View style={{margin: 10}}>
-        <TouchableOpacity
-          onPress={() => {
-            props.navigation.closeDrawer();
-          }}>
-          <Text>Close</Text>
-        </TouchableOpacity>
-      </View>
-      <View>
+    <SafeAreaView style={{flex:1,backgroundColor:colors.blue }}>
+    
+      <View style={styles.profileView}>
         {props.profile_image ? (
           <TouchableOpacity onPress={() => selectPhoto()}>
             <Image
               source={{uri: ''}}
-              style={{width: 60, height: 60, borderRadius: 30}}
+              style={styles.profilePhoto}
             />
           </TouchableOpacity>
         ) : (
-          <Icon name={'user-circle'} size={40} onPress={() => selectPhoto()} />
+          <View style={styles.IconView}>
+          <Icon name={'user-circle'} size={40} color='white' onPress={() => selectPhoto()} />
+          </View>
+         
         )}
-        <Text style={{fontWeight: 'bold', fontSize: fonts.main, marginTop: 10}}>
+        <Text style={styles.nameText}>
           Merve
         </Text>
-          <Text style={{fontSize: fonts.small, marginTop: 10}}>52 favorite places</Text>
+          <Text style={styles.descriptionText}>52 favorite places</Text>
 
       </View>
-      <View style={{justifyContent: 'space-between'}}>
-        <ScrollView style={{ backgroundColor: ''}}>
-          <View style={{backgroundColor: '', padding: 20}}>
+      <View style={styles.sectionView}>
+        <ScrollView>
+          <View style={styles.sections}>
             {sections('user', 'Profil', () => {props.navigation.navigate('Profile')})}
             {sections('map-pin', 'My Favorite Places', () => {props.navigation.navigate('MyFavoriteList')})}
             {sections('smile-o', 'Friend Hubs', () => {props.navigation.navigate('FriendGroups')})}
@@ -65,21 +61,75 @@ const Menu = (props) => {
             {sections('address-book', 'Create a New Friend Group', () => {props.navigation.navigate('CreateFriendGroup')})} 
           </View>
 
-          <View style={{ padding: 20}}>
+          <View style={styles.sections}>
             <View
-              style={{
-                backgroundColor: 'black',
-                height: 0.5,
-                width: '100%',
-                marginBottom: 20,
-              }}
+              style={styles.line}
             />
             {sections('pencil', 'Settings', () => {props.navigation.navigate('Settings')})}
           </View>
-        </ScrollView>
+      
+ <View style={styles.sections}>
+          <TouchableOpacity
+          
+          onPress={() => {
+            props.navigation.closeDrawer();
+          }}>
+            {sections('chevron-left', 'Close', () => {props.navigation.closeDrawer()})}
+        </TouchableOpacity>
+        </View>
+      </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
+const styles=StyleSheet.create({
+  IconView:{
+    width:70,
+    height:70,
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:50,
+    borderWidth:2,
+    borderColor:colors.purple
+  },
+ sectionsFunction:{
+  flexDirection: 'row',
 
+  alignItems: 'center',
+  marginVertical:'7%'
+}, 
+profileView:{
+  flex:1,
+
+  alignItems:'center',
+  justifyContent:'space-around',
+},
+profilePhoto:{
+  width: 60, 
+  height: 60,
+   borderRadius: 30
+  },
+  nameText:{
+    fontWeight: 'bold', 
+    fontSize: fonts.medium,
+    color:'white'
+  },
+  descriptionText:{
+    fontSize: fonts.small,
+    color:'white'
+  },
+  sectionView:{
+    justifyContent: 'space-between',
+    flex:3,
+
+  },
+  sections:{ 
+    padding: 20
+  },
+  line:{
+    backgroundColor:colors.purple,
+    height: 0.5,
+
+  }
+})
 export default Menu;

@@ -5,15 +5,19 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
+  StatusBar
 } from 'react-native';
 import {connect} from 'react-redux';
 import {signOut} from '../../actions';
 //import {AuthContext} from '../../context';
-import {fonts} from '../../style';
+import {fonts,colors} from '../../style';
 const Home = (props) => {
  // const {signOutNow} = useContext(AuthContext);
   return (
     <SafeAreaView>
+       <StatusBar
+     backgroundColor={colors.blue}
+     />
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text onPress={() => props.navigation.navigate('HomeDetails')}>
           Home

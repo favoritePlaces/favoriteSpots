@@ -8,7 +8,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 
 
-import {Icon} from 'native-base';
+import {Button,  Icon,  } from 'native-base';
 import {connect} from 'react-redux';
 
 import Entrance from './screens/Auth/Entrance';
@@ -39,6 +39,8 @@ import Settings from './screens/Settings/Settings';
 
 import {navigationRef} from './RootNavigation';
 import {colors, fonts} from './style';
+import { color } from 'react-native-reanimated';
+
 
 const menu = (navigation) => {
   return (
@@ -49,8 +51,15 @@ const menu = (navigation) => {
       style={{
         marginLeft: 20,
       }}>
-      <Text style={{color: 'black'}}>Menu</Text>
+     <Icon
+     type='Feather'
+     name='menu'
+     style={{fontSize:30,}}
+     />
     </TouchableOpacity>
+
+ 
+    
   );
 };
 
@@ -297,16 +306,25 @@ const TabStackScreen = () => {
         },
       })}
       tabBarOptions={{
-        inactiveTintColor: colors.line,
-        activeTintColor: colors.addition,
+        inactiveTintColor:'gray',
+        activeTintColor:colors.blue,
+       
+         
+        
         //  showLabel: false,
-      }}>
+
+      }}
+      >
       <TabStack.Screen
         // unmountOnBlur={true}
         name="Home"
         component={HomeStackScreen}
+   
       />
-      <TabStack.Screen name="Add Location" component={AddLocationStackScreen} />
+      <TabStack.Screen name="Add Location" component={AddLocationStackScreen}
+      
+     
+      />
       <TabStack.Screen name="PlaceList" component={PlaceListStackScreen} />
       <TabStack.Screen name="Search" component={SearchStackScreen} />
       {/* 
@@ -323,7 +341,7 @@ const DrawerStackScreen = () => {
       drawerContent={Menu}
       drawerType="back"
       drawerStyle={{
-        width: '85%',
+        width: '75%',
       }}>
       <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
     </DrawerStack.Navigator>
@@ -334,7 +352,8 @@ const RootStack = createStackNavigator();
 function Router(props) {
   return (
     <NavigationContainer ref={navigationRef}>
-      <RootStack.Navigator headerMode="none" mode="modal">
+      <RootStack.Navigator headerMode="none" mode="modal"
+      >
         {!props.user ? (
           <RootStack.Screen
             name="Auth"
