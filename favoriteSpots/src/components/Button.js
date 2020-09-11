@@ -1,33 +1,41 @@
 import React from 'react';
-import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { colors, fonts } from '../style';
+import {Text, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {colors, fonts} from '../style';
 
 const Button = (props) => (
   <TouchableOpacity
     activeOpacity={0.8}
     onPress={props.onPress}
-    style={[{
-     
-      borderWidth:2,
+    style={[
+      {
+        borderWidth: 2,
+        backgroundColor: colors.purple,
+        borderColor: colors.purple,
+        width: '97%',
+        height: '13%',
 
-      borderColor:colors.blue,
-      width: '97%',
-     height: '13%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 40,
+      },
+      props.style,
+    ]}>
+    {props.loading ? (
+      <ActivityIndicator size="small" color="white" />
+    ) : (
+      <Text
+        style={[
+          {
+            color: 'white',
 
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 40
-    }, props.style]}>
-    {props.loading ?
-      <ActivityIndicator size='small' color='white' /> :
-      <Text style={[{
-        color:'white',
-      
-        fontSize: fonts.small,
-      }, props.textStyle]}>{props.text}</Text>
-    }
+            fontSize: fonts.small,
+          },
+          props.textStyle,
+        ]}>
+        {props.text}
+      </Text>
+    )}
   </TouchableOpacity>
 );
 
-export { Button };
-
+export {Button};

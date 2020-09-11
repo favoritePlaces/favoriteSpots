@@ -40,6 +40,11 @@
 		EBBBF71F72B94D2D8D74F70B /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 420E4E12538E41689637277F /* rubicon-icon-font.ttf */; };
 		FB6DC333B81847298AB1A87C /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA4E8E24068842179973FF64 /* Entypo.ttf */; };
 		FD0629C90C2541AF8AEB4586 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 943B9760D79744B4BCDB8C61 /* Roboto.ttf */; };
+		9B32D34E940C468F8F3D950F /* BalsamiqSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7D31B1F34840494384F2068E /* BalsamiqSans-Bold.ttf */; };
+		DCEE76D1F25647B18A8A7F43 /* BalsamiqSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85ABF45FFF7A426C86BD6813 /* BalsamiqSans-BoldItalic.ttf */; };
+		B2E1463823C14B229E2CC355 /* BalsamiqSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B3B861705E34486A7A4B091 /* BalsamiqSans-Italic.ttf */; };
+		08B6539857624C7892A1A5D8 /* BalsamiqSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 16B990B1DC0244A7B47734C1 /* BalsamiqSans-Regular.ttf */; };
+		AF7CB6CE13B349CDB91C7730 /* LondrinaSolid-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6188988327F24F53935931FF /* LondrinaSolid-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +112,11 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F69117860EEE438EA48D4D81 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		7D31B1F34840494384F2068E /* BalsamiqSans-Bold.ttf */ = {isa = PBXFileReference; name = "BalsamiqSans-Bold.ttf"; path = "../assets/fonts/BalsamiqSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		85ABF45FFF7A426C86BD6813 /* BalsamiqSans-BoldItalic.ttf */ = {isa = PBXFileReference; name = "BalsamiqSans-BoldItalic.ttf"; path = "../assets/fonts/BalsamiqSans-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0B3B861705E34486A7A4B091 /* BalsamiqSans-Italic.ttf */ = {isa = PBXFileReference; name = "BalsamiqSans-Italic.ttf"; path = "../assets/fonts/BalsamiqSans-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		16B990B1DC0244A7B47734C1 /* BalsamiqSans-Regular.ttf */ = {isa = PBXFileReference; name = "BalsamiqSans-Regular.ttf"; path = "../assets/fonts/BalsamiqSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6188988327F24F53935931FF /* LondrinaSolid-Light.ttf */ = {isa = PBXFileReference; name = "LondrinaSolid-Light.ttf"; path = "../assets/fonts/LondrinaSolid-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +221,11 @@
 				420E4E12538E41689637277F /* rubicon-icon-font.ttf */,
 				CF14CA4ABEA448F4B4AFCB34 /* SimpleLineIcons.ttf */,
 				44880BBE942F439CAC4B8E91 /* Zocial.ttf */,
+				7D31B1F34840494384F2068E /* BalsamiqSans-Bold.ttf */,
+				85ABF45FFF7A426C86BD6813 /* BalsamiqSans-BoldItalic.ttf */,
+				0B3B861705E34486A7A4B091 /* BalsamiqSans-Italic.ttf */,
+				16B990B1DC0244A7B47734C1 /* BalsamiqSans-Regular.ttf */,
+				6188988327F24F53935931FF /* LondrinaSolid-Light.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -436,6 +451,11 @@
 				8E9192892502B927008C5E16 /* GoogleService-Info.plist in Resources */,
 				3193918A0EAA40359573C6F8 /* SimpleLineIcons.ttf in Resources */,
 				5F6657489BD1495982F48291 /* Zocial.ttf in Resources */,
+				9B32D34E940C468F8F3D950F /* BalsamiqSans-Bold.ttf in Resources */,
+				DCEE76D1F25647B18A8A7F43 /* BalsamiqSans-BoldItalic.ttf in Resources */,
+				B2E1463823C14B229E2CC355 /* BalsamiqSans-Italic.ttf in Resources */,
+				08B6539857624C7892A1A5D8 /* BalsamiqSans-Regular.ttf in Resources */,
+				AF7CB6CE13B349CDB91C7730 /* LondrinaSolid-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
