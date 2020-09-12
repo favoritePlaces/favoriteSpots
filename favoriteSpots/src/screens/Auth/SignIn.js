@@ -62,7 +62,7 @@ const SignIn = (props) => {
                 onPress={() => setCheckButton(!checkButton)}
               />
               <TouchableOpacity>
-                <Text>Forgot Password</Text>
+                <Text>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
             <Button
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     width: '80%',
     marginBottom: '5%',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   button: {
     width: '85%',
