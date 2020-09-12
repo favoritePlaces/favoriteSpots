@@ -1,4 +1,3 @@
-
 export const LOGIN_START = 'login_start';
 export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAILED = 'login_failed';
@@ -21,7 +20,9 @@ export const GROUP_GET_SUCCESS = 'group_get_success';
 export const GROUP_GET_FAILED = 'group_get_failed';
 export const GROUP_ADD_SUCCESS = 'group_add_success';
 export const GROUP_ADD_FAILED = 'group_add_failed';
+export const GROUP_UPDATE_SUCCESS = 'group_update_failed';
+export const GROUP_UPDATE_FAILED = 'group_update_failed';
 
 export const USER = {
-    token: null
+  token: null,
 };

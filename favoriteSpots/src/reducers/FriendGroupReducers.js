@@ -3,6 +3,8 @@ import {
   GROUP_GET_FAILED,
   GROUP_ADD_SUCCESS,
   GROUP_ADD_FAILED,
+  GROUP_UPDATE_SUCCESS,
+  GROUP_UPDATE_FAILED,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -30,6 +32,24 @@ export default (state = INITIAL_STATE, action) => {
       };
 
     case GROUP_ADD_FAILED: //there can be back up to handle this situation on actions
+      return {
+        ...state,
+      };
+    case GROUP_UPDATE_SUCCESS:
+      const updatedGroup = action.payload;
+      let arrUpdating = state.friendGroups.slice();
+      const updateIndex = state.friendGroups.findIndex(
+        (group) => group.name === action.payload.name,
+      );
+      console.log('updateIndex', updateIndex);
+      arrUpdating.splice(updateIndex, 1, updatedGroup);
+
+      return {
+        ...state,
+        friendGroups: arrUpdating, //will be in the front end just for the person who is in session. as that person will be in that group in any condition
+      };
+
+    case GROUP_UPDATE_FAILED: //there can be back up to handle this situation on actions
       return {
         ...state,
       };

@@ -23,8 +23,10 @@ const Search = (props) => {
     if (props.users.length === 0) {
       props.getUsers();
     } else {
-      let arr = props.users.filter((i) =>
-        i.name.toLowerCase().includes(text.toLowerCase()),
+      let arr = props.users.filter(
+        (i) =>
+          i.name.toLowerCase().includes(text.toLowerCase()) &&
+          i.username !== props.user.username,
       );
       setResults(arr.slice(0, 5));
     }
@@ -53,7 +55,7 @@ const Search = (props) => {
         <Item>
           <Icon name="search" type="FontAwesome"></Icon>
           <Input
-            placeholder="search here"
+            placeholder="search people"
             onChangeText={(text) => {
               searchUser(text);
             }}
@@ -84,10 +86,11 @@ const styles = StyleSheet.create({
   note: {},
 });
 
-const mapStateToProps = ({placeResponse, usersResponse}) => {
+const mapStateToProps = ({authResponse, placeResponse, usersResponse}) => {
   const {list} = placeResponse;
+  const {user} = authResponse;
   const {users} = usersResponse;
-  return {list, users};
+  return {list, users, user};
 };
 
 export default connect(mapStateToProps, {getUsers})(Search);

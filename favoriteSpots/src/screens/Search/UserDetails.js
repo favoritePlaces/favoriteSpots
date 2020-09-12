@@ -3,33 +3,70 @@ import {
   View,
   Text,
   SafeAreaView,
+  Dimensions,
   Image,
+  StatusBar,
   TouchableOpacity,
   StyleSheet,
-  Modal,
   Alert,
+  Modal,
+  FlatList,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {fonts, colors} from '../../style';
 import {TextInput} from 'react-native-gesture-handler';
 import {Icon} from 'native-base';
-import {Button} from '../../components';
-import {createFriendGroup, getFriendGroups} from '../../actions';
+import {
+  createFriendGroup,
+  getFriendGroups,
+  updateFriendGroup,
+} from '../../actions';
+import {ModalView} from '../../components';
 
 const UserDetails = (props) => {
-  const [createHub, setCreateHub] = useState(false);
+  const [createHub, setCreateHubModal] = useState(false);
   const [addInHub, setAddInHub] = useState(false);
   const [groupName, setGroupName] = useState('');
 
-  useEffect(() => {
+  const [results, setResults] = useState([]);
+
+  const searchGroup = (text) => {
+    console.log('search group', props.friendGroups);
     if (props.friendGroups.length === 0) {
       props.getFriendGroups(props.user);
-      console.log(props.friendGroups);
+    } else {
+      let arr = props.friendGroups.filter((i) =>
+        i.name.toLowerCase().includes(text.toLowerCase()),
+      );
+      setResults(arr.slice(0, 5));
     }
-  }, []);
+  };
+
+  const renderItem = ({item}) => (
+    <View style={styles.item}>
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderBottomWidth: 0.5,
+          borderColor: colors.somon,
+        }}
+        onPress={() => {
+          if (!item.members.includes(props.route.params.username)) {
+            item.members.push(props.route.params.username);
+
+            props.updateFriendGroup(item);
+          } else {
+            Alert.alert('warning', 'this person is already in this hub!');
+          }
+        }}>
+        <Text style={styles.text}>{item.name}</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
-    <View>
+    <SafeAreaView>
       <View style={styles.header}></View>
       <View style={styles.info}>
         <Image
@@ -41,19 +78,25 @@ const UserDetails = (props) => {
         <Text>{props.route.params.username}</Text>
       </View>
       <View style={styles.body}>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text>Add in your one of the friend hubs! </Text>
-        </TouchableOpacity>
-        <Modal visible={addInHub}></Modal>
+        <TextInput
+          placeholder="Add in your one of the friend hubs!"
+          placeholderTextColor="black"
+          style={styles.buttonContainer}
+          onChangeText={(text) => {
+            setAddInHub(text);
+            searchGroup(text);
+          }}></TextInput>
 
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={() => {
-            setCreateHub(true);
+            setCreateHubModal(true);
           }}>
           <Text>Let's create a new friend hub!</Text>
         </TouchableOpacity>
         <Modal
+          isVisible={true}
+          transparent={true}
           animationType="slide"
           onRequestClose={() => {
             console.warn('close model');
@@ -63,18 +106,26 @@ const UserDetails = (props) => {
             <TouchableOpacity
               style={styles.closeModal}
               onPress={() => {
-                setCreateHub(false);
+                setCreateHubModal(false);
               }}>
               <Text>Close</Text>
               <Icon type="FontAwesome" name="close"></Icon>
             </TouchableOpacity>
             <View style={styles.modalItems}>
               <TextInput
+                style={styles.customInput}
                 onChangeText={(text) => setGroupName(text)}
-                placeholder="Choose a name for your hub"></TextInput>
-              <Button
+                placeholder="Choose a name"
+                placeholderTextColor="black"></TextInput>
+              <Text
+                style={{fontSize: fonts.medium}}
                 onPress={() => {
-                  if (groupName) {
+                  if (
+                    groupName &&
+                    props.friendGroups.every(
+                      (group) => group.name !== groupName,
+                    )
+                  ) {
                     props.createFriendGroup({
                       name: groupName,
                       admin: props.user,
@@ -83,18 +134,30 @@ const UserDetails = (props) => {
                         props.route.params.username,
                       ],
                     });
+                    setCreateHubModal(false);
+                    Alert.alert('Good!', 'You have started something!');
                   } else {
-                    Alert.alert('Warning', 'Please enter a group name!');
+                    Alert.alert(
+                      'Warning',
+                      'Please enter a group name that you are not a member of',
+                    );
                   }
-                }}
-                style={{width: '50%', height: '25%', color: 'black'}}>
+                }}>
                 Create!
-              </Button>
+              </Text>
             </View>
           </View>
         </Modal>
+        {addInHub ? (
+          <FlatList
+            data={results}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => `${index}`}></FlatList>
+        ) : (
+          []
+        )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -109,9 +172,11 @@ const mapStateToProps = ({
   return {list, user, friendGroups};
 };
 
-export default connect(mapStateToProps, {createFriendGroup, getFriendGroups})(
-  UserDetails,
-);
+export default connect(mapStateToProps, {
+  createFriendGroup,
+  updateFriendGroup,
+  getFriendGroups,
+})(UserDetails);
 
 const styles = StyleSheet.create({
   header: {
@@ -139,6 +204,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
+    textAlign: 'center',
     marginTop: 10,
     height: 45,
     flexDirection: 'row',
@@ -149,9 +215,18 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: colors.somon,
   },
+  customInput: {
+    width: '60%',
+    height: '40%',
+    borderRadius: 30,
+    textAlign: 'center',
+
+    backgroundColor: colors.blue,
+    fontSize: fonts.medium,
+  },
   modalView: {
-    marginTop: '100%',
-    height: '70%',
+    marginTop: Dimensions.get('window').height / 2,
+    maxHeight: Dimensions.get('window').height / 2,
     backgroundColor: colors.somon,
   },
   modalItems: {
@@ -163,5 +238,17 @@ const styles = StyleSheet.create({
   },
   openModal: {
     padding: 20,
+  },
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    padding: 10,
+    marginHorizontal: 16,
+  },
+  text: {
+    padding: 20,
+    fontSize: fonts.small,
   },
 });

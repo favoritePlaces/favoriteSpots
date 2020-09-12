@@ -138,6 +138,14 @@ const HomeStackScreen = () => {
         component={Home}
         options={({navigation, route}) => ({
           headerLeft: () => menu(navigation),
+          headerRight: () => {
+            return (
+              <Icon
+                style={{color: colors.blue, marginRight: 10}}
+                type="FontAwesome"
+                name="envelope"></Icon>
+            );
+          },
         })}
       />
 
@@ -262,8 +270,8 @@ const TabStackScreen = () => {
         },
       })}
       tabBarOptions={{
-        inactiveTintColor: colors.purple,
-        activeTintColor: colors.blue,
+        inactiveTintColor: colors.blue,
+        activeTintColor: colors.somon,
         //  showLabel: false,
       }}>
       <TabStack.Screen

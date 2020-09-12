@@ -14,6 +14,7 @@ const Input = (props) => (
     multiline={props.multiline}
     value={props.value}
     autoFocus={props.autoFocus}
+    autoComplete={false}
     onChangeText={(value) => props.onChangeText(value)}
     style={[
       {

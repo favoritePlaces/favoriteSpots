@@ -20,10 +20,10 @@ const Profile = (props) => {
     console.log('status changed');
     if (props.friendGroups.length === 0) {
       props.getFriendGroups(props.user);
-      console.log(props.friendGroups);
+      console.log('profile', props.friendGroups);
     } else {
       console.log(props.friendGroups);
-      console.log(props.user);
+      console.log('profile else', props.user);
     }
   }, []);
 
