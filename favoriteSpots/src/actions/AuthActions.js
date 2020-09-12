@@ -33,6 +33,7 @@ export const login = (params) => {
                   ...user._data,
                   uid,
                 };
+                console.log('login', userParams);
                 dispatch({
                   type: LOGIN_SUCCESS,
                   payload: userParams,

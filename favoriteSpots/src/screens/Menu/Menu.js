@@ -32,6 +32,7 @@ const Menu = (props) => {
     <SafeAreaView style={{flex: 1, backgroundColor: colors.blue}}>
       <View style={styles.profileView}>
         <TouchableOpacity
+          style={{alignItems: 'center'}}
           onPress={() => {
             props.navigation.navigate('Profile');
           }}>
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   },
   profileView: {
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
   },
   profilePhoto: {
     width: 60,

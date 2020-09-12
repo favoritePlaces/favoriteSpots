@@ -1,21 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ActivityIndicator } from 'react-native';
-import { connect } from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  SafeAreaView,
+  FlatList,
+  StyleSheet,
+  StatusBar,
+} from 'react-native';
+import {connect} from 'react-redux';
+import {fonts, colors} from '../../style';
+import * as RootNavigation from '../../RootNavigation';
 
 const FriendGroups = (props) => {
+  const renderItem = ({item}) => (
+    <View style={styles.item}>
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderBottomWidth: 0.5,
+          borderColor: colors.somon,
+        }}
+        onPress={() => {
+          RootNavigation.navigate('FriendGroupDetails', item);
+        }}>
+        <Text style={styles.text}>{item.name}</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
-    return(
-        <SafeAreaView>
-          <View>
-            <Text>All friend groups list</Text>
-          </View>
-        </SafeAreaView>
-      );
-}
+  return (
+    <SafeAreaView>
+      <View>
+        <FlatList
+          data={props.friendGroups}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => `${index}`}></FlatList>
+      </View>
+    </SafeAreaView>
+  );
+};
 
-const mapStateToProps = ({ placeResponse }) => {
-    const { list } = placeResponse;
-    return { list };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    padding: 10,
+    marginHorizontal: 16,
+  },
+  text: {
+    padding: 20,
+    fontSize: fonts.small,
+  },
+});
+
+const mapStateToProps = ({placeResponse, friendGroupResponse}) => {
+  const {list} = placeResponse;
+  const {friendGroups} = friendGroupResponse;
+  return {list, friendGroups};
 };
 
 export default connect(mapStateToProps, {})(FriendGroups);

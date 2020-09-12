@@ -1,14 +1,14 @@
 import * as React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import {Button, Icon} from 'native-base';
+import {Icon} from 'native-base';
 import {connect} from 'react-redux';
-import {BackButton} from './components';
+
 import * as RootNavigation from './RootNavigation';
 import Entrance from './screens/Auth/Entrance';
 import SignIn from './screens/Auth/SignIn';
@@ -21,6 +21,9 @@ import Home from './screens/Home/Home';
 import HomeDetails from './screens/Home/HomeDetails';
 
 import Profile from './screens/Profile/Profile';
+
+import Messages from './screens/Messages/Messages';
+import MessageDetails from './screens/Messages/MessageDetails';
 
 import FriendGroupDetails from './screens/Friends/FriendGroupDetails';
 import FriendGroups from './screens/Friends/FriendGroups';
@@ -103,6 +106,9 @@ const FriendGroupDetailsStackScreen = () => {
   return (
     <FriendGroupDetailsStack.Navigator>
       <FriendGroupDetailsStack.Screen
+        options={{
+          headerShown: false,
+        }}
         name="FriendGroupDetails"
         component={FriendGroupDetails}
       />
@@ -138,6 +144,14 @@ const HomeStackScreen = () => {
         component={Home}
         options={({navigation, route}) => ({
           headerLeft: () => menu(navigation),
+          headerRight: () => {
+            return (
+              <Icon
+                style={{color: colors.blue, marginRight: 10}}
+                type="FontAwesome"
+                name="envelope"></Icon>
+            );
+          },
         })}
       />
 
@@ -234,6 +248,16 @@ const AddLocationStackScreen = () => {
   );
 };
 
+const MessagesStack = createStackNavigator();
+const MessagesStackScreen = () => {
+  return (
+    <MessagesStack.Navigator>
+      <MessagesStack.Screen name="Messages" component={Messages} />
+      <MessagesStack.Screen name="MessageDetails" component={MessageDetails} />
+    </MessagesStack.Navigator>
+  );
+};
+
 const TabStack = createBottomTabNavigator();
 
 const TabStackScreen = () => {
@@ -262,8 +286,8 @@ const TabStackScreen = () => {
         },
       })}
       tabBarOptions={{
-        inactiveTintColor: colors.purple,
-        activeTintColor: colors.blue,
+        inactiveTintColor: colors.blue,
+        activeTintColor: colors.somon,
         //  showLabel: false,
       }}>
       <TabStack.Screen
@@ -330,11 +354,16 @@ function Router(props) {
               }}
             />
             <RootStack.Screen
-              name="CreateFriendGroup"
-              component={CreateFriendGroupStackScreen}
+              name="Messages"
+              component={MessagesStackScreen}
+              initialParams={props.user}
               options={{
                 animationEnabled: false,
               }}
+            />
+            <RootStack.Screen
+              name="CreateFriendGroup"
+              component={CreateFriendGroupStackScreen}
             />
             <RootStack.Screen
               name="FriendGroups"
@@ -346,16 +375,10 @@ function Router(props) {
             <RootStack.Screen
               name="FriendGroupDetails"
               component={FriendGroupDetailsStackScreen}
-              options={{
-                animationEnabled: false,
-              }}
             />
             <RootStack.Screen
               name="UserDetails"
               component={UserDetailsStackScreen}
-              options={{
-                animationEnabled: false,
-              }}
             />
             <RootStack.Screen
               name="MyFavoriteList"
@@ -367,9 +390,6 @@ function Router(props) {
             <RootStack.Screen
               name="PlaceDetails"
               component={PlaceDetailsStackScreen}
-              options={{
-                animationEnabled: false,
-              }}
             />
             <RootStack.Screen
               name="Settings"
