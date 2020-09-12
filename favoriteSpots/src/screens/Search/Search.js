@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {Icon, Input, Item, Thumbnail, Left, Text, Body} from 'native-base';
+import {Icon, Input, Item, Thumbnail, Text} from 'native-base';
 import {getUsers} from '../../actions';
 import {fonts, colors} from '../../style';
 import * as RootNavigation from '../../RootNavigation';
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     padding: 20,
     fontSize: fonts.small,
   },
-  note: {},
 });
 
 const mapStateToProps = ({authResponse, placeResponse, usersResponse}) => {

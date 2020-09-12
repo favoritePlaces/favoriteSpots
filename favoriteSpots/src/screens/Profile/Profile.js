@@ -7,12 +7,12 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import {BackButton} from '../../components';
+import {Header} from '../../components';
 import {connect} from 'react-redux';
 import {fonts, colors, appName} from '../../style';
 import ImagePicker from 'react-native-image-picker';
 import {getFriendGroups} from '../../actions';
-import {Icon} from 'native-base';
+
 const Profile = (props) => {
   const [image, setImage] = useState(null);
 
@@ -31,26 +31,7 @@ const Profile = (props) => {
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.topBackground}>
-          <View style={styles.header}>
-            <BackButton />
-            <View style={{alignItems: 'center'}}>
-              <Text style={[appName, {fontSize: fonts.small, color: 'white'}]}>
-                HubSpots
-              </Text>
-              {/* <Image
-              style={{width: 100, height: 100}}
-              source={require('../../assets/hubspots.png')}></Image> */}
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                props.navigation.navigate('Settings');
-              }}>
-              <Icon
-                style={{color: colors.blue}}
-                type="FontAwesome"
-                name="envelope"></Icon>
-            </TouchableOpacity>
-          </View>
+          <Header />
         </View>
         <View style={styles.wrapper}>
           <TouchableOpacity

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -21,7 +21,6 @@ import {
   getFriendGroups,
   updateFriendGroup,
 } from '../../actions';
-import {ModalView} from '../../components';
 
 const UserDetails = (props) => {
   const [createHub, setCreateHubModal] = useState(false);

@@ -23,6 +23,22 @@ export const GROUP_ADD_FAILED = 'group_add_failed';
 export const GROUP_UPDATE_SUCCESS = 'group_update_failed';
 export const GROUP_UPDATE_FAILED = 'group_update_failed';
 
+export const GET_MESSAGES_START = 'get_messages_start';
+export const GET_MESSAGES_SUCCESS = 'get_messages_success';
+export const GET_MESSAGES_FAILED = 'get_messages_failed';
+
+export const ADD_MESSAGES_START = 'add_messages_start';
+export const ADD_MESSAGES_SUCCESS = 'add_messages_success';
+export const ADD_MESSAGES_FAILED = 'add_messages_failed';
+
+export const GET_ROOM_START = 'get_room_start';
+export const GET_ROOM_SUCCESS = 'get_room_success';
+export const GET_ROOM_FAILED = 'get_room_failed';
+
+export const ADD_ROOM_START = 'add_room_start';
+export const ADD_ROOM_SUCCESS = 'add_room_success';
+export const ADD_ROOM_FAILED = 'add_room_failed';
+
 export const USER = {
   token: null,
 };
