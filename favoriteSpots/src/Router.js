@@ -282,11 +282,15 @@ const TabStackScreen = () => {
 };
 
 const DrawerStack = createDrawerNavigator();
-const DrawerStackScreen = () => {
+const DrawerStackScreen = (props) => {
+  const [additonalProps, setAdditionalProps] = React.useState(
+    props.route.params.name,
+  );
+  let name = props.route.params.name;
   return (
     <DrawerStack.Navigator
-      drawerContent={Menu}
-      drawerType="back"
+      drawerContent={(props) => <Menu {...props} name={name} />}
+      drawerType="slide"
       drawerStyle={{
         width: '75%',
       }}>
@@ -313,6 +317,7 @@ function Router(props) {
             <RootStack.Screen
               name="Main"
               component={DrawerStackScreen}
+              initialParams={props.user}
               options={{
                 animationEnabled: false,
               }}

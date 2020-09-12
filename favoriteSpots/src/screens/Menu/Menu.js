@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
@@ -13,8 +13,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Menu = (props) => {
-  //why can't we manage the global state
-
   const sections = (icon, name, onPress) => {
     return (
       <View style={styles.sectionsFunction}>
@@ -30,8 +28,6 @@ const Menu = (props) => {
     );
   };
 
-  const selectPhoto = () => {};
-
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.blue}}>
       <View style={styles.profileView}>
@@ -46,7 +42,7 @@ const Menu = (props) => {
               <Icon name={'user-circle'} size={40} color="white" />
             </View>
           )}
-          <Text style={styles.nameText}>Merve</Text>
+          <Text style={styles.nameText}>{props.name}</Text>
         </TouchableOpacity>
         <Text style={styles.descriptionText}>52 favorite places</Text>
       </View>
