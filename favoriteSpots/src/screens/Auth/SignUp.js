@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Input, Button} from '../../components';
+import {Input, Button, BackButton} from '../../components';
 import {connect} from 'react-redux';
 import {signUp} from '../../actions';
 import {colors, fonts, appName} from '../../style';
@@ -27,6 +27,7 @@ const SignUp = (props) => {
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
           style={{flex: 1, backgroundColor: 'white', borderRadius: 20}}>
           {/* Header  */}
+          <BackButton />
           <View style={styles.headerView}>
             <Text style={appName}>HUBSPOTS</Text>
           </View>

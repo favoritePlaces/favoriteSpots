@@ -8,7 +8,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {Button, Icon} from 'native-base';
 import {connect} from 'react-redux';
-
+import {BackButton} from './components';
+import * as RootNavigation from './RootNavigation';
 import Entrance from './screens/Auth/Entrance';
 import SignIn from './screens/Auth/SignIn';
 import SignUp from './screens/Auth/SignUp';
@@ -61,8 +62,7 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="Entrance"
         component={Entrance}
-        options={({navigation, route}) => ({
-          title: 'Entrance',
+        options={() => ({
           headerShown: false,
         })}
       />
@@ -71,14 +71,7 @@ const AuthStackScreen = () => {
         name="SignIn"
         component={SignIn}
         options={{
-          headerStyle: {
-            backgroundColor: colors.blue,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontFamily: 'BalsamiqSans-Bold',
-            letterSpacing: 1,
-          },
+          headerShown: false,
         }}
       />
 
@@ -86,15 +79,7 @@ const AuthStackScreen = () => {
         name="SignUp"
         component={SignUp}
         options={{
-          title: 'SignUp',
-          headerStyle: {
-            backgroundColor: colors.blue,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontFamily: 'BalsamiqSans-Bold',
-            letterSpacing: 1,
-          },
+          headerShown: false,
         }}
       />
     </AuthStack.Navigator>
