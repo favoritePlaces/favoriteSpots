@@ -10,12 +10,16 @@ import {
 import {connect} from 'react-redux';
 import {fonts, colors} from '../../style';
 import ImagePicker from 'react-native-image-picker';
+import {getFriendGroups} from '../../actions';
+
 const Profile = (props) => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
     console.log('status changed');
-  });
+    props.getFriendGroups(props.user);
+    //console.log(props.friendGroups);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -56,10 +60,10 @@ const Profile = (props) => {
 
       <View style={styles.body}>
         <TouchableOpacity style={styles.buttonContainer}>
-          <Text>Your </Text>
+          <Text>{props.user.username} </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonContainer}>
-          <Text>Opcion 2</Text>
+          <Text>Friend Groups</Text>
         </TouchableOpacity>
         <Text
           onPress={() => {
@@ -71,13 +75,6 @@ const Profile = (props) => {
     </View>
   );
 };
-
-const mapStateToProps = ({placeResponse}) => {
-  const {list} = placeResponse;
-  return {list};
-};
-
-export default connect(mapStateToProps, {})(Profile);
 
 const styles = StyleSheet.create({
   header: {
@@ -115,3 +112,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.addition,
   },
 });
+
+const mapStateToProps = ({
+  placeResponse,
+  authResponse,
+  friendGroupResponse,
+}) => {
+  const {list} = placeResponse;
+  const {user} = authResponse;
+  const {friendGroups} = friendGroupResponse;
+  return {list, user, friendGroups};
+};
+
+export default connect(mapStateToProps, {getFriendGroups})(Profile);

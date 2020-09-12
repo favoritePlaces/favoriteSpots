@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -6,18 +6,13 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   StyleSheet,
-  Platform
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input, Button} from '../../components';
 import {connect} from 'react-redux';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {signUp} from '../../actions';
-import {StackActions} from '@react-navigation/native';
-
-import * as RootNavigation from '../../RootNavigation';
-import {colors, fonts} from '../../style';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {colors, fonts, appName} from '../../style';
 
 const SignUp = (props) => {
   const [name, setName] = useState('test');
@@ -26,24 +21,19 @@ const SignUp = (props) => {
   const [password, setPassword] = useState('123456');
 
   return (
-    <SafeAreaView style={{flex: 1,backgroundColor:'#E7E5E3'}}>
-           <ScrollView contentContainerStyle={{flex:1,padding:20,}}>
-      <KeyboardAvoidingView 
-       behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={{flex: 1,backgroundColor:'white',borderRadius:20}}>
-           {/* Header  */}
-        <View
-          style={styles.headerView}>
-          <Text
-            style={styles.headerText}>
-            Welcome
-          </Text>
-        </View>
+    <SafeAreaView style={{flex: 1}}>
+      <ScrollView contentContainerStyle={{flex: 1}}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          style={{flex: 1, backgroundColor: 'white', borderRadius: 20}}>
+          {/* Header  */}
+          <View style={styles.headerView}>
+            <Text style={appName}>HUBSPOTS</Text>
+          </View>
 
-        {/* Form  */}
+          {/* Form  */}
 
-        <View style={styles.formView}>
-         
+          <View style={styles.formView}>
             <Input
               placeholder={'Name'}
               value={name}
@@ -69,133 +59,104 @@ const SignUp = (props) => {
               onChangeText={(password) => setPassword(password)}
             />
 
-<Button
-            text={'Sign Up'}
-            textStyle={styles.textStyle}
-            onPress={() => {
-              const params = {email, password, name, username};
-              props.signUp(params);
-            }}
-            style={styles.button}
-          />
-     
+            <Button
+              text={'Sign Up'}
+              textStyle={styles.textStyle}
+              onPress={() => {
+                const params = {email, password, name, username};
+                props.signUp(params);
+              }}
+              style={styles.button}
+            />
+          </View>
 
-               
-     
-    
-        </View>
+          {/* Footer  */}
 
-                {/* Footer  */}
-           
-        <View style={styles.footerView}>
-        <View style={styles.footerContent}>
-            <View style={styles.lineView}>
-              <View style={styles.line} />
-              <Text style={styles.lineTex}>OR</Text>
-              <View style={styles.line} />
+          <View style={styles.footerView}>
+            <View style={styles.footerContent}>
+              <View style={styles.lineView}>
+                <View style={styles.line} />
+                <Text style={styles.lineTex}>OR</Text>
+                <View style={styles.line} />
+              </View>
             </View>
+            <View style={{flex: 1, alignItems: 'center'}}>
+              <View style={styles.iconContainer}>
+                <Icon
+                  name="facebook"
+                  color={colors.blue}
+                  backgroundColor={colors.blue}>
+                  <Text style={styles.textStyle} onPress={() => {}}>
+                    Login with Facebook
+                  </Text>
+                </Icon>
+              </View>
 
+              <View style={styles.iconContainer}>
+                <Icon name="google">
+                  <Text style={styles.textStyle} onPress={() => {}}>
+                    Login with Google
+                  </Text>
+                </Icon>
+              </View>
+            </View>
           </View>
-          <View style={{flex:1,alignItems:'center'}}>
-         
-       <View style={styles.iconContainer}>  
-          <Icon.Button
-    name="facebook"
-    backgroundColor={colors.blue}
-    onPress={(()=>{
-      
-    })}
-  
-  >
-     <Text style={styles.textStyle}>
-    Login with Facebook
-    </Text>
-  </Icon.Button>
-  </View>
-           
-  <View style={styles.iconContainer}>  
-          <Icon.Button
-    name="google"
-    backgroundColor="#EA4335"
-    onPress={(()=>{
-    
-    })}
-  
-  >
-  <Text style={styles.textStyle}>
-    Login with Google
-    </Text>
-  </Icon.Button>
-  </View>
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>
   );
 };
-const styles=StyleSheet.create({
-  headerView:{
+const styles = StyleSheet.create({
+  headerView: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
-
-  
   },
-  headerText:{
-    fontFamily:'BalsamiqSans-Bold',
-    fontSize:fonts.main,
+  appName: {
+    fontSize: fonts.big,
+    fontFamily: 'BalsamiqSans-Bold',
     letterSpacing: 3,
- },
-formView:{
-  flex: 3,
-  alignItems:'center',
-  justifyContent:'center',
-  paddingTop:'5%'
+    color: colors.blue,
+  },
+  formView: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: '5%',
   },
 
-  button:{
+  button: {
     width: '85%',
-  backgroundColor: '#2F94FE',
-},
-textStyle:{
-  //Button Text
-  fontFamily: 'BalsamiqSans-Bold',
-  letterSpacing:1,
-  color:'white'
+  },
+  textStyle: {
+    //Button Text
+    fontFamily: 'BalsamiqSans-Bold',
+    color: 'black',
+  },
+  footerView: {
+    flex: 1.5,
+  },
+  footerContent: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  lineView: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+  },
 
-},
-footerView:{
-  flex: 1.5, 
-
-},
-footerContent: {
-
-  alignItems: 'center',
-  justifyContent:'flex-start',
-
- 
-},
-lineView: {
-  flexDirection: 'row',
-  justifyContent: 'space-around',
-  alignItems: 'flex-start',
-},
-lineTex: {
-  color: '#2F94FE',
-},
-line: {
-  width: '35%',
-  height: 1,
-  backgroundColor: '#bb7cd6',
-  margin: 10,
-},
-iconContainer:
-{
-  width:'80%',
-  marginTop:'5%'
-}
-})
+  line: {
+    width: '35%',
+    height: 1,
+    backgroundColor: colors.somon,
+    margin: 10,
+  },
+  iconContainer: {
+    width: '50%',
+    padding: '2%',
+  },
+});
 const mapStateToProps = ({authResponse}) => {
   const {loading, user} = authResponse;
   return {loading, user};

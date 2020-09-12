@@ -1,55 +1,65 @@
 import React, {useState, useEffect} from 'react';
 
-import {View, Text, SafeAreaView, Platform,StyleSheet, StatusBar, ActivityIndicator,Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  Platform,
+  StyleSheet,
+  StatusBar,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 
 import {connect} from 'react-redux';
 import {Icon} from 'native-base';
-import {Button} from '../../components';
 
-import {colors, fonts} from '../../style';
-import { isUser } from '../../actions'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {colors, fonts, appName} from '../../style';
+import {isUser} from '../../actions';
 
 const Entrance = (props) => {
   useEffect(() => {
     props.isUser();
   }, []);
 
-  if(props.loading) {
-    return(
-        <View style={{ flex:1 , alignItems: 'center', justifyContent: 'center'}}>
-            <ActivityIndicator size='large' />
-        </View>
-    )
-}
+  if (props.loading) {
+    return (
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
   return (
     <SafeAreaView
       style={{
         flex: 1,
 
-        backgroundColor:colors.purple,
+        backgroundColor: colors.purple,
       }}>
-
-   <StatusBar backgroundColor={colors.blue} barStyle="light-content" /> 
-   <View style={styles.logoView}>
-        <Image source={require('../../images/logo.png')} style={styles.logo} />
+      <StatusBar backgroundColor={colors.blue} barStyle="light-content" />
+      <View style={styles.logoView}>
+        <Image source={require('../../assets/logo.png')} style={styles.logo} />
       </View>
 
       <View style={styles.bodyView}>
-        <Text style={styles.mainText}>Find your favorite spots</Text>
+        <Text style={appName}>HUBSPOTS</Text>
+        <Text style={styles.mainText}>Find your favorite spots!</Text>
 
-        <Button
-          text={'Challenge accepted! Create an account'}
-          textStyle={{fontWeight: 'bold',}}
+        <TouchableOpacity
           onPress={() => {
             props.navigation.navigate('SignUp');
-          }}
-        />
+          }}>
+          <Text style={styles.whiteText}>
+            Challenge Accepted!
+            <Text style={styles.blueText}>Create an account</Text>
+          </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.footerView}>
         <Text style={styles.whiteText}>Already have an account?</Text>
         <Text
-          style={styles.comeIn}
+          style={styles.blueText}
           onPress={() => {
             props.navigation.navigate('SignIn');
           }}>
@@ -61,10 +71,8 @@ const Entrance = (props) => {
 };
 
 const styles = StyleSheet.create({
-
   logoView: {
-
-    flex:3,
+    flex: 3,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -73,8 +81,7 @@ const styles = StyleSheet.create({
     borderColor: colors.purple,
     borderBottomLeftRadius: 60,
     borderBottomRightRadius: 60,
-    backgroundColor:colors.blue,
-
+    backgroundColor: colors.blue,
   },
   logo: {
     width: '52%',
@@ -82,18 +89,15 @@ const styles = StyleSheet.create({
   },
   bodyView: {
     flex: 3,
+    marginTop: '10%',
     alignItems: 'center',
-    
   },
   mainText: {
     fontWeight: 'bold',
     fontSize: fonts.main,
-    marginBottom: 20,
-    padding: 10,
     color: 'white',
     fontStyle: 'italic',
-    marginBottom: '15%',
-    marginTop:'20%'
+    margin: '7%',
   },
   footerView: {
     flex: 1,
@@ -104,24 +108,20 @@ const styles = StyleSheet.create({
   whiteText: {
     color: 'white',
     fontStyle: 'italic',
+    fontSize: fonts.small,
   },
-  comeIn: {
-
+  blueText: {
     color: colors.blue,
 
     marginLeft: 8,
-    fontSize: fonts.small,
+    fontSize: fonts.medium,
     fontWeight: 'bold',
   },
 });
 
-
-
-
-
-const mapStateToProps = ({ authResponse }) => {
-    const { loading, user } = authResponse;
-    return { loading, user };
+const mapStateToProps = ({authResponse}) => {
+  const {loading, user} = authResponse;
+  return {loading, user};
 };
 
 export default connect(mapStateToProps, {isUser})(Entrance);

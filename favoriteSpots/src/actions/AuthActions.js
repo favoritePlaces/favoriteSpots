@@ -29,7 +29,6 @@ export const login = (params) => {
               .doc(uid)
               .get()
               .then((user) => {
-
                 const userParams = {
                   ...user._data,
                   uid,
@@ -73,49 +72,61 @@ export const signUp = (params) => {
     if (
       params.email != '' &&
       params.password != '' &&
-      params.firstname != '' &&
-      params.lastname != ''
+      params.name != '' &&
+      params.username != ''
     ) {
       if (validateEmail(params.email)) {
-        auth()
-          .createUserWithEmailAndPassword(params.email, params.password)
-          .then((data) => {
-            const uid = data.user._user.uid;
-            // write user from db
-            const setData = {
-              name: params.name,
-              username: params.username,
-              email: params.email,
-            };
-            firestore()
-              .collection('Users')
-              .doc(uid) //unique Id given here
-              .set(setData)
-              .then(() => {
-                console.log('User is created!');
-                Alert.alert(
-                  'Got it',
-                  'Your account has been created!',
-                  [
-                    {
-                      text: 'OK',
-                      onPress: () => RootNavigation.pop(),
-                    },
-                  ],
-                  {
-                    cancelable: false,
-                  },
-                );
-              })
-              .catch(() => {
-                console.log('User is not created!');
-              });
-          })
-          .catch((error) => {
-            if (error.code === 'auth/email-already-in-use') {
-              Alert.alert('Warning', 'That email address is already in use!!');
+        firestore()
+          .collection('Users')
+          .where('username', '==', params.username)
+          .get()
+          .then((snapshot) => {
+            if (snapshot.empty) {
+              auth()
+                .createUserWithEmailAndPassword(params.email, params.password)
+                .then((data) => {
+                  const uid = data.user._user.uid;
+                  // write user from db
+                  const setData = {
+                    name: params.name,
+                    username: params.username,
+                    email: params.email,
+                  };
+                  firestore()
+                    .collection('Users')
+                    .doc(uid) //unique Id given here
+                    .set(setData)
+                    .then(() => {
+                      console.log('User is created!');
+                      Alert.alert(
+                        'Got it',
+                        'Your account has been created!',
+                        [
+                          {
+                            text: 'OK',
+                            onPress: () => RootNavigation.pop(),
+                          },
+                        ],
+                        {
+                          cancelable: false,
+                        },
+                      );
+                    })
+                    .catch(() => {
+                      console.log('User is not created!');
+                    });
+                })
+                .catch((error) => {
+                  if (error.code === 'auth/email-already-in-use') {
+                    Alert.alert(
+                      'Warning',
+                      'That email address is already in use!!',
+                    );
+                  }
+                });
+            } else {
+              Alert.alert('Warning', 'That username is already in use!!');
             }
-            console.log(error);
           });
       } else {
         Alert.alert('UYARI', 'Lütfen geçerli bir email yazınız!');

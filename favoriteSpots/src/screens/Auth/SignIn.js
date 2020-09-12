@@ -11,11 +11,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {AuthContext} from '../../context';
-import {Icon} from 'native-base';
 import {Input, Button, CheckBox} from '../../components';
 import {login} from '../../actions';
-import {colors, fonts} from '../../style';
+import {colors, fonts, appName} from '../../style';
 
 const SignIn = (props) => {
   //  const {signIn} = useContext(AuthContext);
@@ -28,7 +26,7 @@ const SignIn = (props) => {
     <SafeAreaView style={{flex: 1, backgroundColor: '#E7E5E3'}}>
       <KeyboardAvoidingView
         behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-        style={{flex: 1, padding: 20}}>
+        style={{flex: 1}}>
         <ScrollView
           contentContainerStyle={{
             flex: 1,
@@ -38,7 +36,7 @@ const SignIn = (props) => {
           {/* Logo  */}
 
           <View style={styles.headerView}>
-            <Text style={styles.headerText}>HUBSPOTS</Text>
+            <Text style={appName}>HUBSPOTS</Text>
           </View>
 
           {/* Form Kısmı (Buttona kadar)  */}
@@ -71,7 +69,6 @@ const SignIn = (props) => {
               style={styles.button}
               textStyle={styles.textStyle}
               onPress={() => {
-                //  signIn()//comes from context provider
                 const params = {email, password};
                 props.login(params);
               }}
@@ -93,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  headerText: {
+  appName: {
     fontSize: fonts.big,
     fontFamily: 'BalsamiqSans-Bold',
     letterSpacing: 3,

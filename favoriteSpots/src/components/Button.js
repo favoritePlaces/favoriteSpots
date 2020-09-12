@@ -9,8 +9,8 @@ const Button = (props) => (
     style={[
       {
         borderWidth: 2,
-        backgroundColor: colors.purple,
-        borderColor: colors.purple,
+        backgroundColor: colors.blue,
+        borderColor: colors.blue,
         width: '97%',
         height: '13%',
 
