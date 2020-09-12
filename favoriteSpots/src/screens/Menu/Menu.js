@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
@@ -13,8 +13,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Menu = (props) => {
-  //why can't we manage the global state
-
   const sections = (icon, name, onPress) => {
     return (
       <View style={styles.sectionsFunction}>
@@ -30,34 +28,27 @@ const Menu = (props) => {
     );
   };
 
-  const selectPhoto = () => {};
-
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.blue}}>
       <View style={styles.profileView}>
-        {props.profile_image ? (
-          <TouchableOpacity onPress={() => selectPhoto()}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate('Profile');
+          }}>
+          {props.profile_image ? (
             <Image source={{uri: ''}} style={styles.profilePhoto} />
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.IconView}>
-            <Icon
-              name={'user-circle'}
-              size={40}
-              color="white"
-              onPress={() => selectPhoto()}
-            />
-          </View>
-        )}
-        <Text style={styles.nameText}>Merve</Text>
+          ) : (
+            <View style={styles.IconView}>
+              <Icon name={'user-circle'} size={40} color="white" />
+            </View>
+          )}
+          <Text style={styles.nameText}>{props.name}</Text>
+        </TouchableOpacity>
         <Text style={styles.descriptionText}>52 favorite places</Text>
       </View>
       <View style={styles.sectionView}>
         <ScrollView>
           <View style={styles.sections}>
-            {sections('user', 'Profil', () => {
-              props.navigation.navigate('Profile');
-            })}
             {sections('map-pin', 'My Favorite Places', () => {
               props.navigation.navigate('MyFavoriteList');
             })}

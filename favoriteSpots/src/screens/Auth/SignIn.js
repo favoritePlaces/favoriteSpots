@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
-import {Input, Button, CheckBox} from '../../components';
+import {Input, Button, CheckBox, BackButton} from '../../components';
 import {login} from '../../actions';
 import {colors, fonts, appName} from '../../style';
 
@@ -33,6 +33,7 @@ const SignIn = (props) => {
             backgroundColor: 'white',
             borderRadius: 20,
           }}>
+          <BackButton />
           {/* Logo  */}
 
           <View style={styles.headerView}>
@@ -61,7 +62,7 @@ const SignIn = (props) => {
                 onPress={() => setCheckButton(!checkButton)}
               />
               <TouchableOpacity>
-                <Text>Forgot Password</Text>
+                <Text>Forgot Password?</Text>
               </TouchableOpacity>
             </View>
             <Button
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     width: '80%',
     marginBottom: '5%',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   button: {
     width: '85%',

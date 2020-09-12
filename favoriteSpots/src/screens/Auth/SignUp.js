@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Input, Button} from '../../components';
+import {Input, Button, BackButton} from '../../components';
 import {connect} from 'react-redux';
 import {signUp} from '../../actions';
 import {colors, fonts, appName} from '../../style';
@@ -27,6 +27,7 @@ const SignUp = (props) => {
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
           style={{flex: 1, backgroundColor: 'white', borderRadius: 20}}>
           {/* Header  */}
+          <BackButton />
           <View style={styles.headerView}>
             <Text style={appName}>HUBSPOTS</Text>
           </View>
@@ -84,8 +85,8 @@ const SignUp = (props) => {
               <View style={styles.iconContainer}>
                 <Icon
                   name="facebook"
-                  color={colors.blue}
-                  backgroundColor={colors.blue}>
+                  style={{fontSize: 25}}
+                  color={colors.somon}>
                   <Text style={styles.textStyle} onPress={() => {}}>
                     Login with Facebook
                   </Text>
@@ -93,7 +94,7 @@ const SignUp = (props) => {
               </View>
 
               <View style={styles.iconContainer}>
-                <Icon name="google">
+                <Icon name="google" style={{fontSize: 25}} color={colors.somon}>
                   <Text style={styles.textStyle} onPress={() => {}}>
                     Login with Google
                   </Text>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
     width: '85%',
   },
   textStyle: {
-    //Button Text
+    fontSize: fonts.small,
     fontFamily: 'BalsamiqSans-Bold',
     color: 'black',
   },

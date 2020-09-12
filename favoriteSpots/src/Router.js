@@ -8,7 +8,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {Button, Icon} from 'native-base';
 import {connect} from 'react-redux';
-
+import {BackButton} from './components';
+import * as RootNavigation from './RootNavigation';
 import Entrance from './screens/Auth/Entrance';
 import SignIn from './screens/Auth/SignIn';
 import SignUp from './screens/Auth/SignUp';
@@ -61,8 +62,7 @@ const AuthStackScreen = () => {
       <AuthStack.Screen
         name="Entrance"
         component={Entrance}
-        options={({navigation, route}) => ({
-          title: 'Entrance',
+        options={() => ({
           headerShown: false,
         })}
       />
@@ -71,14 +71,7 @@ const AuthStackScreen = () => {
         name="SignIn"
         component={SignIn}
         options={{
-          headerStyle: {
-            backgroundColor: colors.blue,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontFamily: 'BalsamiqSans-Bold',
-            letterSpacing: 1,
-          },
+          headerShown: false,
         }}
       />
 
@@ -86,15 +79,7 @@ const AuthStackScreen = () => {
         name="SignUp"
         component={SignUp}
         options={{
-          title: 'SignUp',
-          headerStyle: {
-            backgroundColor: colors.blue,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontFamily: 'BalsamiqSans-Bold',
-            letterSpacing: 1,
-          },
+          headerShown: false,
         }}
       />
     </AuthStack.Navigator>
@@ -169,16 +154,7 @@ const ProfileStackScreen = () => {
         name="Profile"
         component={Profile}
         options={({navigation, route}) => ({
-          headerLeft: () => {
-            return (
-              <Text
-                onPress={() => {
-                  navigation.pop();
-                }}>
-                Back
-              </Text>
-            );
-          },
+          headerShown: false,
         })}
       />
     </ProfileStack.Navigator>
@@ -280,15 +256,14 @@ const TabStackScreen = () => {
             <Icon
               type="FontAwesome"
               name={iconName}
-              style={{color: focused ? colors.addition : color, fontSize: size}}
+              style={{color: focused ? colors.somon : color, fontSize: size}}
             />
           );
         },
       })}
       tabBarOptions={{
-        inactiveTintColor: 'gray',
+        inactiveTintColor: colors.purple,
         activeTintColor: colors.blue,
-
         //  showLabel: false,
       }}>
       <TabStack.Screen
@@ -307,11 +282,15 @@ const TabStackScreen = () => {
 };
 
 const DrawerStack = createDrawerNavigator();
-const DrawerStackScreen = () => {
+const DrawerStackScreen = (props) => {
+  const [additonalProps, setAdditionalProps] = React.useState(
+    props.route.params.name,
+  );
+  let name = props.route.params.name;
   return (
     <DrawerStack.Navigator
-      drawerContent={Menu}
-      drawerType="back"
+      drawerContent={(props) => <Menu {...props} name={name} />}
+      drawerType="slide"
       drawerStyle={{
         width: '75%',
       }}>
@@ -338,6 +317,7 @@ function Router(props) {
             <RootStack.Screen
               name="Main"
               component={DrawerStackScreen}
+              initialParams={props.user}
               options={{
                 animationEnabled: false,
               }}

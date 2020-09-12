@@ -23,7 +23,7 @@ const CheckBox = (props) => (
           style={{
             width: '100%',
             height: 20,
-            backgroundColor: colors.blue,
+            backgroundColor: colors.somon,
 
             borderRadius: 2,
           }}
