@@ -8,6 +8,10 @@ export const LIST_START = 'list_start';
 export const LIST_SUCCESS = 'list_success';
 export const LIST_FAILED = 'list_failed';
 
+export const ADD_PLACE_START = 'add_places_start';
+export const ADD_PLACE_SUCCESS = 'add_places_success';
+export const ADD_PLACE_FAILED = 'add_places_failed';
+
 export const USERS_LOADED = 'users_loaded';
 export const USERS_FAILED = 'users_failed';
 export const ADD_USER_SUCCESS = 'add_user_success';

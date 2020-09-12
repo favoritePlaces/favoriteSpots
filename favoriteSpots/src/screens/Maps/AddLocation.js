@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Image,
   StyleSheet,
+  Button,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IonIcons from 'react-native-vector-icons/Ionicons';
@@ -13,6 +14,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {connect} from 'react-redux';
 import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
 import {fonts} from '../../style';
+import {addPlace} from '../../actions';
 const AddLocation = (props) => {
   return (
     <SafeAreaView>
@@ -29,35 +31,48 @@ const AddLocation = (props) => {
           <Marker
             coordinate={{latitude: 37.78825, longitude: -122.4324}}
             title={'title'}
-           // image = {require('../../assets/mapMarker.png')}
+            // image = {require('../../assets/mapMarker.png')}
             description={'desc'}>
             <Callout tooltip>
               <View>
                 <View style={styles.details}>
                   <Text>One Favorite Place</Text>
-                    <Image
-              style={{width: 100, height: 60}}
-              resizeMode="contain"
-              resizeMethod="resize"
-              source={require('../../assets/mapMarker.png')}></Image>
+                  <Image
+                    style={{width: 100, height: 60}}
+                    resizeMode="contain"
+                    resizeMethod="resize"
+                    source={require('../../assets/mapMarker.png')}></Image>
                 </View>
               </View>
             </Callout>
-            <Icon size = {35} color = '#0857bf' name = 'map-marker-alt'/> 
+            <Icon size={35} color="#0857bf" name="map-marker-alt" />
           </Marker>
-
         </MapView>
+        <Button
+          onPress={(props) => {
+            const params = {
+              place: {
+                name: null,
+                desc: null,
+                image: null,
+              },
+              comment: null,
+
+              usernames: [], //people who add this to on their favorite list
+            };
+            //props.addPlace(params)
+          }}></Button>
       </View>
     </SafeAreaView>
   );
 };
 
 const mapStateToProps = ({placeResponse}) => {
-  const {list} = placeResponse;
-  return {list};
+  const {places} = placeResponse;
+  return {places};
 };
 
-export default connect(mapStateToProps, {})(AddLocation);
+export default connect(mapStateToProps, {addPlace})(AddLocation);
 
 const styles = StyleSheet.create({
   details: {
@@ -66,6 +81,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderWidth: 0.4,
     padding: 15,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
 });
