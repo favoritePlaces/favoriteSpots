@@ -1,5 +1,5 @@
 export const colors = {
   purple: '#bb7cd6',
-  blue: '#2ac4db',
+  blue: '#5fcfe3',
   somon: '#fa927d',
 };

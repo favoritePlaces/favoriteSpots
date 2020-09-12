@@ -14,13 +14,19 @@ import {fonts, colors} from '../../style';
 import {TextInput} from 'react-native-gesture-handler';
 import {Icon} from 'native-base';
 import {Button} from '../../components';
-import {createFriendGroup} from '../../actions';
+import {createFriendGroup, getFriendGroups} from '../../actions';
 
 const UserDetails = (props) => {
   const [createHub, setCreateHub] = useState(false);
   const [addInHub, setAddInHub] = useState(false);
   const [groupName, setGroupName] = useState('');
-  useEffect(() => {});
+
+  useEffect(() => {
+    if (props.friendGroups.length === 0) {
+      props.getFriendGroups(props.user);
+      console.log(props.friendGroups);
+    }
+  }, []);
 
   return (
     <View>
@@ -77,7 +83,7 @@ const UserDetails = (props) => {
                         props.route.params.username,
                       ],
                     });
-                  }else{
+                  } else {
                     Alert.alert('Warning', 'Please enter a group name!');
                   }
                 }}
@@ -92,17 +98,24 @@ const UserDetails = (props) => {
   );
 };
 
-const mapStateToProps = ({placeResponse, authResponse}) => {
+const mapStateToProps = ({
+  placeResponse,
+  authResponse,
+  friendGroupResponse,
+}) => {
   const {list} = placeResponse;
   const {user} = authResponse;
-  return {list, user};
+  const {friendGroups} = friendGroupResponse;
+  return {list, user, friendGroups};
 };
 
-export default connect(mapStateToProps, {createFriendGroup})(UserDetails);
+export default connect(mapStateToProps, {createFriendGroup, getFriendGroups})(
+  UserDetails,
+);
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: colors.line,
+    backgroundColor: colors.somon,
     height: 200,
   },
   info: {
@@ -134,12 +147,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-    backgroundColor: colors.addition,
+    backgroundColor: colors.somon,
   },
   modalView: {
     marginTop: '100%',
     height: '70%',
-    backgroundColor: colors.addition,
+    backgroundColor: colors.somon,
   },
   modalItems: {
     alignItems: 'center',

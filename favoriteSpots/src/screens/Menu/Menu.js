@@ -35,29 +35,24 @@ const Menu = (props) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.blue}}>
       <View style={styles.profileView}>
-        {props.profile_image ? (
-          <TouchableOpacity onPress={() => selectPhoto()}>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate('Profile');
+          }}>
+          {props.profile_image ? (
             <Image source={{uri: ''}} style={styles.profilePhoto} />
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.IconView}>
-            <Icon
-              name={'user-circle'}
-              size={40}
-              color="white"
-              onPress={() => selectPhoto()}
-            />
-          </View>
-        )}
-        <Text style={styles.nameText}>Merve</Text>
+          ) : (
+            <View style={styles.IconView}>
+              <Icon name={'user-circle'} size={40} color="white" />
+            </View>
+          )}
+          <Text style={styles.nameText}>Merve</Text>
+        </TouchableOpacity>
         <Text style={styles.descriptionText}>52 favorite places</Text>
       </View>
       <View style={styles.sectionView}>
         <ScrollView>
           <View style={styles.sections}>
-            {sections('user', 'Profil', () => {
-              props.navigation.navigate('Profile');
-            })}
             {sections('map-pin', 'My Favorite Places', () => {
               props.navigation.navigate('MyFavoriteList');
             })}

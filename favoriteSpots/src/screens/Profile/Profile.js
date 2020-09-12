@@ -7,79 +7,137 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import {BackButton} from '../../components';
 import {connect} from 'react-redux';
-import {fonts, colors} from '../../style';
+import {fonts, colors, appName} from '../../style';
 import ImagePicker from 'react-native-image-picker';
 import {getFriendGroups} from '../../actions';
-
+import {Icon} from 'native-base';
 const Profile = (props) => {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
     console.log('status changed');
-    props.getFriendGroups(props.user);
-    //console.log(props.friendGroups);
+    if (props.friendGroups.length === 0) {
+      props.getFriendGroups(props.user);
+      console.log(props.friendGroups);
+    } else {
+      console.log(props.friendGroups);
+      console.log(props.user);
+    }
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}></View>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <View style={styles.topBackground}>
+          <View style={styles.header}>
+            <BackButton />
+            <View style={{alignItems: 'center'}}>
+              <Text style={[appName, {fontSize: fonts.small, color: 'white'}]}>
+                HubSpots
+              </Text>
+              {/* <Image
+              style={{width: 100, height: 100}}
+              source={require('../../assets/hubspots.png')}></Image> */}
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Settings');
+              }}>
+              <Icon
+                style={{color: colors.blue}}
+                type="FontAwesome"
+                name="envelope"></Icon>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.wrapper}>
+          <TouchableOpacity
+            onPress={() => {
+              const options = {
+                title: 'Resim Seç',
+                quality: 0.2,
+                storageOptions: {
+                  skipBackup: true,
+                  path: 'images',
+                },
+              };
 
-      <TouchableOpacity
-        onPress={() => {
-          const options = {
-            title: 'Resim Seç',
-            quality: 0.2,
-            storageOptions: {
-              skipBackup: true,
-              path: 'images',
-            },
-          };
+              ImagePicker.showImagePicker(options, (response) => {
+                console.log('Response = ', response);
 
-          ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
+                if (response.didCancel) {
+                  console.log('User cancelled image picker');
+                } else if (response.error) {
+                  console.log('ImagePicker Error: ', response.error);
+                } else if (response.customButton) {
+                  console.log(
+                    'User tapped custom button: ',
+                    response.customButton,
+                  );
+                } else {
+                  const source = {uri: response.uri};
+                  setImage(source);
+                }
+              });
+            }}>
+            <Image
+              style={styles.avatar}
+              defaultSource={require('../../assets/dummy.png')}
+              source={image}
+            />
+          </TouchableOpacity>
+          <View style={styles.info}>
+            <Text style={styles.text}>{props.user.username} </Text>
+            <Text
+              onPress={() => {
+                props.navigation.navigate('FriendGroups');
+              }}
+              style={[styles.text, {color: colors.blue}]}>
+              {props.friendGroups.length}
+              {props.friendGroups.length === 0 ||
+              props.friendGroups.length === 1 ? (
+                <Text> Friend Hub! </Text>
+              ) : (
+                <Text> Friend Hubs! </Text>
+              )}
+            </Text>
+          </View>
 
-            if (response.didCancel) {
-              console.log('User cancelled image picker');
-            } else if (response.error) {
-              console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-              console.log('User tapped custom button: ', response.customButton);
-            } else {
-              const source = {uri: response.uri};
-              setImage(source);
-            }
-          });
-        }}>
-        <Image
-          style={styles.avatar}
-          defaultSource={require('../../assets/dummy.png')}
-          source={image}
-        />
-      </TouchableOpacity>
-
-      <View style={styles.body}>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text>{props.user.username} </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text>Friend Groups</Text>
-        </TouchableOpacity>
-        <Text
-          onPress={() => {
-            props.navigation.navigate('Search');
-          }}>
-          Find your friends to create your hub!
-        </Text>
+          <View style={styles.body}>
+            <TouchableOpacity
+              onPress={() => {
+                props.navigation.navigate('Search');
+              }}
+              style={styles.buttonContainer}>
+              <Text style={{color: 'white'}}>
+                Find your friends to create your hub!
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    backgroundColor: colors.line,
+  topBackground: {
+    backgroundColor: colors.somon,
     height: 200,
+  },
+  header: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    backgroundColor: colors.somon,
+    padding: 10,
+  },
+  wrapper: {
+    alignSelf: 'center',
+    position: 'absolute',
+    marginTop: 150,
   },
   avatar: {
     width: 130,
@@ -87,12 +145,15 @@ const styles = StyleSheet.create({
     borderRadius: 63,
     borderWidth: 4,
     borderColor: 'white',
-    marginBottom: 10,
     alignSelf: 'center',
   },
-  name: {
-    fontSize: fonts.main,
+  text: {
+    fontSize: fonts.medium,
     fontWeight: '600',
+  },
+  info: {
+    padding: 10,
+    alignItems: 'center',
   },
   body: {
     marginTop: 40,
@@ -109,7 +170,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-    backgroundColor: colors.addition,
+    backgroundColor: colors.somon,
   },
 });
 

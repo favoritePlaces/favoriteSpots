@@ -154,16 +154,7 @@ const ProfileStackScreen = () => {
         name="Profile"
         component={Profile}
         options={({navigation, route}) => ({
-          headerLeft: () => {
-            return (
-              <Text
-                onPress={() => {
-                  navigation.pop();
-                }}>
-                Back
-              </Text>
-            );
-          },
+          headerShown: false,
         })}
       />
     </ProfileStack.Navigator>
@@ -265,15 +256,14 @@ const TabStackScreen = () => {
             <Icon
               type="FontAwesome"
               name={iconName}
-              style={{color: focused ? colors.addition : color, fontSize: size}}
+              style={{color: focused ? colors.somon : color, fontSize: size}}
             />
           );
         },
       })}
       tabBarOptions={{
-        inactiveTintColor: 'gray',
+        inactiveTintColor: colors.purple,
         activeTintColor: colors.blue,
-
         //  showLabel: false,
       }}>
       <TabStack.Screen

@@ -7,37 +7,43 @@ import {
   StyleSheet,
   FlatList,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {Icon, Input, Item, Thumbnail, Left, Text, Body} from 'native-base';
 import {getUsers} from '../../actions';
-import {fonts, colors} from '../../style'
+import {fonts, colors} from '../../style';
 import * as RootNavigation from '../../RootNavigation';
 const Search = (props) => {
   //places or user search
-const [results, setResults] = useState([]);
 
-const searchUser = (text) => {
+  const [results, setResults] = useState([]);
 
-  if(props.users.length === 0){
-    props.getUsers();
-  }else{
-    let arr = props.users.filter(i => i.name.toLowerCase().includes(text.toLowerCase()));
-    setResults(arr.slice(0, 5));
-  }
-}
+  const searchUser = (text) => {
+    if (props.users.length === 0) {
+      props.getUsers();
+    } else {
+      let arr = props.users.filter((i) =>
+        i.name.toLowerCase().includes(text.toLowerCase()),
+      );
+      setResults(arr.slice(0, 5));
+    }
+  };
 
   const renderItem = ({item}) => (
     <View style={styles.item}>
-      <TouchableOpacity style ={{flexDirection: 'row', alignItems: 'center', borderBottomWidth: 0.5, borderColor: colors.line}}
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderBottomWidth: 0.5,
+          borderColor: colors.somon,
+        }}
         onPress={() => {
-       RootNavigation.navigate('UserDetails',  item);
+          RootNavigation.navigate('UserDetails', item);
         }}>
-
-        <Thumbnail  source = {require('../../assets/dummy.png')}></Thumbnail>
+        <Thumbnail source={require('../../assets/dummy.png')}></Thumbnail>
         <Text style={styles.text}>{item.name}</Text>
-
       </TouchableOpacity>
     </View>
   );
@@ -46,7 +52,12 @@ const searchUser = (text) => {
       <View style={{marginHorizontal: 20}}>
         <Item>
           <Icon name="search" type="FontAwesome"></Icon>
-          <Input placeholder="search here" onChangeText = {text => {searchUser(text)}}/>
+          <Input
+            placeholder="search here"
+            onChangeText={(text) => {
+              searchUser(text);
+            }}
+          />
         </Item>
         <FlatList
           data={results}
