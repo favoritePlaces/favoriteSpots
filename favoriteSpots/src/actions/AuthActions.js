@@ -3,12 +3,16 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   SIGN_OUT_SUCCESS,
+  UPDATE_USER_START,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
 } from './types';
 
 import {Alert} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 export const login = (params) => {
   return (dispatch) => {
@@ -64,6 +68,41 @@ export const login = (params) => {
       }
     } else {
       Alert.alert('UYARI', 'Lütfen bütün alanları doldurunuz!');
+    }
+  };
+};
+export const updateUserProfile = (params) => {
+  return (dispatch) => {
+    dispatch({type: UPDATE_USER_START});
+    if (params.image) {
+      let userId = params.uid;
+      const reference = storage().ref(`/users/${userId}`);
+      console.log('params.image', params.image);
+      reference
+        .putFile(params.image)
+        .then(() => {
+          reference.getDownloadURL().then((imageURL) => {
+            firestore()
+              .collection('Users')
+              .doc(userId)
+              .update({image: imageURL})
+              .then(() => {
+                let updatedUser = {...params, image: imageURL};
+                console.log('updateUser', updatedUser);
+                dispatch({
+                  type: UPDATE_USER_SUCCESS,
+                  payload: updatedUser,
+                });
+                Alert.alert('updated', 'Your profile image is updated!');
+              });
+          });
+        })
+        .catch((error) => {
+          console.log('Image loading error ', error);
+        });
+    } else {
+      dispatch({type: UPDATE_USER_SUCCESS, payload: params});
+      Alert.alert('updated', 'Your profile image is updated!');
     }
   };
 };

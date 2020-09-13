@@ -2,6 +2,10 @@ export const LOGIN_START = 'login_start';
 export const LOGIN_SUCCESS = 'login_success';
 export const LOGIN_FAILED = 'login_failed';
 
+export const UPDATE_USER_START = 'update_user_start';
+export const UPDATE_USER_SUCCESS = 'update_user_success';
+export const UPDATE_USER_FAILED = 'update_user_failed';
+
 export const SIGN_OUT_SUCCESS = 'sign_out_success';
 
 export const GET_PERSONAL_PLACE_START = 'list_start';

@@ -1,9 +1,9 @@
 import {
   USERS_LOADED,
   USERS_FAILED,
-  ADD_USER_SUCCESS, //register
+  ADD_USER_SUCCESS,
   ADD_USER_FAILED,
-  REMOVE_USER_START, //remove account
+  REMOVE_USER_START,
   REMOVE_USER_SUCCESS,
   REMOVE_USER_FAILED,
 } from './types';

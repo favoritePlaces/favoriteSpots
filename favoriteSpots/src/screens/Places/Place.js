@@ -3,7 +3,7 @@ import {Text, View, TouchableOpacity, Image} from 'react-native';
 import {Icon} from 'native-base';
 import {colors} from '../../style';
 import {connect} from 'react-redux';
-import * as RootNavigation from '../RootNavigation.js';
+import * as RootNavigation from '../../RootNavigation.js';
 const Place = (props) => {
   //icon section will be added when friendGroup places available
   const {image, placeName, user, desc, createdDate} = props.data;
@@ -13,12 +13,12 @@ const Place = (props) => {
       activeOpacity={1}
       onPress={() => {
         console.log('clicked');
-        RootNavigation.navigate('PlaceDetails', props.data.id);
+        RootNavigation.navigate('PlaceDetails', props.data.id); //place id will be sent
       }}
       style={{
         padding: 20,
         borderBottomWidth: 0.5,
-        borderColor: colors.line,
+        borderColor: colors.somon,
         flexDirection: 'row',
       }}>
       <View style={{flex: 9, marginLeft: 10}}>
@@ -26,7 +26,7 @@ const Place = (props) => {
           {placeName}
           <Text
             style={{
-              color: colors.line,
+              color: colors.somon,
               fontWeight: '100',
               fontSize: 10,
             }}></Text>
@@ -58,9 +58,9 @@ const Place = (props) => {
   );
 };
 
-const mapStateToProps = ({authResponse}) => {
-  const {user} = authResponse;
-  return {user};
+const mapStateToProps = ({placeResponse}) => {
+  const {myPlaces} = placeResponse;
+  return {myPlaces};
 };
 
 export default connect(mapStateToProps, {})(Place);

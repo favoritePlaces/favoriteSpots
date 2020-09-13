@@ -1,23 +1,36 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, SafeAreaView, ActivityIndicator} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import {
+  View,
+  FlatList,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  ActivityIndicator,
+  StatusBar,
+} from 'react-native';
 import {connect} from 'react-redux';
-
+import Place from './Place';
+import {fonts, colors} from '../../style';
 const MyFavoriteList = (props) => {
   return (
     <SafeAreaView>
-      <View>
-        <Text>
-          Your myPlaces. there will be personal records and the ones you chose
-          from your friend groups' myPlacess
-        </Text>
+      <StatusBar backgroundColor={colors.blue} />
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <FlatList
+          style={{flex: 1, backgroundColor: 'white'}}
+          data={props.myPlaces}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item, index}) => <Place data={item} index={index} />}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
-const mapStateToProps = ({placeResponse}) => {
+const mapStateToProps = ({placeResponse, authResponse}) => {
   const {myPlaces} = placeResponse;
-  return {myPlaces};
+  const {user} = authResponse;
+  return {myPlaces, user};
 };
 
 export default connect(mapStateToProps, {})(MyFavoriteList);

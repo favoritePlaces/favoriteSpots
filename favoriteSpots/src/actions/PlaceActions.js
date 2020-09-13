@@ -11,16 +11,18 @@ import firestore from '@react-native-firebase/firestore';
 import {Alert} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 
-export const getMyPlaces = (params) => {
+export const getMyPlaces = (param) => {
   return (dispatch) => {
     // according to individual userId //myfavoritePlaces
+    console.log(param);
     dispatch({type: GET_PERSONAL_PLACE_START});
     firestore()
       .collection('Places')
-      .where('user', 'array-contains-any', [params]) //params will be the user Id
+      .where('user', '==', param) //params will be the user Id
       .get()
       .then((data) => {
         console.log('get', data);
+
         let ownPlaces = [];
 
         data._docs.forEach((group, index) => {

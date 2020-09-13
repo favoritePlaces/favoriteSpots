@@ -3,6 +3,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   SIGN_OUT_SUCCESS,
+  UPDATE_USER_START,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILED,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -36,6 +39,24 @@ export default (state = INITIAL_STATE, action) => {
         friendGroups: [],
         users: [],
         myPlaces: [],
+      };
+
+    case UPDATE_USER_START:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload, //will be in the front end just for the person who is in session. as that person will be in that group in any condition
+      };
+
+    case UPDATE_USER_FAILED:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

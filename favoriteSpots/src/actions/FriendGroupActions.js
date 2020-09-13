@@ -38,7 +38,7 @@ export const getFriendGroups = (param) => {
   return (dispatch) => {
     firestore()
       .collection('FriendGroups')
-      .where('members', 'array-contains-any', [param.username]) // //firebase den member property sinde su username var mi diye
+      .where('members', 'array-contains-any', [param.uid]) // //firebase den member property sinde su username var mi diye
       .get()
       .then((data) => {
         console.log('get', data);

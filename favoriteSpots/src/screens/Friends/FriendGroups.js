@@ -11,8 +11,15 @@ import {
 import {connect} from 'react-redux';
 import {fonts, colors} from '../../style';
 import * as RootNavigation from '../../RootNavigation';
+import {getFriendGroups} from '../../actions';
 
 const FriendGroups = (props) => {
+  useEffect(() => {
+    if (props.friendGroups.length === 0) {
+      props.getFriendGroups(props.user);
+    }
+  }, []);
+
   const renderItem = ({item}) => (
     <View style={styles.item}>
       <TouchableOpacity
@@ -36,7 +43,14 @@ const FriendGroups = (props) => {
         <FlatList
           data={props.friendGroups}
           renderItem={renderItem}
-          keyExtractor={(item, index) => `${index}`}></FlatList>
+          keyExtractor={(item, index) => `${index}`}
+          ListEmptyComponent={() => {
+            return (
+              <View style={{alignItems: 'center', padding: 20}}>
+                <Text>You haven't added any friend group</Text>
+              </View>
+            );
+          }}></FlatList>
       </View>
     </SafeAreaView>
   );
@@ -57,10 +71,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = ({placeResponse, friendGroupResponse}) => {
+const mapStateToProps = ({
+  placeResponse,
+  friendGroupResponse,
+  authResponse,
+}) => {
   const {myPlaces} = placeResponse;
   const {friendGroups} = friendGroupResponse;
-  return {myPlaces, friendGroups};
+  const {user} = authResponse;
+  return {myPlaces, friendGroups, user};
 };
 
-export default connect(mapStateToProps, {})(FriendGroups);
+export default connect(mapStateToProps, {getFriendGroups})(FriendGroups);
