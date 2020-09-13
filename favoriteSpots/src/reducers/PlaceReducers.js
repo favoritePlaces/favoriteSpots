@@ -1,10 +1,10 @@
 import {
-  GET_PLACE_START,
-  GET_PLACE_SUCCESS,
-  GET_PLACE_FAILED,
-  ADD_PLACE_START,
-  ADD_PLACE_SUCCESS,
-  ADD_PLACE_FAILED,
+  GET_PERSONAL_PLACE_START,
+  GET_PERSONAL_PLACE_SUCCESS,
+  GET_PERSONAL_PLACE_FAILED,
+  ADD_PERSONAL_PLACE_START,
+  ADD_PERSONAL_PLACE_SUCCESS,
+  ADD_PERSONAL_PLACE_FAILED,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -14,37 +14,37 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ADD_PLACE_START:
+    case ADD_PERSONAL_PLACE_START:
       return {
         ...state,
         loadingList: true,
       };
 
-    case ADD_PLACE_SUCCESS:
+    case ADD_PERSONAL_PLACE_SUCCESS:
       return {
         ...state,
         places: [...state.places, action.payload],
         loadingList: false,
       };
-    case ADD_PLACE_FAILED:
+    case ADD_PERSONAL_PLACE_FAILED:
       return {
         ...state,
         loadingList: false,
       };
-    case GET_PLACE_START:
+    case GET_PERSONAL_PLACE_START:
       return {
         ...state,
         loadingList: true,
       };
 
-    case GET_PLACE_SUCCESS:
+    case GET_PERSONAL_PLACE_SUCCESS:
       return {
         ...state,
         loadingList: false,
         places: action.payload,
       };
 
-    case GET_PLACE_FAILED:
+    case GET_PERSONAL_PLACE_FAILED:
       return {
         ...state,
         loadingList: false,

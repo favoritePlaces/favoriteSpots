@@ -35,6 +35,7 @@ export default (state = INITIAL_STATE, action) => {
         user: null,
         friendGroups: [],
         users: [],
+        places: [],
       };
     default:
       return state;

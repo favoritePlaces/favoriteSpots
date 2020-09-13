@@ -1,31 +1,65 @@
 import {
-  GET_PLACE_START,
-  GET_PLACE_SUCCESS,
-  GET_PLACE_FAILED,
-  ADD_PLACE_START,
-  ADD_PLACE_SUCCESS,
-  ADD_PLACE_FAILED,
+  GET_PERSONAL_PLACE_START,
+  GET_PERSONAL_PLACE_SUCCESS,
+  GET_PERSONAL_PLACE_FAILED,
+  ADD_PERSONAL_PLACE_START,
+  ADD_PERSONAL_PLACE_SUCCESS,
+  ADD_PERSONAL_PLACE_FAILED,
 } from './types';
-
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 import {Alert} from 'react-native';
+import * as RootNavigation from '../RootNavigation';
 
-export const getList = (params) => {
-  return (dispatch) => {};
+export const getMyPlaces = (params) => {
+  return (dispatch) => {
+    // according to individual userId //myfavoritePlaces
+    dispatch({type: GET_PERSONAL_PLACE_START});
+    firestore()
+      .collection('Places')
+      .where('user', 'array-contains-any', [params]) //params will be the user Id
+      .get()
+      .then((data) => {
+        console.log('get', data);
+        let ownPlaces = [];
+
+        data._docs.forEach((group, index) => {
+          ownPlaces.push({...group._data, id: group._ref.id}); //check ref.id
+        });
+        console.log('ownPlaces', ownPlaces);
+        dispatch({
+          type: GET_PERSONAL_PLACE_SUCCESS,
+          payload: ownPlaces,
+        });
+      })
+      .catch((err) => {
+        console.log('Read Data error: ', err);
+        dispatch({
+          type: GET_PERSONAL_PLACE_FAILED,
+        });
+      });
+  };
 };
 
-export const addPlace = (params) => {
+export const getFriendGroupPlaces = (params) => {
   return (dispatch) => {
-    dispatch({type: ADD_PLACE_START});
+    //according to friendGroupId filter
+  };
+};
+
+export const addPersonalPlace = (params) => {
+  return (dispatch) => {
+    dispatch({type: ADD_PERSONAL_PLACE_START});
     firestore()
       .collection('Places')
       .add(params)
       .then((data) => {
         console.log('Add place', data);
-        let placeId;
+        let placeId = data.id;
 
         if (params.image) {
           const reference = storage().ref(`/places/${placeId}`);
-
+          console.log('params.image', params.image);
           reference
             .putFile(params.image)
             .then(() => {
@@ -33,10 +67,18 @@ export const addPlace = (params) => {
                 firestore()
                   .collection('Places')
                   .doc(placeId)
-                  .update({place: {image: imageURL, text: params.place.text}})
+                  .update({image: imageURL})
                   .then(() => {
-                    dispatch({type: ADD_PLACE_SUCCESS, payload: params});
-                    RootNavigation.pop();
+                    console.log('place Id', placeId);
+                    let newPlace = {...params, id: placeId};
+                    dispatch({
+                      type: ADD_PERSONAL_PLACE_SUCCESS,
+                      payload: newPlace,
+                    });
+                    Alert.alert(
+                      'well done',
+                      'A new favorite place you have now',
+                    );
                   });
               });
             })
@@ -44,12 +86,12 @@ export const addPlace = (params) => {
               console.log('Image loading error ', error);
             });
         } else {
-          dispatch({type: ADD_PLACE_SUCCESS, payload: params});
-          RootNavigation.pop();
+          dispatch({type: ADD_PERSONAL_PLACE_SUCCESS, payload: params});
+          Alert.alert('well done', 'A new favorite place you have now');
         }
       })
       .catch(() => {
-        dispatch({type: ADD_PLACE_FAILED});
+        dispatch({type: ADD_PERSONAL_PLACE_FAILED});
         console.log('Place hasnt been add!');
       });
   };
