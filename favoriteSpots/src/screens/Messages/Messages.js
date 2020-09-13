@@ -1,90 +1,59 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
+  FlatList,
   Text,
   SafeAreaView,
-  Image,
   TouchableOpacity,
-  StyleSheet,
+  ActivityIndicator,
+  StatusBar,
 } from 'react-native';
-import {Header} from '../../components';
 import {connect} from 'react-redux';
-import {fonts, colors, appName} from '../../style';
-import {getFriendGroups} from '../../actions';
-
+import {Fab, Icon} from 'native-base';
+import MessageItems from './MessageItems';
+import {getRooms} from '../../actions';
+import {fonts, colors} from '../../style';
 const Messages = (props) => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    props.getRooms();
+  }, []);
 
   return (
-    <SafeAreaView>
-      <View style={styles.container}></View>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={{flex: 1}}>
+        <FlatList
+          style={{flex: 1}}
+          data={props.rooms}
+          keyExtractor={(item, index) => index.toString()}
+          ListEmptyComponent={() => {
+            return <Text>Herhangi bir mesaj bulunamadı</Text>;
+          }}
+          renderItem={({item, index}) => (
+            <MessageItems data={item} index={index} props={props} />
+          )}
+        />
+      </View>
+      <Fab
+        containerStyle={{}}
+        style={{backgroundColor: colors.somon}}
+        position="bottomRight"
+        onPress={() => {
+          props.navigation.navigate('GetFriendGroups');
+        }}>
+        <Icon name="plus" type="FontAwesome" style={{color: 'white'}} />
+      </Fab>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  topBackground: {
-    backgroundColor: colors.somon,
-    height: 200,
-  },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    backgroundColor: colors.somon,
-    padding: 10,
-  },
-  wrapper: {
-    alignSelf: 'center',
-    position: 'absolute',
-    marginTop: 150,
-  },
-  avatar: {
-    width: 130,
-    height: 130,
-    borderRadius: 63,
-    borderWidth: 4,
-    borderColor: 'white',
-    alignSelf: 'center',
-  },
-  text: {
-    fontSize: fonts.medium,
-    fontWeight: '600',
-  },
-  info: {
-    padding: 10,
-    alignItems: 'center',
-  },
-  body: {
-    marginTop: 40,
-    padding: 30,
-    alignItems: 'center',
-  },
-
-  buttonContainer: {
-    marginTop: 10,
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    width: 250,
-    borderRadius: 30,
-    backgroundColor: colors.somon,
-  },
-});
-
-const mapStateToProps = ({
-  placeResponse,
-  authResponse,
-  friendGroupResponse,
-  messageResponse,
-}) => {
-  const {messages} = messageResponse;
-  const {myPlaces} = placeResponse;
-  const {user} = authResponse;
-  const {friendGroups} = friendGroupResponse;
-  return {myPlaces, user, friendGroups, messages};
+const styles = {
+  text: {padding: 3},
 };
 
-export default connect(mapStateToProps, {getFriendGroups})(Messages);
+const mapStateToProps = ({messageResponse, authResponse}) => {
+  const {loadingRoom, rooms} = messageResponse;
+  const {user} = authResponse;
+  return {loadingRoom, rooms, user};
+};
+
+export default connect(mapStateToProps, {getRooms})(Messages);
