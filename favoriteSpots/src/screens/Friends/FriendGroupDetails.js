@@ -17,8 +17,8 @@ const FriendGroupDetails = (props) => {
 };
 
 const mapStateToProps = ({placeResponse}) => {
-  const {list} = placeResponse;
-  return {list};
+  const {places} = placeResponse;
+  return {places};
 };
 
 export default connect(mapStateToProps, {})(FriendGroupDetails);

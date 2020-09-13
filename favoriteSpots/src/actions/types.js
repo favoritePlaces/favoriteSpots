@@ -4,9 +4,9 @@ export const LOGIN_FAILED = 'login_failed';
 
 export const SIGN_OUT_SUCCESS = 'sign_out_success';
 
-export const LIST_START = 'list_start';
-export const LIST_SUCCESS = 'list_success';
-export const LIST_FAILED = 'list_failed';
+export const GET_PLACE_START = 'list_start';
+export const GET_PLACE_SUCCESS = 'list_success';
+export const GET_PLACE_FAILED = 'list_failed';
 
 export const ADD_PLACE_START = 'add_places_start';
 export const ADD_PLACE_SUCCESS = 'add_places_success';

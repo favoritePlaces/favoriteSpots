@@ -51,10 +51,10 @@ const UserDetails = (props) => {
           borderColor: colors.somon,
         }}
         onPress={() => {
-          if (!item.members.includes(props.route.params.username)) {
-            item.members.push(props.route.params.username);
+          if (!item.members.includes(props.route.params.uid)) {
+            item.members.push(props.route.params.uid);
 
-            props.updateFriendGroup(item);
+            props.updateFriendGroup(item); //sending updated friend group
           } else {
             Alert.alert('warning', 'this person is already in this hub!');
           }
@@ -125,13 +125,16 @@ const UserDetails = (props) => {
                       (group) => group.name !== groupName,
                     )
                   ) {
+                    console.log(
+                      'user',
+                      props.user,
+                      'added user',
+                      props.route.params,
+                    );
                     props.createFriendGroup({
                       name: groupName,
-                      admin: props.user,
-                      members: [
-                        props.user.username,
-                        props.route.params.username,
-                      ],
+                      admin: props.user.uid,
+                      members: [props.user.uid, props.route.params.uid],
                     });
                     setCreateHubModal(false);
                     Alert.alert('Good!', 'You have started something!');
@@ -165,10 +168,10 @@ const mapStateToProps = ({
   authResponse,
   friendGroupResponse,
 }) => {
-  const {list} = placeResponse;
+  const {places} = placeResponse;
   const {user} = authResponse;
   const {friendGroups} = friendGroupResponse;
-  return {list, user, friendGroups};
+  return {places, user, friendGroups};
 };
 
 export default connect(mapStateToProps, {

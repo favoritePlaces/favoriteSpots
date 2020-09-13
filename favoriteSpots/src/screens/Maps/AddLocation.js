@@ -51,14 +51,27 @@ const AddLocation = (props) => {
         <Button
           onPress={(props) => {
             const params = {
-              place: {
-                name: null,
-                desc: null,
-                image: null,
-              },
-              comment: null,
-
-              usernames: [], //people who add this to on their favorite list
+              placeName: null, //original name if there is any, to keep track how many people liked it
+              individuals: [
+                {
+                  desc: null,
+                  userId: props.user.uid,
+                  images: [],
+                  //comment could be available when it is open to friendList/friendGroup friend degilken sadece kac tane favori place I var  onu gorebiliyosun.
+                },
+              ], //people who add this to on their favorite list
+              // friendGroups: [
+              //   {
+              //     id: friendGroupId,
+              //     sharer: userId,
+              //     desc: null,
+              //     images: [],
+              //     comments: {
+              //       commentMaker: userId,
+              //       content: content,
+              //     },
+              //   },
+              // ], // friend groups who has that
             };
             //props.addPlace(params)
           }}></Button>
@@ -67,9 +80,10 @@ const AddLocation = (props) => {
   );
 };
 
-const mapStateToProps = ({placeResponse}) => {
+const mapStateToProps = ({placeResponse, authResponse}) => {
   const {places} = placeResponse;
-  return {places};
+  const {user} = authResponse;
+  return {places, user};
 };
 
 export default connect(mapStateToProps, {addPlace})(AddLocation);

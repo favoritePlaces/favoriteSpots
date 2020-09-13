@@ -15,11 +15,13 @@ export const createFriendGroup = (params) => {
     firestore()
       .collection('FriendGroups')
       .add(params)
-      .then(() => {
-        console.log('friend group is added');
+      .then((data) => {
+        console.log('friend group is added', data);
+        let newGroup = {...params, id: data.id};
+        console.log(newGroup);
         dispatch({
           type: GROUP_ADD_SUCCESS,
-          payload: params,
+          payload: newGroup,
         });
       })
       .catch((err) => {
@@ -45,7 +47,7 @@ export const getFriendGroups = (param) => {
         data._docs.forEach((group, index) => {
           ownGroups.push({...group._data, id: group._ref.id});
         });
-        console.log(ownGroups);
+        console.log('ownGroups', ownGroups);
         dispatch({
           type: GROUP_GET_SUCCESS,
           payload: ownGroups,

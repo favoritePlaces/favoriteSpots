@@ -164,7 +164,7 @@ const getUser = (uid, dispatch) => {
         ...user._data,
         uid,
       };
-
+      console.log('user info', userParams);
       dispatch({type: LOGIN_SUCCESS, payload: userParams});
     })
     .catch((err) => {

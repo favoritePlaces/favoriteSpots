@@ -1,7 +1,7 @@
 import {
-  LIST_START,
-  LIST_SUCCESS,
-  LIST_FAILED,
+  GET_PLACE_START,
+  GET_PLACE_SUCCESS,
+  GET_PLACE_FAILED,
   ADD_PLACE_START,
   ADD_PLACE_SUCCESS,
   ADD_PLACE_FAILED,
@@ -31,20 +31,20 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loadingList: false,
       };
-    case LIST_START:
+    case GET_PLACE_START:
       return {
         ...state,
         loadingList: true,
       };
 
-    case LIST_SUCCESS:
+    case GET_PLACE_SUCCESS:
       return {
         ...state,
         loadingList: false,
         places: action.payload,
       };
 
-    case LIST_FAILED:
+    case GET_PLACE_FAILED:
       return {
         ...state,
         loadingList: false,

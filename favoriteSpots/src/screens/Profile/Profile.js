@@ -160,10 +160,10 @@ const mapStateToProps = ({
   authResponse,
   friendGroupResponse,
 }) => {
-  const {list} = placeResponse;
+  const {places} = placeResponse;
   const {user} = authResponse;
   const {friendGroups} = friendGroupResponse;
-  return {list, user, friendGroups};
+  return {places, user, friendGroups};
 };
 
 export default connect(mapStateToProps, {getFriendGroups})(Profile);
