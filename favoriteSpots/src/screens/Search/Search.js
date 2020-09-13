@@ -86,10 +86,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({authResponse, placeResponse, usersResponse}) => {
-  const {places} = placeResponse;
+  const {myPlaces} = placeResponse;
   const {user} = authResponse;
   const {users} = usersResponse;
-  return {places, users, user};
+  return {myPlaces, users, user};
 };
 
 export default connect(mapStateToProps, {getUsers})(Search);

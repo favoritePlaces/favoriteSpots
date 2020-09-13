@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = ({placeResponse, friendGroupResponse}) => {
-  const {places} = placeResponse;
+  const {myPlaces} = placeResponse;
   const {friendGroups} = friendGroupResponse;
-  return {places, friendGroups};
+  return {myPlaces, friendGroups};
 };
 
 export default connect(mapStateToProps, {})(FriendGroups);

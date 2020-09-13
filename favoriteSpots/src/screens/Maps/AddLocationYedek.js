@@ -283,8 +283,8 @@ const AddLocation = (props) => {
 };
 
 const mapStateToProps = ({placeResponse}) => {
-  const {places} = placeResponse;
-  return {places};
+  const {myPlaces} = placeResponse;
+  return {myPlaces};
 };
 
 export default connect(mapStateToProps, {})(AddLocation);

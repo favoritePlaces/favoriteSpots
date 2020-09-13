@@ -9,7 +9,7 @@ import {
 
 const INITIAL_STATE = {
   loadingList: false,
-  places: [],
+  myPlaces: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -23,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
     case ADD_PERSONAL_PLACE_SUCCESS:
       return {
         ...state,
-        places: [...state.places, action.payload],
+        myPlaces: [...state.myPlaces, action.payload],
         loadingList: false,
       };
     case ADD_PERSONAL_PLACE_FAILED:
@@ -41,7 +41,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loadingList: false,
-        places: action.payload,
+        myPlaces: action.payload,
       };
 
     case GET_PERSONAL_PLACE_FAILED:

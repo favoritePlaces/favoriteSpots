@@ -108,6 +108,7 @@ const AddLocation = (props) => {
                 user: props.user.uid,
                 desc: 'mesela',
                 image,
+                createdDate: new Date(),
               };
               //comment could be available when it is open to friendList/friendGroup friend degilken sadece kac tane favori place I var  onu gorebiliyosun.
 
@@ -126,6 +127,7 @@ const AddLocation = (props) => {
               // ], // friend groups who has that
 
               props.addPersonalPlace(params);
+              setImage(null);
             }}></Button>
         </View>
       </View>
@@ -134,9 +136,9 @@ const AddLocation = (props) => {
 };
 
 const mapStateToProps = ({placeResponse, authResponse}) => {
-  const {places} = placeResponse;
+  const {myPlaces} = placeResponse;
   const {user} = authResponse;
-  return {places, user};
+  return {myPlaces, user};
 };
 
 export default connect(mapStateToProps, {addPersonalPlace})(AddLocation);

@@ -31,10 +31,10 @@ const mapStateToProps = ({
   messageResponse,
 }) => {
   const {messages} = messageResponse;
-  const {places} = placeResponse;
+  const {myPlaces} = placeResponse;
   const {user} = authResponse;
   const {friendGroups} = friendGroupResponse;
-  return {places, user, friendGroups, messages};
+  return {myPlaces, user, friendGroups, messages};
 };
 
 export default connect(mapStateToProps, {getFriendGroups})(MessageDetails);

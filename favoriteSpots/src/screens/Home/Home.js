@@ -17,9 +17,6 @@ const Home = (props) => {
     <SafeAreaView>
       <StatusBar backgroundColor={colors.blue} />
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text onPress={() => props.navigation.navigate('HomeDetails')}>
-          Home
-        </Text>
         <TouchableOpacity //wanted to show on top bar but we cant use authContext method in Router as it will be undefined for now
           onPress={() => {
             props.signOut();
@@ -29,14 +26,22 @@ const Home = (props) => {
           }}>
           <Text style={{fontSize: fonts.small}}> Sign out </Text>
         </TouchableOpacity>
+        <FlatList
+          style={{flex: 1, backgroundColor: 'white'}}
+          data={props.myPlaces}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item, index}) => (
+            <TweetItems data={item} index={index} />
+          )}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
 const mapStateToProps = ({placeResponse}) => {
-  const {places} = placeResponse;
-  return {places};
+  const {myPlaces} = placeResponse;
+  return {myPlaces};
 };
 
 export default connect(mapStateToProps, {signOut})(Home);
