@@ -11,19 +11,14 @@ import {Header} from '../../components';
 import {connect} from 'react-redux';
 import {fonts, colors, appName} from '../../style';
 import ImagePicker from 'react-native-image-picker';
-import {getFriendGroups} from '../../actions';
+import {getFriendGroups, updateUserProfile} from '../../actions';
 
 const Profile = (props) => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(props.user.image);
 
   useEffect(() => {
-    console.log('status changed');
     if (props.friendGroups.length === 0) {
       props.getFriendGroups(props.user);
-      console.log('profile', props.friendGroups);
-    } else {
-      console.log(props.friendGroups);
-      console.log('profile else', props.user);
     }
   }, []);
 
@@ -60,13 +55,15 @@ const Profile = (props) => {
                 } else {
                   const source = {uri: response.uri};
                   setImage(source);
+                  let updatedUser = {...props.user, image: response.uri};
+                  props.updateUserProfile(updatedUser);
                 }
               });
             }}>
             <Image
               style={styles.avatar}
               defaultSource={require('../../assets/dummy.png')}
-              source={image}
+              source={{uri: image}}
             />
           </TouchableOpacity>
           <View style={styles.info}>
@@ -160,10 +157,12 @@ const mapStateToProps = ({
   authResponse,
   friendGroupResponse,
 }) => {
-  const {list} = placeResponse;
+  const {myPlaces} = placeResponse;
   const {user} = authResponse;
   const {friendGroups} = friendGroupResponse;
-  return {list, user, friendGroups};
+  return {myPlaces, user, friendGroups};
 };
 
-export default connect(mapStateToProps, {getFriendGroups})(Profile);
+export default connect(mapStateToProps, {getFriendGroups, updateUserProfile})(
+  Profile,
+);
