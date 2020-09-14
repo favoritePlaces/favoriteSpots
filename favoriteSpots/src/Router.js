@@ -24,7 +24,7 @@ import Profile from './screens/Profile/Profile';
 
 import Messages from './screens/Messages/Messages';
 import MessageDetails from './screens/Messages/MessageDetails';
-
+import GetFriendGroups from './screens/Messages/GetFriendGroups';
 import FriendGroupDetails from './screens/Friends/FriendGroupDetails';
 import FriendGroups from './screens/Friends/FriendGroups';
 import CreateFriendGroup from './screens/Friends/CreateFriendGroup';
@@ -146,10 +146,15 @@ const HomeStackScreen = () => {
           headerLeft: () => menu(navigation),
           headerRight: () => {
             return (
-              <Icon
-                style={{color: colors.blue, marginRight: 10}}
-                type="FontAwesome"
-                name="envelope"></Icon>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Messages');
+                }}>
+                <Icon
+                  style={{color: colors.blue, marginRight: 10}}
+                  type="FontAwesome"
+                  name="envelope"></Icon>
+              </TouchableOpacity>
             );
           },
         })}
@@ -254,6 +259,10 @@ const MessagesStackScreen = () => {
     <MessagesStack.Navigator>
       <MessagesStack.Screen name="Messages" component={Messages} />
       <MessagesStack.Screen name="MessageDetails" component={MessageDetails} />
+      <MessagesStack.Screen
+        name="GetFriendGroups"
+        component={GetFriendGroups}
+      />
     </MessagesStack.Navigator>
   );
 };

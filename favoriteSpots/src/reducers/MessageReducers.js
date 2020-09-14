@@ -14,12 +14,8 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-  loadingGetRoom: false,
+  loadingRoom: false,
   rooms: [],
-
-  loadingUsers: false,
-  allUsers: [],
-
   messages: [],
 };
 export default (state = INITIAL_STATE, action) => {
@@ -27,20 +23,24 @@ export default (state = INITIAL_STATE, action) => {
     case GET_ROOM_START:
       return {
         ...state,
-        loadingGetRoom: true,
+        loadingRoom: true,
       };
     case GET_ROOM_SUCCESS:
       return {
         ...state,
-        loadingGetRoom: false,
+        loadingRoom: false,
         rooms: action.payload,
       };
     case GET_ROOM_FAILED:
       return {
         ...state,
-        loadingGetRoom: false,
+        loadingRoom: false,
       };
-
+    case GET_MESSAGES_START:
+      return {
+        ...state,
+        loadingRoom: true,
+      };
     case GET_MESSAGES_SUCCESS:
       return {
         ...state,
