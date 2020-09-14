@@ -24,6 +24,7 @@ const MessageDetails = (props) => {
   useEffect(() => {
     console.log('props value: ', props.route.params);
     props.getMessages(props.route.params.data.path);
+    //return updateDate function and last message
   }, []);
 
   return (
@@ -57,7 +58,7 @@ const MessageDetails = (props) => {
                   <View
                     style={[
                       {
-                        backgroundColor: isMe ? '#1da1f2' : '#cc8931',
+                        backgroundColor: isMe ? colors.blue : colors.somon,
                         width: item.text.length > 40 ? width - 100 : null,
                       },
                       MessageStyle.bubleStyle,
@@ -106,7 +107,7 @@ const MessageStyle = {
   inputContainerStyle: {
     flex: 1,
     borderTopWidth: 1,
-    borderTopColor: 'black',
+    borderTopColor: colors.somon,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -123,7 +124,7 @@ const MessageStyle = {
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 0.5,
-    borderColor: 'black',
+    borderColor: colors.somon,
   },
   bubleStyle: {marginLeft: 20, padding: 10, borderRadius: 10},
 };

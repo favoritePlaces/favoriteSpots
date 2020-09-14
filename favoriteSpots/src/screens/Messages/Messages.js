@@ -15,7 +15,7 @@ import {getRooms} from '../../actions';
 import {fonts, colors} from '../../style';
 const Messages = (props) => {
   useEffect(() => {
-    props.getRooms();
+    props.getRooms(props.user.uid);
   }, []);
 
   return (

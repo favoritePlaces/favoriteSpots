@@ -77,11 +77,12 @@ export const getRooms = (param) => {
     dispatch({type: GET_ROOM_START});
     firestore()
       .collection('Messages')
-      .orderBy('createdDate', 'desc') //updated date can be considered from each room
-      //   .where('members', 'array-contains-any', [param])
+      .where('members', 'array-contains-any', [param])
+      // .orderBy('createdDate', 'desc') //updated date can be considered from each room
       .onSnapshot((room) => {
         let data = [];
         room.forEach((doc) => {
+          //orderby i burda yap
           data.push(doc.data());
         });
         console.log('gelen room datası: ', data);
