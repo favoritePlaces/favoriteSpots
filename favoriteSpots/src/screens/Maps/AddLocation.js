@@ -38,6 +38,16 @@ class AddLocation extends Component {
     image: null,
     desc: null,
     markers: [],
+    isMapReady: false,
+    selectedLocation: '',
+
+    region: {
+      latitude: 10,
+      longitude: 10,
+      latitudeDelta: 0.001,
+      longitudeDelta: 0.001,
+    },
+    regionChangeProgress: false,
     coordinates: [
       {
         name: 'Burger',
@@ -75,6 +85,10 @@ class AddLocation extends Component {
   componentDidMount() {
     this.requestLocationPermission();
   }
+
+  onMapReady = () => {
+    this.setState({isMapReady: true});
+  };
 
   selectImage() {
     const options = {
@@ -173,13 +187,14 @@ class AddLocation extends Component {
         ',' +
         this.state.region.longitude +
         '&key=' +
-        'AIzaSyAXW-WDp0MF5si6oFXaukDQuThTr1wqmDE',
+        'AIzaSyDETQ1fCUl8u3oXaIhQEL0roq7HDeRaddQ',
     )
       .then((response) => response.json())
       .then((responseJson) => {
-        const userLocation = responseJson.results[0].formatted_address;
+        console.log('responseJson', responseJson);
+        const selectedLocation = responseJson.results[0].formatted_address;
         this.setState({
-          userLocation: userLocation,
+          selectedLocation: selectedLocation,
           regionChangeProgress: false,
         });
       });
@@ -187,15 +202,17 @@ class AddLocation extends Component {
 
   // Update state on region change
   onRegionChange = (region) => {
-    // this.setState(
-    //   {
-    //     region,
-    //     regionChangeProgress: true,
-    //   },
-    //   () => this.fetchAddress(),
-    // );
+    console.log('onRegionChange', region);
+    this.setState(
+      {
+        region,
+        regionChangeProgress: true,
+      },
+      () => this.fetchAddress(),
+    );
   };
-  onLocationSelect = () => alert(this.state.userLocation);
+  onLocationSelect = () => alert(this.state.selectedLocation);
+
   onMarkerPressed = (location, index) => {
     this._map.animateToRegion({
       latitude: location.latitude,
@@ -224,111 +241,133 @@ class AddLocation extends Component {
     }
     return (
       <SafeAreaView style={{flex: 1}}>
-        <View style={{flex: 8}}>
-          <MapView
-            provider={PROVIDER_GOOGLE}
-            ref={(map) => (this._map = map)}
-            showsUserLocation={true}
-            style={{width: '100%', height: '100%', justifyContent: 'flex-end'}}
-            initialRegion={this.state.initialPosition}
-            onMapReady={this.onMapReady}
-            onRegionChangeComplete={this.onRegionChange}>
-            <Polygon
-              coordinates={this.state.coordinates}
-              fillColor={'rgba(100, 100, 200, 0.3)'}
-            />
-            <Circle
-              center={{latitude: 37.8025259, longitude: -122.4351431}}
-              radius={1000}
-              fillColor={'rgba(200, 300, 200, 0.5)'}
-            />
-            <Marker
+        {!this.state.image ? (
+          <View style={{flex: 1}}>
+            <MapView
+              provider={PROVIDER_GOOGLE}
               draggable
-              coordinate={{latitude: 37.7825259, longitude: -122.4351431}}>
-              <Callout onPress={this.showWelcomeMessage}>
-                <Text>An Interesting city</Text>
-              </Callout>
-            </Marker>
-            {this.state.coordinates.map((marker, index) => (
+              ref={(map) => (this._map = map)}
+              showsUserLocation={true}
+              style={{
+                flex: 8,
+                width: '100%',
+                height: '100%',
+                justifyContent: 'flex-end',
+              }}
+              initialRegion={this.state.initialPosition}
+              onMapReady={this.onMapReady}
+              onRegionChangeComplete={this.onRegionChange}>
+              <Polygon
+                coordinates={this.state.coordinates}
+                fillColor={'rgba(100, 100, 200, 0.3)'}
+              />
               <Marker
-                key={marker.name}
-                ref={(ref) => (this.state.markers[index] = ref)}
-                onPress={() => this.onMarkerPressed(marker, index)}
-                coordinate={{
-                  latitude: marker.latitude,
-                  longitude: marker.longitude,
-                }}>
-                <Callout>
-                  <Text>{marker.name}</Text>
+                draggable
+                coordinate={{latitude: 37.7825259, longitude: -122.4351431}}>
+                <Callout onPress={this.showWelcomeMessage}>
+                  <Text>An Interesting city</Text>
                 </Callout>
               </Marker>
-            ))}
-            <View
-              style={{
-                height: '50%',
-                justifyContent: 'flex-end',
-              }}>
-              {!this.state.image ? (
-                <Button
-                  style={styles.customButton}
-                  text={'Select Image'}
-                  onPress={() => {
-                    this.selectImage();
-                  }}></Button>
-              ) : (
-                <View>
-                  <Image
-                    source={{uri: this.state.image}}
-                    style={{
-                      width: '100%',
-                      height: '70%',
-                    }}
-                    resizeMode="contain"
-                  />
-
-                  <TextInput
-                    multiline
-                    autoCompleteType="off"
-                    placeholder="Now, enter a description"
-                    style={{
-                      width: '60%',
-                      height: '15%',
-                      alignSelf: 'center',
-                      fontSize: fonts.medium,
-                    }}
-                    placeholderTextColor="black"
-                    onChangeText={(value) => {
-                      this.setState({desc: value});
-                    }}></TextInput>
-                  <Button
-                    style={styles.customButton}
-                    text={'Add'}
-                    onPress={() => {
-                      const params = {
-                        placeName: null, //original name if there is any, to keep track how many people liked it
-                        user: this.props.user.uid,
-                        desc: this.state.desc,
-                        image: this.state.image,
-                        createdDate: new Date(),
-                      };
-                      //comment could be available when it is open to friendList/friendGroup friend degilken sadece kac tane favori place I var  onu gorebiliyosun.
-                      if (this.state.desc) {
-                        this.props.addPersonalPlace(params);
-                        this.setState({image: null});
-                        console.log('after post', this.state.image);
-                      } else {
-                        Alert.alert(
-                          'Hey',
-                          'please enter how you want to remember this place',
-                        );
-                      }
-                    }}></Button>
-                </View>
-              )}
+              {this.state.coordinates.map((marker, index) => (
+                <Marker
+                  key={marker.name}
+                  ref={(ref) => (this.state.markers[index] = ref)}
+                  onPress={() => this.onMarkerPressed(marker, index)}
+                  coordinate={{
+                    latitude: marker.latitude,
+                    longitude: marker.longitude,
+                  }}>
+                  <Callout>
+                    <Text>{marker.name}</Text>
+                  </Callout>
+                </Marker>
+              ))}
+            </MapView>
+            <View style={styles.detailSection}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  fontFamily: 'roboto',
+                }}>
+                Move map for location
+              </Text>
+              <Text style={{fontSize: 10, color: '#999'}}>LOCATION</Text>
+              <Text
+                numberOfLines={2}
+                style={{
+                  fontSize: 14,
+                  paddingVertical: 10,
+                  borderBottomColor: 'silver',
+                  borderBottomWidth: 0.5,
+                }}>
+                {!this.state.regionChangeProgress
+                  ? this.state.selectedLocation
+                  : 'Identifying Location...'}
+              </Text>
+              <Button
+                style={styles.customButtonSelect}
+                text={'Select Image for this place'}
+                disabled={this.state.regionChangeProgress}
+                onPress={() => {
+                  this.onLocationSelect();
+                  this.selectImage();
+                }}></Button>
             </View>
-          </MapView>
+          </View>
+        ) : (
+          <View>
+            <Image
+              source={{uri: this.state.image}}
+              style={{
+                width: '100%',
+                height: '70%',
+              }}
+              resizeMode="contain"
+            />
 
-          {/* <Carousel
+            <TextInput
+              multiline
+              autoCompleteType="off"
+              placeholder="Now, enter a description for this place"
+              style={{
+                width: '60%',
+                height: '10%',
+                alignSelf: 'center',
+                fontSize: fonts.small,
+              }}
+              placeholderTextColor="black"
+              onChangeText={(value) => {
+                this.setState({desc: value});
+              }}></TextInput>
+            <Button
+              style={styles.customButtonAdd}
+              text={'Add in your favorites!'}
+              onPress={() => {
+                const params = {
+                  placeName: null, //original name if there is any, to keep track how many people liked it
+                  user: this.props.user.uid,
+                  desc: this.state.desc,
+                  image: this.state.image,
+                  createdDate: new Date(),
+                  location: 
+                };
+                //comment could be available when it is open to friendList/friendGroup friend degilken sadece kac tane favori place I var  onu gorebiliyosun.
+                if (this.state.desc) {
+                  this.props.addPersonalPlace(params);
+                  this.setState({image: null});
+                  console.log('after post', this.state.image);
+                } else {
+                  Alert.alert(
+                    'Hey',
+                    'please enter how you want to remember this place',
+                  );
+                }
+              }}></Button>
+          </View>
+        )}
+
+        {/* <Carousel
           ref={(c) => {
             this._carousel = c;
           }}
@@ -340,7 +379,6 @@ class AddLocation extends Component {
           removeClippedSubviews={false}
           onSnapToItem={(index) => this.onCarouselItemChange(index)}
         /> */}
-        </View>
       </SafeAreaView>
     );
   }
@@ -353,9 +391,7 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  // imageAdder: {
-  //   marginBottom: '20%',
-  // },
+
   carousel: {
     position: 'absolute',
     bottom: 0,
@@ -381,10 +417,28 @@ const styles = StyleSheet.create({
     fontSize: 22,
     alignSelf: 'center',
   },
-  customButton: {
+  customButtonAdd: {
+    color: 'white',
     alignSelf: 'center',
     width: '60%',
-    height: '15%',
+    height: '10%',
+  },
+  customButtonSelect: {
+    color: 'white',
+    alignSelf: 'center',
+    width: '60%',
+    height: '30%',
+  },
+
+  detailSection: {
+    width: '100%',
+    flex: 2,
+    backgroundColor: '#fff',
+  },
+
+  btnContainer: {
+    width: '50%',
+    height: '100%',
   },
 });
 

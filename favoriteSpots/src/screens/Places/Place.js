@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableOpacity, Image} from 'react-native';
 import {Icon} from 'native-base';
-import {colors} from '../../style';
+import {colors, fonts} from '../../style';
 import {connect} from 'react-redux';
 import * as RootNavigation from '../../RootNavigation.js';
 const Place = (props) => {
@@ -32,7 +32,7 @@ const Place = (props) => {
             }}></Text>
         </Text>
 
-        <Text style={{fontSize: 12, marginTop: 5, marginBottom: 10}}>
+        <Text style={{fontSize: fonts.small, marginTop: 5, marginBottom: 10}}>
           {desc}
         </Text>
 
