@@ -350,7 +350,7 @@ class AddLocation extends Component {
                   desc: this.state.desc,
                   image: this.state.image,
                   createdDate: new Date(),
-                  location: 
+                  location: this.state.selectedLocation,
                 };
                 //comment could be available when it is open to friendList/friendGroup friend degilken sadece kac tane favori place I var  onu gorebiliyosun.
                 if (this.state.desc) {
