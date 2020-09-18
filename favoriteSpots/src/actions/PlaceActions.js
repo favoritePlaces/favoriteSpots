@@ -18,6 +18,7 @@ export const getMyPlaces = (param) => {
     dispatch({type: GET_PERSONAL_PLACE_START});
     firestore()
       .collection('Places')
+      .orderBy('createdDate', 'desc')
       .where('user', '==', param) //params will be the user Id
       .get()
       .then((data) => {
