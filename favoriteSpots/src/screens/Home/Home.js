@@ -20,6 +20,7 @@ const Home = (props) => {
       console.log('no favorite place');
       props.getMyPlaces(props.user.uid);
     }
+    console.log(props.myPlaces);
   }, []);
   return (
     <SafeAreaView>

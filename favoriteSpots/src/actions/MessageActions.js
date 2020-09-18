@@ -77,8 +77,8 @@ export const getRooms = (param) => {
     dispatch({type: GET_ROOM_START});
     firestore()
       .collection('Messages')
-      .where('members', 'array-contains-any', [param])
-      // .orderBy('createdDate', 'desc') //updated date can be considered from each room
+      //.where('members', 'array-contains-any', [param])
+      .orderBy('createdDate', 'desc') //updated date can be considered from each room
       .onSnapshot((room) => {
         let data = [];
         room.forEach((doc) => {
