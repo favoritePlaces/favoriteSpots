@@ -23,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
     case ADD_PERSONAL_PLACE_SUCCESS:
       return {
         ...state,
-        myPlaces: [...state.myPlaces, action.payload],
+        myPlaces: [action.payload, ...state.myPlaces],
         loadingList: false,
       };
     case ADD_PERSONAL_PLACE_FAILED:

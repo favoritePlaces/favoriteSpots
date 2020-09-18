@@ -60,7 +60,7 @@ const Menu = (props) => {
               props.navigation.navigate('Profile');
             })}
             {sections('address-book', 'Create a New Friend Group', () => {
-              props.navigation.navigate('CreateFriendGroup');
+              props.navigation.navigate('Search');
             })}
           </View>
 

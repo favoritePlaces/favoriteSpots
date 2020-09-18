@@ -39,6 +39,7 @@ class AddLocation extends Component {
     desc: null,
     markers: [],
     isMapReady: false,
+    shownFavorites: false,
     selectedLocation: '',
 
     region: {
@@ -48,38 +49,6 @@ class AddLocation extends Component {
       longitudeDelta: 0.001,
     },
     regionChangeProgress: false,
-    coordinates: [
-      {
-        name: 'Burger',
-        latitude: 37.8025259,
-        longitude: -122.4351431,
-        image: require('../../assets/hubspots.png'),
-      },
-      {
-        name: 'Pizza',
-        latitude: 37.7946386,
-        longitude: -122.421646,
-        image: require('../../assets/hubspots.png'),
-      },
-      {
-        name: 'Soup',
-        latitude: 37.7665248,
-        longitude: -122.4165628,
-        image: require('../../assets/hubspots.png'),
-      },
-      {
-        name: 'Sushi',
-        latitude: 37.7834153,
-        longitude: -122.4527787,
-        image: require('../../assets/hubspots.png'),
-      },
-      {
-        name: 'Curry',
-        latitude: 37.7948105,
-        longitude: -122.4596065,
-        image: require('../../assets/hubspots.png'),
-      },
-    ],
   };
 
   componentDidMount() {
@@ -202,6 +171,7 @@ class AddLocation extends Component {
           },
           regionChangeProgress: false,
         });
+        console.log('selected pos', this.state.selectedLocation);
       });
   };
 
@@ -226,7 +196,7 @@ class AddLocation extends Component {
       longitudeDelta: 0.035,
     });
 
-    this._carousel.snapToItem(index);
+    // this._carousel.snapToItem(index);
   };
 
   renderCarouselItem = ({item}) => (
@@ -262,10 +232,6 @@ class AddLocation extends Component {
               initialRegion={this.state.initialPosition}
               onMapReady={this.onMapReady}
               onRegionChangeComplete={this.onRegionChange}>
-              <Polygon
-                coordinates={this.state.coordinates}
-                fillColor={'rgba(100, 100, 200, 0.3)'}
-              />
               {this.state.selectedLocation ? (
                 <Marker
                   draggable
@@ -280,17 +246,18 @@ class AddLocation extends Component {
               ) : (
                 []
               )}
-              {this.state.coordinates.map((marker, index) => (
+              {this.props.myPlaces.map((place, index) => (
                 <Marker
-                  key={marker.name}
+                  key={place.desc}
                   ref={(ref) => (this.state.markers[index] = ref)}
-                  onPress={() => this.onMarkerPressed(marker, index)}
+                  //   onPress={() => this.onMarkerPressed(place, index)}
+                  pinColor={colors.blue}
                   coordinate={{
-                    latitude: marker.latitude,
-                    longitude: marker.longitude,
+                    latitude: place.location.latitude,
+                    longitude: place.location.longitude,
                   }}>
                   <Callout>
-                    <Text>{marker.name}</Text>
+                    <Text>{place.desc}</Text>
                   </Callout>
                 </Marker>
               ))}
@@ -325,6 +292,12 @@ class AddLocation extends Component {
                   this.onLocationSelect();
                   this.selectImage();
                 }}></Button>
+              {/* <Button
+                style={styles.customButtonSelect}
+                text={'Do you want to show nearest favorite places?'}
+                onPress={() => {
+                  this.setState({shownFavorites: true});
+                }}></Button> */}
             </View>
           </View>
         ) : (
@@ -357,7 +330,7 @@ class AddLocation extends Component {
               text={'Add in your favorites!'}
               onPress={() => {
                 const params = {
-                  placeName: null, //original name if there is any, to keep track how many people liked it
+                  placeName: null, //there should be original name if there is any, to keep track how many people liked it
                   user: this.props.user.uid,
                   desc: this.state.desc,
                   image: this.state.image,
