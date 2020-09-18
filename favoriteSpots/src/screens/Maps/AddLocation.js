@@ -192,9 +192,14 @@ class AddLocation extends Component {
       .then((response) => response.json())
       .then((responseJson) => {
         console.log('responseJson', responseJson);
-        const selectedLocation = responseJson.results[0].formatted_address;
+        const selectedAdress = responseJson.results[0].formatted_address;
+
         this.setState({
-          selectedLocation: selectedLocation,
+          selectedLocation: {
+            adress: selectedAdress,
+            latitude: responseJson.results[0].geometry.location.lat,
+            longitude: responseJson.results[0].geometry.location.lng,
+          },
           regionChangeProgress: false,
         });
       });
@@ -211,7 +216,7 @@ class AddLocation extends Component {
       () => this.fetchAddress(),
     );
   };
-  onLocationSelect = () => alert(this.state.selectedLocation);
+  onLocationSelect = () => alert(this.state.selectedLocation.adress);
 
   onMarkerPressed = (location, index) => {
     this._map.animateToRegion({
@@ -261,13 +266,20 @@ class AddLocation extends Component {
                 coordinates={this.state.coordinates}
                 fillColor={'rgba(100, 100, 200, 0.3)'}
               />
-              <Marker
-                draggable
-                coordinate={{latitude: 37.7825259, longitude: -122.4351431}}>
-                <Callout onPress={this.showWelcomeMessage}>
-                  <Text>An Interesting city</Text>
-                </Callout>
-              </Marker>
+              {this.state.selectedLocation ? (
+                <Marker
+                  draggable
+                  coordinate={{
+                    latitude: this.state.selectedLocation.latitude,
+                    longitude: this.state.selectedLocation.longitude,
+                  }}>
+                  <Callout onPress={this.showWelcomeMessage}>
+                    <Text>is it an interesting place?</Text>
+                  </Callout>
+                </Marker>
+              ) : (
+                []
+              )}
               {this.state.coordinates.map((marker, index) => (
                 <Marker
                   key={marker.name}
@@ -302,7 +314,7 @@ class AddLocation extends Component {
                   borderBottomWidth: 0.5,
                 }}>
                 {!this.state.regionChangeProgress
-                  ? this.state.selectedLocation
+                  ? this.state.selectedLocation.adress
                   : 'Identifying Location...'}
               </Text>
               <Button
