@@ -27,7 +27,7 @@ import MessageDetails from './screens/Messages/MessageDetails';
 import GetFriendGroups from './screens/Messages/GetFriendGroups';
 import FriendGroupDetails from './screens/Friends/FriendGroupDetails';
 import FriendGroups from './screens/Friends/FriendGroups';
-import CreateFriendGroup from './screens/Friends/CreateFriendGroup';
+
 import UserDetails from './screens/Search/UserDetails';
 
 import MyFavoriteList from './screens/Places/MyFavoriteList';
@@ -88,19 +88,6 @@ const AuthStackScreen = () => {
     </AuthStack.Navigator>
   );
 };
-
-const CreateFriendGroupStack = createStackNavigator();
-const CreateFriendGroupStackScreen = () => {
-  return (
-    <CreateFriendGroupStack.Navigator>
-      <CreateFriendGroupStack.Screen
-        name="CreateFriendGroup"
-        component={CreateFriendGroup}
-      />
-    </CreateFriendGroupStack.Navigator>
-  );
-};
-
 const FriendGroupDetailsStack = createStackNavigator();
 const FriendGroupDetailsStackScreen = () => {
   return (
@@ -187,6 +174,10 @@ const MyFavoriteListStackScreen = () => {
       <MyFavoriteListStack.Screen
         name="MyFavoriteList"
         component={MyFavoriteList}
+      />
+      <MyFavoriteListStack.Screen
+        name="PlaceDetails"
+        component={PlaceDetails}
       />
     </MyFavoriteListStack.Navigator>
   );
@@ -371,10 +362,6 @@ function Router(props) {
               }}
             />
             <RootStack.Screen
-              name="CreateFriendGroup"
-              component={CreateFriendGroupStackScreen}
-            />
-            <RootStack.Screen
               name="FriendGroups"
               component={FriendGroupsStackScreen}
               options={{
@@ -396,6 +383,7 @@ function Router(props) {
                 animationEnabled: false,
               }}
             />
+            <RootStack.Screen name="Home" component={HomeStackScreen} />
             <RootStack.Screen
               name="PlaceDetails"
               component={PlaceDetailsStackScreen}

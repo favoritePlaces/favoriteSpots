@@ -12,14 +12,23 @@ export const GET_PERSONAL_PLACE_START = 'list_start';
 export const GET_PERSONAL_PLACE_SUCCESS = 'list_success';
 export const GET_PERSONAL_PLACE_FAILED = 'list_failed';
 
+export const GET_GROUP_PLACE_START = 'get_group_start';
+export const GET_GROUP_PLACE_SUCCESS = 'get_group_success';
+export const GET_GROUP_PLACE_FAILED = 'get_group_failed';
+
 export const ADD_PERSONAL_PLACE_START = 'add_places_start';
 export const ADD_PERSONAL_PLACE_SUCCESS = 'add_places_success';
 export const ADD_PERSONAL_PLACE_FAILED = 'add_places_failed';
+
+export const ADD_GROUP_PLACE_START = 'add_group_start';
+export const ADD_GROUP_PLACE_SUCCESS = 'add_group_success';
+export const ADD_GROUP_PLACE_FAILED = 'add_group_failed';
 
 export const USERS_LOADED = 'users_loaded';
 export const USERS_FAILED = 'users_failed';
 export const ADD_USER_SUCCESS = 'add_user_success';
 export const ADD_USER_FAILED = 'add_user_failed';
+
 export const REMOVE_USER_START = 'remove_user_start';
 export const REMOVE_USER_SUCCESS = 'remove_user_success';
 export const REMOVE_USER_FAILED = 'remove_user_failed';

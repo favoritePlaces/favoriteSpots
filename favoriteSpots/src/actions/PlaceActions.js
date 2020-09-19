@@ -5,6 +5,9 @@ import {
   ADD_PERSONAL_PLACE_START,
   ADD_PERSONAL_PLACE_SUCCESS,
   ADD_PERSONAL_PLACE_FAILED,
+  ADD_GROUP_PLACE_START,
+  ADD_GROUP_PLACE_SUCCESS,
+  ADD_GROUP_PLACE_FAILED,
 } from './types';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
@@ -47,6 +50,56 @@ export const getMyPlaces = (param) => {
 export const getFriendGroupPlaces = (params) => {
   return (dispatch) => {
     //according to friendGroupId filter
+  };
+};
+
+export const addGroupPlace = (params) => {
+  return (dispatch) => {
+    dispatch({type: ADD_GROUP_PLACE_START});
+    firestore()
+      .collection('Places')
+      .doc(params)
+      .then((data) => {
+        console.log('Add place', data);
+        let placeId = data.id;
+
+        if (params.image) {
+          const reference = storage().ref(`/places/${placeId}`);
+          console.log('params.image', params.image);
+          reference
+            .putFile(params.image)
+            .then(() => {
+              reference.getDownloadURL().then((imageURL) => {
+                firestore()
+                  .collection('Places')
+                  .doc(placeId)
+                  .update({image: imageURL})
+                  .then(() => {
+                    console.log('place Id', placeId);
+                    let newPlace = {...params, id: placeId};
+                    dispatch({
+                      type: ADD_GROUP_PLACE_SUCCESS,
+                      payload: newPlace,
+                    });
+                    Alert.alert(
+                      'well done',
+                      'A new favorite place you have now',
+                    );
+                  });
+              });
+            })
+            .catch((error) => {
+              console.log('Image loading error ', error);
+            });
+        } else {
+          dispatch({type: ADD_GROUP_PLACE_SUCCESS, payload: params});
+          Alert.alert('well done', 'A new favorite place you have now');
+        }
+      })
+      .catch(() => {
+        dispatch({type: ADD_GROUP_PLACE_FAILED});
+        console.log('Place hasnt been add!');
+      });
   };
 };
 

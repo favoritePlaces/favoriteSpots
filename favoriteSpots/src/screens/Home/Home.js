@@ -30,7 +30,9 @@ const Home = (props) => {
           style={{flex: 1, backgroundColor: 'white'}}
           data={props.myPlaces}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => <Place data={item} index={index} />}
+          renderItem={({item, index}) => (
+            <Place data={item} index={index} props={props} />
+          )}
         />
       </View>
     </SafeAreaView>

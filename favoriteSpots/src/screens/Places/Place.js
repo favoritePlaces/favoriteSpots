@@ -12,8 +12,8 @@ const Place = (props) => {
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
-        console.log('clicked');
-        RootNavigation.navigate('PlaceDetails', props.data.id); //place id will be sent
+        console.log('place', props);
+        RootNavigation.replace('PlaceDetails', props); //place id will be sent
       }}
       style={{
         padding: 20,
