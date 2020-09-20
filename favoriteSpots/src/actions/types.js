@@ -12,6 +12,10 @@ export const GET_PERSONAL_PLACE_START = 'list_start';
 export const GET_PERSONAL_PLACE_SUCCESS = 'list_success';
 export const GET_PERSONAL_PLACE_FAILED = 'list_failed';
 
+export const UPDATE_PERSONAL_PLACE_START = 'update_place_start';
+export const UPDATE_PERSONAL_PLACE_SUCCESS = 'update_place_success';
+export const UPDATE_PERSONAL_PLACE_FAILED = 'update_place_failed';
+
 export const GET_GROUP_PLACE_START = 'get_group_start';
 export const GET_GROUP_PLACE_SUCCESS = 'get_group_success';
 export const GET_GROUP_PLACE_FAILED = 'get_group_failed';
@@ -55,6 +59,10 @@ export const GET_ROOM_FAILED = 'get_room_failed';
 export const ADD_ROOM_START = 'add_room_start';
 export const ADD_ROOM_SUCCESS = 'add_room_success';
 export const ADD_ROOM_FAILED = 'add_room_failed';
+
+export const RESET_USERS = 'reset_users';
+export const RESET_PLACES = 'reset_places';
+export const RESET_FRIEND_GROUPS = 'reset_friend_groups';
 
 export const USER = {
   token: null,

@@ -8,6 +8,12 @@ import {
   ADD_GROUP_PLACE_START,
   ADD_GROUP_PLACE_SUCCESS,
   ADD_GROUP_PLACE_FAILED,
+  GET_GROUP_PLACE_START,
+  GET_GROUP_PLACE_SUCCESS,
+  GET_GROUP_PLACE_FAILED,
+  UPDATE_PERSONAL_PLACE_START,
+  UPDATE_PERSONAL_PLACE_SUCCESS,
+  UPDATE_PERSONAL_PLACE_FAILED,
 } from './types';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
@@ -17,7 +23,7 @@ import * as RootNavigation from '../RootNavigation';
 export const getMyPlaces = (param) => {
   return (dispatch) => {
     // according to individual userId //myfavoritePlaces
-    console.log(param);
+    console.log('getMyPlaces', param);
     dispatch({type: GET_PERSONAL_PLACE_START});
     firestore()
       .collection('Places')
@@ -47,58 +53,51 @@ export const getMyPlaces = (param) => {
   };
 };
 
-export const getFriendGroupPlaces = (params) => {
+export const getFriendGroupsPlaces = (params) => {
+  //should be listened with snapshot
   return (dispatch) => {
-    //according to friendGroupId filter
+    dispatch({type: GET_GROUP_PLACE_START});
+    firestore()
+      .collection('Places')
+      .where('friendGroups', 'array-contains-any', [params.id])
+      .get()
+      .then((data) => {
+        let groupPlaces = [];
+        console.log('GET place', data);
+        data._docs.forEach((item) => {
+          groupPlaces.push(item._data);
+        });
+        dispatch({type: GET_GROUP_PLACE_SUCCESS, payload: groupPlaces});
+      })
+      .catch(() => {
+        dispatch({type: GET_GROUP_PLACE_FAILED});
+        console.log('Couldnt get the places!');
+      });
   };
 };
 
 export const addGroupPlace = (params) => {
   return (dispatch) => {
-    dispatch({type: ADD_GROUP_PLACE_START});
+    console.log('add group place');
+    dispatch({type: UPDATE_PERSONAL_PLACE_START});
     firestore()
       .collection('Places')
-      .doc(params)
+      .doc(params.placeId)
+      .update({
+        friendGroups: firestore.FieldValue.arrayUnion(
+          `${params.friendGroupId}`,
+        ),
+      })
       .then((data) => {
-        console.log('Add place', data);
-        let placeId = data.id;
-
-        if (params.image) {
-          const reference = storage().ref(`/places/${placeId}`);
-          console.log('params.image', params.image);
-          reference
-            .putFile(params.image)
-            .then(() => {
-              reference.getDownloadURL().then((imageURL) => {
-                firestore()
-                  .collection('Places')
-                  .doc(placeId)
-                  .update({image: imageURL})
-                  .then(() => {
-                    console.log('place Id', placeId);
-                    let newPlace = {...params, id: placeId};
-                    dispatch({
-                      type: ADD_GROUP_PLACE_SUCCESS,
-                      payload: newPlace,
-                    });
-                    Alert.alert(
-                      'well done',
-                      'A new favorite place you have now',
-                    );
-                  });
-              });
-            })
-            .catch((error) => {
-              console.log('Image loading error ', error);
-            });
-        } else {
-          dispatch({type: ADD_GROUP_PLACE_SUCCESS, payload: params});
-          Alert.alert('well done', 'A new favorite place you have now');
-        }
+        Alert.alert('well done', 'Now you have one more common favorite place');
+        dispatch({
+          type: UPDATE_PERSONAL_PLACE_SUCCESS,
+          payload: params,
+        });
       })
       .catch(() => {
-        dispatch({type: ADD_GROUP_PLACE_FAILED});
-        console.log('Place hasnt been add!');
+        dispatch({type: UPDATE_PERSONAL_PLACE_FAILED});
+        console.log('Friend group hasnt been added to the place!');
       });
   };
 };

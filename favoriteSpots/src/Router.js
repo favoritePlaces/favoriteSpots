@@ -1,47 +1,47 @@
-import * as React from 'react';
-import {TouchableOpacity} from 'react-native';
-import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import * as React from "react";
+import {TouchableOpacity} from "react-native";
+import "react-native-gesture-handler";
+import {NavigationContainer} from "@react-navigation/native";
+import {createStackNavigator} from "@react-navigation/stack";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {createDrawerNavigator} from "@react-navigation/drawer";
 
-import {Icon} from 'native-base';
-import {connect} from 'react-redux';
+import {Icon} from "native-base";
+import {connect} from "react-redux";
 
-import * as RootNavigation from './RootNavigation';
-import Entrance from './screens/Auth/Entrance';
-import SignIn from './screens/Auth/SignIn';
-import SignUp from './screens/Auth/SignUp';
+import * as RootNavigation from "./RootNavigation";
+import Entrance from "./screens/Auth/Entrance";
+import SignIn from "./screens/Auth/SignIn";
+import SignUp from "./screens/Auth/SignUp";
 
-import Menu from './screens/Menu/Menu';
-import AddLocation from './screens/Maps/AddLocation';
+import Menu from "./screens/Menu/Menu";
+import AddLocation from "./screens/Maps/AddLocation";
 
-import Home from './screens/Home/Home';
-import HomeDetails from './screens/Home/HomeDetails';
+import Home from "./screens/Home/Home";
+import HomeDetails from "./screens/Home/HomeDetails";
 
-import Profile from './screens/Profile/Profile';
+import Profile from "./screens/Profile/Profile";
 
-import Messages from './screens/Messages/Messages';
-import MessageDetails from './screens/Messages/MessageDetails';
-import GetFriendGroups from './screens/Messages/GetFriendGroups';
-import FriendGroupDetails from './screens/Friends/FriendGroupDetails';
-import FriendGroups from './screens/Friends/FriendGroups';
+import Messages from "./screens/Messages/Messages";
+import MessageDetails from "./screens/Messages/MessageDetails";
+import GetFriendGroups from "./screens/Messages/GetFriendGroups";
+import FriendGroupDetails from "./screens/Friends/FriendGroupDetails";
+import FriendGroups from "./screens/Friends/FriendGroups";
 
-import UserDetails from './screens/Search/UserDetails';
+import UserDetails from "./screens/Search/UserDetails";
 
-import MyFavoriteList from './screens/Places/MyFavoriteList';
-import PlaceDetails from './screens/Places/PlaceDetails';
-import PlaceList from './screens/Places/PlaceList';
+import MyFavoriteList from "./screens/Places/MyFavoriteList";
+import PlaceDetails from "./screens/Places/PlaceDetails";
+import PlaceList from "./screens/Places/PlaceList";
 
-import Search from './screens/Search/Search';
-import SearchResults from './screens/Search/SearchResults';
+import Search from "./screens/Search/Search";
+import SearchResults from "./screens/Search/SearchResults";
 
-import Settings from './screens/Settings/Settings';
+import Settings from "./screens/Settings/Settings";
 
-import {navigationRef} from './RootNavigation';
-import {colors, fonts} from './style';
-import {color} from 'react-native-reanimated';
+import {navigationRef} from "./RootNavigation";
+import {colors, fonts} from "./style";
+import {color} from "react-native-reanimated";
 
 const menu = (navigation) => {
   return (
@@ -135,7 +135,7 @@ const HomeStackScreen = () => {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('Messages');
+                  navigation.navigate("Messages");
                 }}>
                 <Icon
                   style={{color: colors.blue, marginRight: 10}}
@@ -146,7 +146,7 @@ const HomeStackScreen = () => {
           },
         })}
       />
-
+      <HomeStack.Screen name="PlaceDetails" component={PlaceDetails} />
       <HomeStack.Screen name="HomeDetails" component={HomeDetails} />
     </HomeStack.Navigator>
   );
@@ -266,14 +266,14 @@ const TabStackScreen = () => {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
-          if (route.name === 'Home') {
-            iconName = 'home';
-          } else if (route.name === 'Search') {
-            iconName = 'search-plus';
-          } else if (route.name === 'Add Location') {
-            iconName = 'globe';
-          } else if (route.name === 'PlaceList') {
-            iconName = 'user-circle';
+          if (route.name === "Home") {
+            iconName = "home";
+          } else if (route.name === "Search") {
+            iconName = "search-plus";
+          } else if (route.name === "Add Location") {
+            iconName = "globe";
+          } else if (route.name === "PlaceList") {
+            iconName = "user-circle";
           }
 
           return (
@@ -316,7 +316,7 @@ const DrawerStackScreen = (props) => {
       drawerContent={(props) => <Menu {...props} name={name} />}
       drawerType="slide"
       drawerStyle={{
-        width: '75%',
+        width: "75%",
       }}>
       <DrawerStack.Screen name="Drawer" component={TabStackScreen} />
     </DrawerStack.Navigator>

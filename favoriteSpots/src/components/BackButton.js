@@ -1,10 +1,8 @@
-import React from 'react';
-import {Dimensions} from 'react-native';
-import {colors} from '../style';
-import {Icon} from 'native-base';
-import * as RootNavigation from '../RootNavigation';
-
-const {width, height} = Dimensions.get('window');
+import React from "react";
+import {Dimensions} from "react-native";
+import {colors} from "../style";
+import {Icon} from "native-base";
+import * as RootNavigation from "../RootNavigation";
 
 const BackButton = (props) => (
   <Icon
@@ -12,7 +10,7 @@ const BackButton = (props) => (
     type="FontAwesome"
     name="angle-left"
     onPress={() => {
-      RootNavigation.pop();
+      RootNavigation.navigate("Main");
     }}></Icon>
 );
 

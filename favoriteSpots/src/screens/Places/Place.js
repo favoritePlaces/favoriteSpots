@@ -8,6 +8,27 @@ const Place = (props) => {
   //icon section will be added when friendGroup places available
   const {image, placeName, user, desc, createdDate} = props.data;
 
+  // const [groupNames, setGroupNames] = useState([]);
+
+  const SharedFriendGroups = () => {
+    let groupNames = [];
+    props.data.friendGroups.forEach((item, index) => {
+      console.log('item', item);
+      console.log('props.friendGroups', props.friendGroups);
+      props.friendGroups.forEach((group) => {
+        console.log('group', group);
+        if (group.id === item) {
+          groupNames.push(group.name);
+        }
+      });
+    });
+    console.log('groupNames', groupNames);
+    return groupNames.map((groupName, index) => (
+      <Text key={index} style={{fontSize: 12, margin: 5, color: colors.purple}}>
+        {groupName}
+      </Text>
+    ));
+  };
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -22,20 +43,16 @@ const Place = (props) => {
         flexDirection: 'row',
       }}>
       <View style={{flex: 9, marginLeft: 10}}>
-        <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-          {placeName}
-          <Text
-            style={{
-              color: colors.somon,
-              fontWeight: '100',
-              fontSize: 10,
-            }}></Text>
-        </Text>
+        {/* <Text style={{fontSize: 14, fontWeight: 'bold'}}>{placeName}</Text> */}
 
-        <Text style={{fontSize: fonts.small, marginTop: 5, marginBottom: 10}}>
-          {desc}
-        </Text>
-
+        <Text style={{fontSize: fonts.small, marginTop: 5}}>{desc}</Text>
+        {props.data.friendGroups ? (
+          <View style={{flexDirection: 'row'}}>
+            <SharedFriendGroups />
+          </View>
+        ) : (
+          []
+        )}
         {image && (
           <View>
             <Image
@@ -58,9 +75,10 @@ const Place = (props) => {
   );
 };
 
-const mapStateToProps = ({placeResponse}) => {
+const mapStateToProps = ({placeResponse, friendGroupResponse}) => {
   const {myPlaces} = placeResponse;
-  return {myPlaces};
+  const {friendGroups} = friendGroupResponse;
+  return {myPlaces, friendGroups};
 };
 
 export default connect(mapStateToProps, {})(Place);

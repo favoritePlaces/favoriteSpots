@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from "react";
 import {
   View,
   Text,
@@ -6,12 +6,12 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
-import {Header} from '../../components';
-import {connect} from 'react-redux';
-import {fonts, colors, appName} from '../../style';
-import ImagePicker from 'react-native-image-picker';
-import {getFriendGroups, updateUserProfile} from '../../actions';
+} from "react-native";
+import {Header} from "../../components";
+import {connect} from "react-redux";
+import {fonts, colors, appName} from "../../style";
+import ImagePicker from "react-native-image-picker";
+import {getFriendGroups, updateUserProfile} from "../../actions";
 
 const Profile = (props) => {
   const [image, setImage] = useState(props.user.image);
@@ -32,24 +32,24 @@ const Profile = (props) => {
           <TouchableOpacity
             onPress={() => {
               const options = {
-                title: 'Resim Seç',
+                title: "Resim Seç",
                 quality: 0.2,
                 storageOptions: {
                   skipBackup: true,
-                  path: 'images',
+                  path: "images",
                 },
               };
 
               ImagePicker.showImagePicker(options, (response) => {
-                console.log('Response = ', response);
+                console.log("Response = ", response);
 
                 if (response.didCancel) {
-                  console.log('User cancelled image picker');
+                  console.log("User cancelled image picker");
                 } else if (response.error) {
-                  console.log('ImagePicker Error: ', response.error);
+                  console.log("ImagePicker Error: ", response.error);
                 } else if (response.customButton) {
                   console.log(
-                    'User tapped custom button: ',
+                    "User tapped custom button: ",
                     response.customButton,
                   );
                 } else {
@@ -62,7 +62,7 @@ const Profile = (props) => {
             }}>
             <Image
               style={styles.avatar}
-              defaultSource={require('../../assets/dummy.png')}
+              defaultSource={require("../../assets/dummy.png")}
               source={{uri: image}}
             />
           </TouchableOpacity>
@@ -70,7 +70,7 @@ const Profile = (props) => {
             <Text style={styles.text}>{props.user.username} </Text>
             <Text
               onPress={() => {
-                props.navigation.navigate('FriendGroups');
+                props.navigation.navigate("FriendGroups");
               }}
               style={[styles.text, {color: colors.blue}]}>
               {props.friendGroups.length}
@@ -86,10 +86,10 @@ const Profile = (props) => {
           <View style={styles.body}>
             <TouchableOpacity
               onPress={() => {
-                props.navigation.navigate('Search');
+                props.navigation.navigate("Search");
               }}
               style={styles.buttonContainer}>
-              <Text style={{color: 'white'}}>
+              <Text style={{color: "white"}}>
                 Find your friends to create your hub!
               </Text>
             </TouchableOpacity>
@@ -106,15 +106,15 @@ const styles = StyleSheet.create({
     height: 200,
   },
   header: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
     backgroundColor: colors.somon,
     padding: 10,
   },
   wrapper: {
-    alignSelf: 'center',
-    position: 'absolute',
+    alignSelf: "center",
+    position: "absolute",
     marginTop: 150,
   },
   avatar: {
@@ -122,29 +122,29 @@ const styles = StyleSheet.create({
     height: 130,
     borderRadius: 63,
     borderWidth: 4,
-    borderColor: 'white',
-    alignSelf: 'center',
+    borderColor: "white",
+    alignSelf: "center",
   },
   text: {
     fontSize: fonts.medium,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   info: {
     padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   body: {
     marginTop: 40,
     padding: 30,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   buttonContainer: {
     marginTop: 10,
     height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
     width: 250,
     borderRadius: 30,

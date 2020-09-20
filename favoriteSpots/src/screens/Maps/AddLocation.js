@@ -41,6 +41,7 @@ class AddLocation extends Component {
     isMapReady: false,
     shownFavorites: false,
     selectedLocation: '',
+    imageSelectTapped: false,
 
     region: {
       latitude: 10,
@@ -186,7 +187,6 @@ class AddLocation extends Component {
       () => this.fetchAddress(),
     );
   };
-  onLocationSelect = () => alert(this.state.selectedLocation.adress);
 
   onMarkerPressed = (location, index) => {
     this._map.animateToRegion({
@@ -289,8 +289,10 @@ class AddLocation extends Component {
                 text={'Select Image for this place'}
                 disabled={this.state.regionChangeProgress}
                 onPress={() => {
-                  this.onLocationSelect();
-                  this.selectImage();
+                  if (!this.state.imageSelectTapped) {
+                    this.selectImage();
+                    this.setState({imageSelectTapped: true});
+                  }
                 }}></Button>
               {/* <Button
                 style={styles.customButtonSelect}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from "react";
 import {
   View,
   Text,
@@ -8,11 +8,14 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
-} from 'react-native';
-import {colors, fonts} from '../../style';
-import {connect} from 'react-redux';
-import {Button, Input} from '../../components';
-import {getFriendGroups} from '../../actions';
+  Alert,
+} from "react-native";
+import {colors, fonts} from "../../style";
+import {connect} from "react-redux";
+import {Button, Input, Header} from "../../components";
+import {getFriendGroups, addGroupPlace} from "../../actions";
+import {Icon} from "native-base";
+import * as RootNavigation from "../../RootNavigation";
 
 const PlaceDetails = (props) => {
   const [placeInfo, setPlaceInfo] = useState(null);
@@ -39,9 +42,9 @@ const PlaceDetails = (props) => {
     <View style={styles.item}>
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
           borderBottomWidth: 0.5,
           borderColor: colors.somon,
         }}
@@ -56,30 +59,55 @@ const PlaceDetails = (props) => {
         <Text style={styles.text}>{item.name}</Text>
         <Button
           style={styles.customButton}
-          text={'Add'}
+          text={"Add"}
           onPress={() => {
-            //
+            props.myPlaces.forEach((place) => {
+              if (place.friendGroups) {
+                if (!place.friendGroups.includes(item.id)) {
+                  props.addGroupPlace({
+                    placeId: placeInfo.id,
+                    friendGroupId: item.id,
+                  });
+                } else {
+                  Alert.alert(
+                    "Nope",
+                    "You have already shared this place with this friend hub",
+                  );
+                }
+              } else {
+                props.addGroupPlace({
+                  placeId: placeInfo.id,
+                  friendGroupId: item.id,
+                });
+              }
+            });
           }}></Button>
       </View>
     </View>
   );
   return (
     <SafeAreaView>
+      <Icon
+        style={{color: colors.blue, marginLeft: 10, fontSize: 40}}
+        type="FontAwesome"
+        name="angle-left"
+        onPress={() => {
+          RootNavigation.navigate("Home");
+        }}></Icon>
       {placeInfo ? (
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: "center"}}>
           <View>
-            <Text style={{fontSize: fonts.medium, fontWeight: 'bold'}}>
+            <Text style={{fontSize: fonts.medium, fontWeight: "bold"}}>
               {placeInfo.desc}
               <Text
                 style={{
                   color: colors.somon,
-                  fontWeight: '100',
+                  fontWeight: "100",
                   fontSize: 10,
                 }}></Text>
             </Text>
 
-            <Text
-              style={{fontSize: fonts.small, marginTop: 5, marginBottom: 10}}>
+            <Text style={{fontSize: 12, marginTop: 5, marginBottom: 10}}>
               {placeInfo.location.adress}
             </Text>
 
@@ -87,7 +115,7 @@ const PlaceDetails = (props) => {
               <View>
                 <Image
                   source={{uri: placeInfo.image}}
-                  style={{width: '100%', height: 150}}
+                  style={{width: "100%", height: 150}}
                   resizeMode="cover"
                 />
               </View>
@@ -95,8 +123,8 @@ const PlaceDetails = (props) => {
 
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+                flexDirection: "row",
+                justifyContent: "space-between",
                 paddingRight: 100,
                 marginTop: 10,
               }}></View>
@@ -124,14 +152,14 @@ const PlaceDetails = (props) => {
           ) : (
             <Button
               style={styles.buttonContainer}
-              text={'Share with one of your friend hubs!'}
+              text={"Share with one of your friend hubs!"}
               onPress={() => {
                 setAddPlaceInHub(true);
               }}></Button>
           )}
           <Button
             style={styles.buttonContainer}
-            text={'Add more photos?'}
+            text={"Add more photos?"}
             onPress={() => {}}></Button>
         </View>
       ) : (
@@ -152,38 +180,40 @@ const mapStateToProps = ({
   return {myPlaces, friendGroups, user};
 };
 
-export default connect(mapStateToProps, {getFriendGroups})(PlaceDetails);
+export default connect(mapStateToProps, {getFriendGroups, addGroupPlace})(
+  PlaceDetails,
+);
 
 const styles = StyleSheet.create({
   body: {
     padding: 30,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonContainer: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 10,
     height: 45,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginBottom: 20,
     width: 250,
     borderRadius: 30,
-    borderColor: 'white',
+    borderColor: "white",
     backgroundColor: colors.somon,
   },
   customInput: {
-    width: '60%',
-    height: '40%',
+    width: "60%",
+    height: "40%",
     borderRadius: 30,
-    textAlign: 'center',
+    textAlign: "center",
 
     backgroundColor: colors.blue,
     fontSize: fonts.medium,
   },
   customButton: {
-    width: '30%',
-    height: '40%',
+    width: "30%",
+    height: "40%",
     borderRadius: 30,
-    textAlign: 'center',
+    textAlign: "center",
   },
   item: {
     padding: 10,

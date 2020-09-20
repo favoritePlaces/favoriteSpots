@@ -6,6 +6,9 @@ import {
   UPDATE_USER_START,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILED,
+  RESET_USERS,
+  RESET_PLACES,
+  RESET_FRIEND_GROUPS,
 } from './types';
 
 import {Alert} from 'react-native';
@@ -218,6 +221,9 @@ export const signOut = () => {
       .signOut()
       .then(() => {
         dispatch({type: SIGN_OUT_SUCCESS});
+        dispatch({type: RESET_USERS});
+        dispatch({type: RESET_PLACES});
+        dispatch({type: RESET_FRIEND_GROUPS});
       });
     //  RootNavigation.replace('Entrance');
   };

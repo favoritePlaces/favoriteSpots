@@ -5,6 +5,7 @@ import {
   GROUP_ADD_FAILED,
   GROUP_UPDATE_SUCCESS,
   GROUP_UPDATE_FAILED,
+  RESET_FRIEND_GROUPS,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -53,7 +54,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
       };
-
+    case RESET_FRIEND_GROUPS:
+      return {
+        ...state,
+        friendGroups: [],
+      };
     default:
       return state;
   }
