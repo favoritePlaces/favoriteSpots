@@ -22,6 +22,7 @@ const PlaceDetails = (props) => {
   const [addPlaceInHub, setAddPlaceInHub] = useState(null);
   const [results, setResults] = useState(null);
   const [groupName, setGroupName] = useState(null);
+  const [isDisabled, setDisabled] = useState(false);
 
   useEffect(() => {
     setPlaceInfo(props.route.params.data);
@@ -59,28 +60,29 @@ const PlaceDetails = (props) => {
         <Text style={styles.text}>{item.name}</Text>
         <Button
           style={styles.customButton}
+          disabled={isDisabled}
           text={"Add"}
           onPress={() => {
-            props.myPlaces.forEach((place) => {
-              if (place.friendGroups) {
-                if (!place.friendGroups.includes(item.id)) {
-                  props.addGroupPlace({
-                    placeId: placeInfo.id,
-                    friendGroupId: item.id,
-                  });
-                } else {
-                  Alert.alert(
-                    "Nope",
-                    "You have already shared this place with this friend hub",
-                  );
-                }
-              } else {
+            setDisabled(true);
+
+            if (placeInfo.friendGroups) {
+              if (!placeInfo.friendGroups.includes(item.id)) {
                 props.addGroupPlace({
                   placeId: placeInfo.id,
                   friendGroupId: item.id,
                 });
+              } else {
+                Alert.alert(
+                  "Nope",
+                  "You have already shared this place with this friend hub",
+                );
               }
-            });
+            } else {
+              props.addGroupPlace({
+                placeId: placeInfo.id,
+                friendGroupId: item.id,
+              });
+            }
           }}></Button>
       </View>
     </View>
