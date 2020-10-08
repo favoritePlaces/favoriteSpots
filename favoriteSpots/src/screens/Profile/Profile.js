@@ -53,7 +53,7 @@ const Profile = (props) => {
                     response.customButton,
                   );
                 } else {
-                  const source = {uri: response.uri};
+                  const source = response.uri;
                   setImage(source);
                   let updatedUser = {...props.user, image: response.uri};
                   props.updateUserProfile(updatedUser);
