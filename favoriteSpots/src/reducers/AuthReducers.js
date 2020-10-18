@@ -36,9 +36,6 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         user: null,
-        friendGroups: [],
-        users: [],
-        myPlaces: [],
       };
 
     case UPDATE_USER_START:

@@ -6,6 +6,7 @@ import {
   REMOVE_USER_START,
   REMOVE_USER_SUCCESS,
   REMOVE_USER_FAILED,
+  RESET_USERS,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -56,6 +57,11 @@ export default (state = INITIAL_STATE, action) => {
         loadingUser: false,
       };
 
+    case RESET_USERS:
+      return {
+        ...state,
+        users: [],
+      };
     default:
       return state;
   }

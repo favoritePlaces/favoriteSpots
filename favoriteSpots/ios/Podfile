@@ -9,11 +9,16 @@ target 'favoriteSpots' do
     pod 'react-native-google-maps', :path => rn_maps_path
     pod 'GoogleMaps'
     pod 'Google-Maps-iOS-Utils'
-
+    permissions_path = '../node_modules/react-native-permissions/ios'
+    pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+    pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
+    pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
 
+
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
   target 'favoriteSpotsTests' do
     inherit! :complete
